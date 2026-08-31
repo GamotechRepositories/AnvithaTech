@@ -31,7 +31,7 @@ import { AboutPage } from './AboutPage'
 import { CareerPage } from './CareerPage'
 import { ContactPage } from './ContactPage'
 
-const navItems = ['Home', 'About', 'Services', 'Team', 'Career', 'Contact', 'FAQ']
+const navItems = ['Home', 'About', 'Services', 'Career', 'Contact', 'FAQ']
 
 const productList = [
   {
