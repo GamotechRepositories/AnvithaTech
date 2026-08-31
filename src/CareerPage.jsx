@@ -51,10 +51,20 @@ export function CareerPage({ onNavigateHome }) {
             that transform how businesses operate across the globe.
           </p>
           <div className="career-hero-actions">
-            <a href="#openings" className="career-btn-primary">
-              View Open Roles <i className="fas fa-arrow-down" />
-            </a>
             <button
+              type="button"
+              className="career-btn-primary"
+              onClick={() => {
+                const el = document.getElementById('openings')
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' })
+                }
+              }}
+            >
+              View Open Roles <i className="fas fa-arrow-down" />
+            </button>
+            <button
+              type="button"
               className="career-btn-ghost"
               onClick={() => onNavigateHome('home')}
             >

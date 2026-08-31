@@ -309,9 +309,16 @@ function App() {
       } else if (hash === '#about-us' || hash === '#aboutus') {
         setCurrentView('about')
         window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else if (hash === '#career') {
+      } else if (hash === '#career' || hash === '#careers' || hash === '#openings' || hash === '#/career') {
         setCurrentView('career')
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        if (hash === '#openings') {
+          setTimeout(() => {
+            const el = document.getElementById('openings')
+            if (el) el.scrollIntoView({ behavior: 'smooth' })
+          }, 120)
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
       } else if (hash === '#contact' || hash === '#/contact' || hash === '#contact-us') {
         setCurrentView('contact')
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -374,10 +381,17 @@ function App() {
       setCurrentView('about')
       window.location.hash = '#about-us'
       window.scrollTo({ top: 0, behavior: 'smooth' })
-    } else if (destination === 'career') {
+    } else if (destination === 'career' || destination === 'careers' || destination === 'openings') {
       setCurrentView('career')
       window.location.hash = '#career'
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (destination === 'openings') {
+        setTimeout(() => {
+          const el = document.getElementById('openings')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 120)
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     } else if (destination === 'contact') {
       setCurrentView('contact')
       window.location.hash = '#contact'
