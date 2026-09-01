@@ -18,13 +18,13 @@ import svcKycVerification from './assets/svc_kyc_verification.jpg'
 import svcLoanManagement from './assets/svc_loan_management.svg'
 import svcEnterpriseCrm from './assets/svc_enterprise_crm.svg'
 import svcErpSystem from './assets/svc_erp_system.svg'
-import svcHrmsSystem from './assets/svc_hrms_system.svg'
-import svcInventoryMgmt from './assets/svc_inventory_mgmt.svg'
+import svcHrmsSystem from './assets/svc_hrms.jpg'
+import svcInventoryMgmt from './assets/svc_inventory.jpg'
 import svcEcommercePlatform from './assets/svc_ecommerce_platform.svg'
-import svcBookingManagement from './assets/svc_booking_management.svg'
-import svcBillingInvoicing from './assets/svc_billing_invoicing.svg'
+import svcBookingManagement from './assets/svc_booking.jpg'
+import svcBillingInvoicing from './assets/svc_billing.jpg'
 import svcCustomerSupport from './assets/svc_customer_support.svg'
-import svcBusinessAutomation from './assets/svc_business_automation.svg'
+import svcBusinessAutomation from './assets/svc_business_automation.jpg'
 import svcCustomSaas from './assets/svc_custom_saas.svg'
 import { ServicesPage } from './ServicesPage'
 import { AboutPage } from './AboutPage'
@@ -581,7 +581,7 @@ function App() {
                         onClick={() => navigateTo('services')}
                         className="service-link"
                       >
-                        Learn More <i className="fa fa-arrow-right" />
+                        Get Started <i className="fa fa-arrow-right" />
                       </button>
                     </div>
                   </div>
