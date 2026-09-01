@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import logo from './assets/ChatGPT_Image_Aug_31__2026__08_35_16_PM-removebg-preview.png'
-import welcomeImage from './assets/ChatGPT_Image_Aug_31__2026__09_14_04_PM-removebg-preview.png'
+import welcomeImage from './assets/Group-3.png'
 import heroImage from './assets/img1.jpg'
 import waveImage from './assets/wave.png'
 import svcChatbot from './assets/svc_chatbot.jpg'
