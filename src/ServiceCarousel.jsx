@@ -26,9 +26,8 @@ function smoothScrollTrack(track, targetLeft, duration = AUTO_SCROLL_DURATION_MS
   })
 }
 
-function wrapLoop(track) {
-  const loopWidth = track.scrollWidth / 2
-  if (loopWidth <= 0) return
+function wrapLoop(track, loopWidth) {
+  if (!loopWidth || loopWidth <= 0) return
   if (track.scrollLeft >= loopWidth) {
     track.scrollLeft -= loopWidth
   } else if (track.scrollLeft < 0) {
@@ -41,15 +40,46 @@ export function ServiceCarousel({ services }) {
   const cardRefs = useRef([])
   const pauseRef = useRef(false)
   const modalOpenRef = useRef(false)
+  const loopWidthRef = useRef(0)
+  const isVisibleRef = useRef(false)
   const [activeService, setActiveService] = useState(null)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
 
   const loopItems = useMemo(() => [...services, ...services], [services])
 
+  const updateLoopWidth = () => {
+    const track = trackRef.current
+    if (track) {
+      loopWidthRef.current = track.scrollWidth / 2
+    }
+  }
+
   useEffect(() => {
     modalOpenRef.current = Boolean(activeService)
   }, [activeService])
+
+  useEffect(() => {
+    updateLoopWidth()
+    window.addEventListener('resize', updateLoopWidth, { passive: true })
+    return () => window.removeEventListener('resize', updateLoopWidth)
+  }, [loopItems.length])
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting
+        if (entry.isIntersecting) {
+          updateLoopWidth()
+        }
+      },
+      { rootMargin: '100px 0px' }
+    )
+    observer.observe(track)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
@@ -64,9 +94,9 @@ export function ServiceCarousel({ services }) {
       last = now
 
       const track = trackRef.current
-      if (track && !pauseRef.current && !modalOpenRef.current) {
+      if (track && isVisibleRef.current && !pauseRef.current && !modalOpenRef.current) {
         track.scrollLeft += AUTO_SCROLL_SPEED * dt
-        wrapLoop(track)
+        wrapLoop(track, loopWidthRef.current)
       }
 
       rafId = requestAnimationFrame(tick)
@@ -84,10 +114,11 @@ export function ServiceCarousel({ services }) {
     const track = trackRef.current
     const card = cardRefs.current[0]
     if (!track || !card) return
+    updateLoopWidth()
     const step = direction * (card.offsetWidth + 12)
     pauseRef.current = true
     smoothScrollTrack(track, track.scrollLeft + step).then(() => {
-      wrapLoop(track)
+      wrapLoop(track, loopWidthRef.current)
       window.setTimeout(() => { pauseRef.current = false }, 1200)
     })
   }

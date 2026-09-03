@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import logo from './assets/ChatGPT_Image_Sep_3__2026__02_36_14_PM-removebg-preview.png'
-import servicesFlowGif from './assets/aanvita_flow_multiple_points (2).gif'
+import servicesFlowGif from './assets/Untitled - September 03, 2026 at 18.43.23.png'
 import svcChatbot from './assets/svc_chatbot.jpg'
 import svcSales from './assets/svc_sales.jpg'
 import svcVoice from './assets/svc_voice.jpg'
@@ -393,7 +393,7 @@ function App() {
   const [servicesCategory, setServicesCategory] = useState('All')
   const [hwwVisible, setHwwVisible] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [progress, setProgress] = useState(0)
+  const progressBarRef = useRef(null)
   const [activeStep, setActiveStep] = useState(0)
   const hwwRef = useRef(null)
   const glowRef = useRef(null)
@@ -444,19 +444,35 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false
+    const updateScroll = () => {
       const y = window.scrollY
-      setScrolled(y > 24)
-      const doc = document.documentElement
-      const max = doc.scrollHeight - window.innerHeight
-      setProgress(max > 0 ? Math.min(1, y / max) : 0)
+      const isScrolled = y > 24
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev))
+      if (progressBarRef.current) {
+        const doc = document.documentElement
+        const max = doc.scrollHeight - window.innerHeight
+        const pct = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0
+        progressBarRef.current.style.transform = `scaleX(${pct})`
+      }
+      ticking = false
     }
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScroll)
+        ticking = true
+      }
+    }
+
     const onResize = () => {
       if (window.innerWidth > 1000) setMenuOpen(false)
+      onScroll()
     }
-    onScroll()
+
+    updateScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', onResize, { passive: true })
     return () => {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
@@ -466,11 +482,27 @@ function App() {
   useEffect(() => {
     const glow = glowRef.current
     if (!glow || window.matchMedia('(pointer: coarse)').matches) return
+    let rafId = null
+    let latestE = null
+
+    const updateGlow = () => {
+      if (latestE && glow) {
+        glow.style.transform = `translate3d(${latestE.clientX - 180}px, ${latestE.clientY - 180}px, 0)`
+      }
+      rafId = null
+    }
+
     const move = (e) => {
-      glow.style.transform = `translate3d(${e.clientX - 180}px, ${e.clientY - 180}px, 0)`
+      latestE = e
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(updateGlow)
+      }
     }
     window.addEventListener('pointermove', move, { passive: true })
-    return () => window.removeEventListener('pointermove', move)
+    return () => {
+      window.removeEventListener('pointermove', move)
+      if (rafId) window.cancelAnimationFrame(rafId)
+    }
   }, [])
 
   useEffect(() => {
@@ -552,7 +584,7 @@ function App() {
 
   return (
     <>
-      <div className="site-progress" style={{ transform: `scaleX(${progress})` }} />
+      <div ref={progressBarRef} className="site-progress" />
       <div className="site-grain" aria-hidden="true" />
       <div className="cursor-glow" ref={glowRef} aria-hidden="true" />
 
@@ -562,84 +594,84 @@ function App() {
 
       <header className={`header${headerSolid ? ' header--solid' : ''}${menuOpen ? ' header--open' : ''}`}>
         <div className="header-inner">
-        <a
-          href="#home"
-          className="logo"
-          onClick={(e) => {
-            e.preventDefault()
-            navigateTo('home')
-          }}
-        >
-          <img src={logo} alt="AANVITA Technologies" />
-        </a>
+          <a
+            href="#home"
+            className="logo"
+            onClick={(e) => {
+              e.preventDefault()
+              navigateTo('home')
+            }}
+          >
+            <img src={logo} alt="AANVITA Technologies" />
+          </a>
 
-        <button
-          type="button"
+          <button
+            type="button"
             className={`nav-toggle-btn${menuOpen ? ' is-open' : ''}`}
-          aria-label="Toggle navigation"
-          aria-expanded={menuOpen}
-          onClick={handleMenuToggle}
+            aria-label="Toggle navigation"
+            aria-expanded={menuOpen}
+            onClick={handleMenuToggle}
           >
             <span />
             <span />
             <span />
           </button>
 
-        <nav className={`navbar${menuOpen ? ' nav-toggle' : ''}`}>
-          <ul>
-            {navItems.map((item) => {
-              const itemLower = item.toLowerCase()
-              const isActive =
-                itemLower === 'services'
-                  ? currentView === 'services'
-                  : itemLower === 'about'
-                  ? currentView === 'about'
-                  : itemLower === 'career'
-                  ? currentView === 'career'
-                  : itemLower === 'contact'
-                  ? currentView === 'contact'
+          <nav className={`navbar${menuOpen ? ' nav-toggle' : ''}`}>
+            <ul>
+              {navItems.map((item) => {
+                const itemLower = item.toLowerCase()
+                const isActive =
+                  itemLower === 'services'
+                    ? currentView === 'services'
+                    : itemLower === 'about'
+                      ? currentView === 'about'
+                      : itemLower === 'career'
+                        ? currentView === 'career'
+                        : itemLower === 'contact'
+                          ? currentView === 'contact'
                           : currentView === 'home' &&
-                            (itemLower === 'home'
-                              ? !window.location.hash || window.location.hash.toLowerCase() === '#home'
-                              : window.location.hash.toLowerCase() === `#${itemLower}`)
-              return (
-                <li key={item}>
-                  <a
-                    href={`#${itemLower}`}
-                    className={isActive ? 'active-nav-link' : ''}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      navigateTo(itemLower)
-                    }}
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
+                          (itemLower === 'home'
+                            ? !window.location.hash || window.location.hash.toLowerCase() === '#home'
+                            : window.location.hash.toLowerCase() === `#${itemLower}`)
+                return (
+                  <li key={item}>
+                    <a
+                      href={`#${itemLower}`}
+                      className={isActive ? 'active-nav-link' : ''}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        navigateTo(itemLower)
+                      }}
+                    >
+                      {item}
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
             <button type="button" className="nav-cta" onClick={() => navigateTo('contact')}>
               Start a project
             </button>
-        </nav>
+          </nav>
         </div>
       </header>
 
       <main id="main">
-      {currentView === 'services' ? (
+        {currentView === 'services' ? (
           <ServicesPage
             services={productList}
             initialCategory={servicesCategory}
             onNavigateHome={(target) => navigateTo(target || 'home')}
           />
-      ) : currentView === 'about' ? (
-        <AboutPage onNavigateHome={(target) => navigateTo(target || 'home')} />
-      ) : currentView === 'career' ? (
-        <CareerPage onNavigateHome={(target) => navigateTo(target || 'home')} />
-      ) : currentView === 'contact' ? (
-        <ContactPage onNavigateHome={(target) => navigateTo(target || 'home')} />
-      ) : (
-        <>
+        ) : currentView === 'about' ? (
+          <AboutPage onNavigateHome={(target) => navigateTo(target || 'home')} />
+        ) : currentView === 'career' ? (
+          <CareerPage onNavigateHome={(target) => navigateTo(target || 'home')} />
+        ) : currentView === 'contact' ? (
+          <ContactPage onNavigateHome={(target) => navigateTo(target || 'home')} />
+        ) : (
+          <>
             <section id="home" className="home">
               <div className="hero-bg" aria-hidden="true">
                 <div className="hero-grid" />
@@ -669,6 +701,8 @@ function App() {
                     <img
                       src={servicesFlowGif}
                       alt="How AANVITA services flow from idea to live product"
+                      decoding="async"
+                      loading="eager"
                     />
                   </div>
                 </div>
@@ -678,7 +712,7 @@ function App() {
                 <span>Scroll</span>
                 <i />
               </button>
-          </section>
+            </section>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
@@ -695,7 +729,7 @@ function App() {
                     <p className="section-kicker">Next-generation stack</p>
                     <h2 className="platform-title">
                       AANVITA builds the <span>AI operating layer</span> serious companies run on
-                </h2>
+                    </h2>
                     <p className="platform-lead">
                       Not another plugin shop. We connect agents, fintech rails, and enterprise
                       systems into one architecture — so your business moves faster than competitors
@@ -716,7 +750,7 @@ function App() {
                         100% IP ownership — your platform, your code, your data
                       </li>
                     </ul>
-              </div>
+                  </div>
 
                   <div className="platform-stage" data-reveal>
                     <div className="stage-panel">
@@ -725,7 +759,7 @@ function App() {
                           <i className="live-dot" /> Intelligence loop
                         </span>
                         <em>always processing</em>
-              </div>
+                      </div>
 
                       <ol className="stage-flow">
                         {aiPipeline.map((item, i) => (
@@ -754,8 +788,8 @@ function App() {
                     </div>
                   </div>
                 </div>
-            </div>
-          </section>
+              </div>
+            </section>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
@@ -773,62 +807,62 @@ function App() {
                   <p>
                     Every product we ship sits in one of these layers — so you can start with a
                     single agent or stand up a full operating platform.
-                </p>
-              </div>
+                  </p>
+                </div>
                 <div className="pillar-grid">
                   {practiceAreas.map((area, i) => {
                     const productCount = productList.filter((s) => s.category === area.category).length
                     return (
-                    <article
-                      key={area.title}
-                      className="pillar-card"
-                      data-reveal
-                      style={{
-                        '--delay': `${i * 0.08}s`,
-                        '--pillar-accent': area.accent,
-                      }}
-                    >
-                      <div className="pillar-card-bg" aria-hidden="true">
-                        <div className="pillar-card-glow" />
-                        <div className="pillar-card-shine" />
-                      </div>
+                      <article
+                        key={area.title}
+                        className="pillar-card"
+                        data-reveal
+                        style={{
+                          '--delay': `${i * 0.08}s`,
+                          '--pillar-accent': area.accent,
+                        }}
+                      >
+                        <div className="pillar-card-bg" aria-hidden="true">
+                          <div className="pillar-card-glow" />
+                          <div className="pillar-card-shine" />
+                        </div>
 
-                      <div className="pillar-card-inner">
-                        <div className="pillar-card-head">
-                          <span className="pillar-card-num">{String(i + 1).padStart(2, '0')}</span>
-                          <div className="pillar-icon">
-                            <i className={area.icon} />
+                        <div className="pillar-card-inner">
+                          <div className="pillar-card-head">
+                            <span className="pillar-card-num">{String(i + 1).padStart(2, '0')}</span>
+                            <div className="pillar-icon">
+                              <i className={area.icon} />
+                            </div>
+                          </div>
+
+                          <span className="pillar-card-badge">{productCount} products</span>
+                          <h3>{area.title}</h3>
+                          <p>{area.desc}</p>
+
+                          <ul className="pillar-card-list">
+                            {area.items.map((item) => (
+                              <li key={item}>
+                                <i className="fas fa-check" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className="pillar-card-footer">
+                            <button
+                              type="button"
+                              className="pillar-card-cta"
+                              onClick={() => navigateTo('services', { category: area.category })}
+                            >
+                              View products <i className="fas fa-arrow-right" />
+                            </button>
                           </div>
                         </div>
-
-                        <span className="pillar-card-badge">{productCount} products</span>
-                        <h3>{area.title}</h3>
-                        <p>{area.desc}</p>
-
-                        <ul className="pillar-card-list">
-                          {area.items.map((item) => (
-                            <li key={item}>
-                              <i className="fas fa-check" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <div className="pillar-card-footer">
-                          <button
-                            type="button"
-                            className="pillar-card-cta"
-                            onClick={() => navigateTo('services', { category: area.category })}
-                          >
-                            View products <i className="fas fa-arrow-right" />
-                          </button>
-                        </div>
-                      </div>
-                    </article>
+                      </article>
                     )
                   })}
-                    </div>
-                  </div>
+                </div>
+              </div>
             </section>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
@@ -842,18 +876,18 @@ function App() {
                     All 22 systems we ship — browse the stack, tap Get Started, and request a demo
                     in one step.
                   </p>
-              </div>
+                </div>
 
                 <ServiceCarousel services={productList} />
 
                 <div className="services-explore-cta" data-reveal>
                   <button type="button" className="btn-explore-all-services" onClick={() => navigateTo('services')}>
                     <span>Browse by category</span>
-                  <i className="fa fa-arrow-right" />
-                </button>
+                    <i className="fa fa-arrow-right" />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
@@ -866,7 +900,7 @@ function App() {
                     The same platform patterns — identity, money movement, workflows, and systems of
                     record — adapted to the industry you already run.
                   </p>
-                  </div>
+                </div>
                 <div className="industry-grid">
                   {industryCards.map((item, i) => (
                     <article key={item.title} className="industry-card" data-reveal style={{ '--delay': `${i * 0.07}s` }}>
@@ -876,44 +910,44 @@ function App() {
                     </article>
                   ))}
                 </div>
-            </div>
-          </section>
+              </div>
+            </section>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
-          <section className="how-we-work-section" id="portfolio">
-            <div className="hww-container">
+            <section className="how-we-work-section" id="portfolio">
+              <div className="hww-container">
                 <div className="hww-header" data-reveal>
                   <p className="section-kicker">Method</p>
                   <h2 className="hww-title">
                     How we <span>work</span>
                   </h2>
-                <p className="hww-subtitle">
-                  A clear, structured process that takes your idea from concept to a fully
-                  deployed, high-performing digital product.
-                </p>
-              </div>
-
-              <div className={`hww-steps${hwwVisible ? ' hww-visible' : ''}`} ref={hwwRef}>
-                <div className="hww-pulse-dots" aria-hidden="true">
-                  <span className="hww-dot hww-dot-1" />
-                  <span className="hww-dot hww-dot-2" />
-                  <span className="hww-dot hww-dot-3" />
+                  <p className="hww-subtitle">
+                    A clear, structured process that takes your idea from concept to a fully
+                    deployed, high-performing digital product.
+                  </p>
                 </div>
 
-                  {workSteps.map((item, idx) => (
-                  <div className="hww-step-card" key={item.step} data-index={idx}>
-                    <div className="hww-step-icon">
-                      <i className={item.icon} />
-                    </div>
-                    <h4 className="hww-step-title">{item.title}</h4>
-                    <p className="hww-step-desc">{item.desc}</p>
-                    <div className="hww-connector" />
+                <div className={`hww-steps${hwwVisible ? ' hww-visible' : ''}`} ref={hwwRef}>
+                  <div className="hww-pulse-dots" aria-hidden="true">
+                    <span className="hww-dot hww-dot-1" />
+                    <span className="hww-dot hww-dot-2" />
+                    <span className="hww-dot hww-dot-3" />
                   </div>
-                ))}
+
+                  {workSteps.map((item, idx) => (
+                    <div className="hww-step-card" key={item.step} data-index={idx}>
+                      <div className="hww-step-icon">
+                        <i className={item.icon} />
+                      </div>
+                      <h4 className="hww-step-title">{item.title}</h4>
+                      <p className="hww-step-desc">{item.desc}</p>
+                      <div className="hww-connector" />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
@@ -940,82 +974,82 @@ function App() {
               </div>
             </section>
 
-          <div className="communicate">
+            <div className="communicate">
               <div className="communicate-content" data-reveal>
                 <p className="section-kicker kicker-on-dark">Next build</p>
                 <h3>Need a smart business platform?</h3>
-              <p>Let’s build your next growth engine with AI and custom software.</p>
-              <a
-                href="#contact"
-                className="communicate-btn"
-                onClick={(e) => {
-                  e.preventDefault()
-                  navigateTo('contact')
-                }}
-              >
+                <p>Let’s build your next growth engine with AI and custom software.</p>
+                <a
+                  href="#contact"
+                  className="communicate-btn"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigateTo('contact')
+                  }}
+                >
                   <span>Talk to an engineer</span>
-                <i className="fas fa-arrow-right" />
-              </a>
-            </div>
-          </div>
-
-          <section className="why-choose-section" id="team">
-            <div className="why-choose-bg" aria-hidden="true">
-              <div className="why-choose-grid-bg" />
-              <div className="why-choose-orb why-choose-orb--a" />
-              <div className="why-choose-orb why-choose-orb--b" />
+                  <i className="fas fa-arrow-right" />
+                </a>
+              </div>
             </div>
 
-            <div className="why-choose-inner">
-              <header className="why-choose-head" data-reveal>
-                <p className="section-kicker">Why AANVITA</p>
-                <h2 className="why-choose-title">
-                  The smart choice for <span>digital growth</span>
-                </h2>
-                <p className="why-choose-subtitle">
-                  We combine AI, automation, and deep domain expertise to build systems that give
-                  your business a lasting competitive edge.
-                </p>
-              </header>
+            <section className="why-choose-section" id="team">
+              <div className="why-choose-bg" aria-hidden="true">
+                <div className="why-choose-grid-bg" />
+                <div className="why-choose-orb why-choose-orb--a" />
+                <div className="why-choose-orb why-choose-orb--b" />
+              </div>
 
-              <ol className="why-reasons" data-reveal>
-                {reasons.map((r, i) => (
-                  <li key={r.title} className="why-reason" style={{ '--delay': `${i * 0.05}s` }}>
-                    <span className="why-reason-icon" aria-hidden="true">
-                      <i className={r.icon} />
-                    </span>
-                    <div className="why-reason-copy">
-                      <h3>{r.title}</h3>
-                      <p>{r.desc}</p>
+              <div className="why-choose-inner">
+                <header className="why-choose-head" data-reveal>
+                  <p className="section-kicker">Why AANVITA</p>
+                  <h2 className="why-choose-title">
+                    The smart choice for <span>digital growth</span>
+                  </h2>
+                  <p className="why-choose-subtitle">
+                    We combine AI, automation, and deep domain expertise to build systems that give
+                    your business a lasting competitive edge.
+                  </p>
+                </header>
+
+                <ol className="why-reasons" data-reveal>
+                  {reasons.map((r, i) => (
+                    <li key={r.title} className="why-reason" style={{ '--delay': `${i * 0.05}s` }}>
+                      <span className="why-reason-icon" aria-hidden="true">
+                        <i className={r.icon} />
+                      </span>
+                      <div className="why-reason-copy">
+                        <h3>{r.title}</h3>
+                        <p>{r.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+
+                <div className="why-proof" data-reveal>
+                  <div className="why-proof-stats">
+                    <div className="why-proof-stat">
+                      <strong>22+</strong>
+                      <span>Products & services</span>
                     </div>
-                  </li>
-                ))}
-              </ol>
-
-              <div className="why-proof" data-reveal>
-                <div className="why-proof-stats">
-                  <div className="why-proof-stat">
-                    <strong>22+</strong>
-                    <span>Products & services</span>
-                  </div>
-                  <div className="why-proof-stat">
-                    <strong>480+</strong>
-                    <span>Happy clients</span>
-                  </div>
-                  <div className="why-proof-stat">
-                    <strong>720</strong>
-                    <span>Projects delivered</span>
-                  </div>
-                  <div className="why-proof-stat">
-                    <strong>18</strong>
-                    <span>Awards won</span>
+                    <div className="why-proof-stat">
+                      <strong>480+</strong>
+                      <span>Happy clients</span>
+                    </div>
+                    <div className="why-proof-stat">
+                      <strong>720</strong>
+                      <span>Projects delivered</span>
+                    </div>
+                    <div className="why-proof-stat">
+                      <strong>18</strong>
+                      <span>Awards won</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-        </>
-      )}
+            </section>
+          </>
+        )}
       </main>
 
       <footer className="footer-new">
