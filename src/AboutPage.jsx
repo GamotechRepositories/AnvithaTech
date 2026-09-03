@@ -44,7 +44,7 @@ export function AboutPage({ onNavigateHome }) {
     { year: 'Phase 1', event: 'Incorporation of AANVITA TECHNOLOGIES L.L.C under the leadership of Arun Kumar Gopala Suvarna' },
     { year: 'Phase 2', event: 'Development & launch of intelligent AI automation, modern CRM & bespoke SaaS solutions' },
     { year: 'Phase 3', event: 'Expansion into full-suite enterprise platforms (HRMS, ERP) & secure fintech systems' },
-    { year: 'Phase 4', event: 'Scaling client deliveries to 480+ businesses across India and expanding global reach' },
+    { year: 'Phase 4', event: 'Scaling client deliveries to 480+ businesses from Dubai and expanding global reach' },
   ]
 
   return (
@@ -120,7 +120,7 @@ export function AboutPage({ onNavigateHome }) {
               <p>
                 Over the years, we have grown into a multi-disciplinary technology firm delivering
                 cutting-edge AI automation, enterprise software, and scalable SaaS
-                platforms to businesses across India and global markets.
+                platforms to businesses across the UAE and global markets.
               </p>
               <p>
                 Today, AANVITA stands as a trusted name in digital transformation — powering
@@ -194,7 +194,7 @@ export function AboutPage({ onNavigateHome }) {
               <i className="fas fa-map-marker-alt" />
               <div>
                 <strong>Headquarters</strong>
-                <span>India</span>
+                <span>Al Budoor Building, Naif, Deira, Dubai, UAE</span>
               </div>
             </div>
             <div className="about-legal-item">

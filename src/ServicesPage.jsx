@@ -272,7 +272,7 @@ export function ServicesPage({ services, onNavigateHome, initialCategory = 'All'
                           <i className="fas fa-phone-alt" />
                           <input
                             type="tel"
-                            placeholder="e.g. +91 98765 43210"
+                            placeholder="e.g. +971 50 123 4567"
                             required
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}

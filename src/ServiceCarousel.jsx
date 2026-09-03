@@ -239,7 +239,7 @@ export function ServiceCarousel({ services }) {
                           <i className="fas fa-phone-alt" />
                           <input
                             type="tel"
-                            placeholder="+91 98765 43210"
+                            placeholder="+971 50 123 4567"
                             required
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}

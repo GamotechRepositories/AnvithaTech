@@ -4,10 +4,10 @@ const contactMethods = [
   {
     icon: 'fas fa-phone-alt',
     title: 'Call Us Directly',
-    detail: '+91 00000 00000',
-    sub: 'Mon - Sat: 9:00 AM - 7:00 PM IST',
+    detail: '+971 00000 00000',
+    sub: 'Mon - Sat: 9:00 AM - 7:00 PM GST',
     actionText: 'Call Now',
-    actionHref: 'tel:+910000000000',
+    actionHref: 'tel:+971000000000',
     color: '#005eb8',
   },
   {
@@ -22,17 +22,17 @@ const contactMethods = [
   {
     icon: 'fab fa-whatsapp',
     title: 'Chat on WhatsApp',
-    detail: '+91 00000 00000',
+    detail: '+971 00000 00000',
     sub: 'Instant technical & sales assistance',
     actionText: 'Start Chat',
-    actionHref: 'https://wa.me/910000000000',
+    actionHref: 'https://wa.me/971000000000',
     color: '#25d366',
   },
   {
     icon: 'fas fa-map-marker-alt',
     title: 'Office Location',
-    detail: 'AANVITA TECHNOLOGIES L.L.C',
-    sub: 'LLC - SO • India & Global',
+    detail: 'Naif, Deira, Dubai, UAE',
+    sub: 'Al Budoor Building • Land DM No. 118-1220',
     actionText: 'View on Map',
     actionHref: '#office-map',
     color: '#7c3aed',
@@ -428,22 +428,26 @@ export function ContactPage({ onNavigateHome }) {
             <div className="cp-map-header">
               <div>
                 <h3>Visit Or Connect With Our Office</h3>
-                <p>AANVITA Technologies • Serving businesses in India & globally</p>
+                <p>
+                  Al Budoor Building, 29th Street, Naif Road, Naif, Deira, Dubai, UAE
+                  {' '}• Land DM No. 118-1220
+                </p>
               </div>
               <div className="cp-map-badges">
-                <span><i className="fas fa-globe-asia" /> Pan-India & Worldwide</span>
-                <span><i className="fas fa-clock" /> Indian Standard Time (IST)</span>
+                <span><i className="fas fa-map-marker-alt" /> Naif, Deira, Dubai</span>
+                <span><i className="fas fa-clock" /> Gulf Standard Time (GST)</span>
               </div>
             </div>
             <div className="cp-map-frame">
               <iframe
                 title="Aanvita Technologies Office Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30711243.17762776!2d64.4398422293091!3d20.011408266548177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30635ff06b92b791%3A0xd78c4fa1854213a6!2sIndia!5e0!3m2!1sen!2sin!4v1644684739958!5m2!1sen!2sin"
+                src="https://www.google.com/maps?q=Al+Budoor+Building,+29th+Street,+Naif+Road,+Naif,+Deira,+Dubai,+UAE&z=16&output=embed"
                 width="100%"
                 height="380"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
           </div>

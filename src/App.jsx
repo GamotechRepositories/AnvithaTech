@@ -1077,7 +1077,7 @@ function App() {
             <ul className="footer-contact-list">
               <li>
                 <i className="fas fa-map-marker-alt" />
-                <span>AANVITA Technologies, India</span>
+                <span>Al Budoor Building, Naif, Deira, Dubai, UAE</span>
               </li>
               <li>
                 <i className="fas fa-envelope" />
@@ -1085,11 +1085,11 @@ function App() {
               </li>
               <li>
                 <i className="fas fa-phone-alt" />
-                <span>+91 00000 00000</span>
+                <span>+971 00000 00000</span>
               </li>
               <li>
                 <i className="fas fa-clock" />
-                <span>Mon – Fri: 9:00 AM – 6:00 PM IST</span>
+                <span>Mon – Fri: 9:00 AM – 6:00 PM GST</span>
               </li>
             </ul>
           </div>
