@@ -59,6 +59,7 @@ export function AboutPage({ onNavigateHome }) {
             <span className="breadcrumb-separator">/</span>
             <span className="breadcrumb-current">About Us</span>
           </div>
+          <p className="section-kicker">The company</p>
           <h1>Who We Are</h1>
           <p>
             AANVITA Technologies is a modern technology company focused on delivering
@@ -108,6 +109,7 @@ export function AboutPage({ onNavigateHome }) {
         <div className="about-container">
           <div className="about-story-grid">
             <div className="about-story-text">
+              <p className="section-kicker">Story</p>
               <h2 className="about-section-title">Our Journey</h2>
               <p>
                 AANVITA Technologies was founded with a clear mission — to bridge the gap
@@ -142,6 +144,7 @@ export function AboutPage({ onNavigateHome }) {
       {/* Values */}
       <section className="about-values-section">
         <div className="about-container">
+          <p className="section-kicker">Principles</p>
           <h2 className="about-section-title">Our Core Values</h2>
           <p className="about-section-subtitle">
             Our core values are not just words on paper — they are the principles that guide every

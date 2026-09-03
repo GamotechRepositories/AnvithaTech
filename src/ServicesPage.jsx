@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export function ServicesPage({ services, onNavigateHome }) {
-  const [selectedCategory, setSelectedCategory] = useState('All')
+export function ServicesPage({ services, onNavigateHome, initialCategory = 'All' }) {
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [activeService, setActiveService] = useState(null)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    setSelectedCategory(initialCategory)
+  }, [initialCategory])
 
   const categories = [
     { label: 'All', count: services.length },
@@ -49,6 +53,7 @@ export function ServicesPage({ services, onNavigateHome }) {
             <span className="breadcrumb-current">Services</span>
           </div>
 
+          <p className="section-kicker">22 products</p>
           <h1>Our Complete Suite of Services</h1>
           <p>
             Explore all 22 cutting-edge digital platforms, AI automation systems, fintech infrastructure, 
@@ -109,7 +114,7 @@ export function ServicesPage({ services, onNavigateHome }) {
             </div>
           ) : (
             <div className="services-grid">
-              {filteredServices.map((item) => (
+              {filteredServices.map((item, index) => (
                 <div
                   className="service-card"
                   key={item.id || item.title}
@@ -117,7 +122,13 @@ export function ServicesPage({ services, onNavigateHome }) {
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="service-img-wrap">
-                    <img src={item.image} alt={item.title} className="service-img" />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="service-img"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
                     <div className="service-img-overlay">
                       <span className="service-number">
                         {item.id < 10 ? `0${item.id}` : item.id}
