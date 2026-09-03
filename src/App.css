@@ -3045,7 +3045,7 @@ select option {
   .industry-image-grid,
   .www-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.4rem;
+    gap: 1.6rem;
   }
   .www-hero {
     padding: 3.6rem var(--page-x) 3rem;
@@ -3059,12 +3059,32 @@ select option {
   }
 }
 
+/* Mobile view: 1 card per row (1*1) instead of 2*2 */
+@media (max-width: 640px) {
+  .industry-image-grid,
+  .www-grid {
+    grid-template-columns: 1fr;
+    max-width: 44rem;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 2rem;
+  }
+  .industry-image-card,
+  .www-flip-card {
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .hero-eyebrow { font-size: 1.15rem; letter-spacing: 0.08em; }
   .why-proof-stat strong { font-size: 2.4rem; }
   .industry-image-grid,
   .www-grid {
-    gap: 1.1rem;
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: 1.8rem;
   }
   .industry-image-card,
   .industry-flip-inner,
@@ -3073,22 +3093,23 @@ select option {
   .www-flip-card .www-flip-front,
   .www-flip-card .www-flip-back,
   .www-flip-inner {
-    border-radius: 1.4rem;
+    border-radius: 1.8rem;
   }
-  .www-flip-back {
-    padding: 1.4rem 1.1rem;
+  .www-flip-back,
+  .industry-flip-back {
+    padding: 2rem 1.6rem;
   }
   .www-back-content {
-    gap: 0.8rem;
-    padding-right: 0.4rem;
+    gap: 1rem;
+    padding-right: 0.6rem;
   }
   .www-back-title {
-    font-size: 1.55rem;
-    padding-bottom: 0.6rem;
+    font-size: 1.8rem;
+    padding-bottom: 0.8rem;
   }
   .www-back-desc {
-    font-size: 1.22rem;
-    line-height: 1.55;
+    font-size: 1.32rem;
+    line-height: 1.65;
   }
 }
 
