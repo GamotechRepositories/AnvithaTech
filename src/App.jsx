@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
-import logo from './assets/ChatGPT_Image_Aug_31__2026__08_35_16_PM-removebg-preview.png'
+import logo from './assets/ChatGPT_Image_Sep_3__2026__02_36_14_PM-removebg-preview.png'
 import servicesFlowGif from './assets/aanvita_flow_multiple_points (2).gif'
 import svcChatbot from './assets/svc_chatbot.jpg'
 import svcSales from './assets/svc_sales.jpg'
@@ -499,7 +499,7 @@ function App() {
           observer.disconnect()
         }
       },
-      { threshold: 0.05, rootMargin: '0px 0px -60px 0px' }
+      { threshold: 0.01, rootMargin: '120px 0px 0px 0px' }
     )
     const el = hwwRef.current
     if (el) observer.observe(el)
@@ -912,7 +912,6 @@ function App() {
 
                   {workSteps.map((item, idx) => (
                   <div className="hww-step-card" key={item.step} data-index={idx}>
-                    <div className="hww-step-number">{item.step}</div>
                     <div className="hww-step-icon">
                       <i className={item.icon} />
                     </div>
