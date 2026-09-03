@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import logo from './assets/ChatGPT_Image_Aug_31__2026__08_35_16_PM-removebg-preview.png'
-import servicesFlowGif from './assets/aanvita_services_flow_transparent.gif'
+import servicesFlowGif from './assets/aanvita_flow_multiple_points (2).gif'
 import svcChatbot from './assets/svc_chatbot.jpg'
 import svcSales from './assets/svc_sales.jpg'
 import svcVoice from './assets/svc_voice.jpg'
@@ -257,21 +257,6 @@ const platformDomains = [
   'CRM · ERP · HRMS',
   'Analytics copilots',
   'Custom SaaS',
-]
-
-const marqueeItems = [
-  'AI Chatbots',
-  'Voice Agents',
-  'Payment Gateways',
-  'KYC / KYB',
-  'CRM & ERP',
-  'HRMS',
-  'Custom SaaS',
-  'Loan Systems',
-  'Analytics',
-  'Automation',
-  'Inventory',
-  'E-commerce',
 ]
 
 const practiceAreas = [
@@ -695,16 +680,7 @@ function App() {
               </button>
           </section>
 
-            <div className="marquee" aria-hidden="true">
-              <div className="marquee-track">
-                {[...marqueeItems, ...marqueeItems].map((item, i) => (
-                  <span key={`${item}-${i}`}>
-                    {item}
-                    <i />
-                  </span>
-                ))}
-              </div>
-            </div>
+            <div className="section-seam" aria-hidden="true"><span /></div>
 
             <section id="about" className="platform-intro">
               <div className="platform-bg" aria-hidden="true">
