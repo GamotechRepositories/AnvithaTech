@@ -356,7 +356,7 @@ const workSteps = [
   },
 ]
 
-function HomeFlipCard({ sector, delay, onExplore }) {
+function HomeFlipCard({ sector, delay }) {
   const [flipped, setFlipped] = useState(false)
   return (
     <div
@@ -370,33 +370,16 @@ function HomeFlipCard({ sector, delay, onExplore }) {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped((p) => !p) }}
     >
       <div className="industry-flip-inner">
-        {/* Front */}
+        {/* Front: Clean image, zero hardcoded text */}
         <div className="industry-flip-front">
           <img src={sector.image} alt={sector.alt} loading="eager" decoding="async" className="industry-sector-img" />
-          <div className="industry-front-overlay">
-            <span className="industry-front-title">
-              <i className={sector.icon} /> {sector.title}
-            </span>
-            <span className="www-hover-hint"><i className="fas fa-sync-alt" /> Tap to explore</span>
-          </div>
         </div>
-        {/* Back */}
+        {/* Back: Pure text content with scroll support */}
         <div className="industry-flip-back">
-          <div className="www-back-icon"><i className={sector.icon} /></div>
-          <h3 className="www-back-title">{sector.title}</h3>
-          <p className="www-back-desc">{sector.desc}</p>
-          <div className="www-back-tags">
-            {sector.tags.map((tag) => (
-              <span key={tag} className="www-back-tag">{tag}</span>
-            ))}
+          <div className="www-back-content">
+            <h3 className="www-back-title">{sector.title}</h3>
+            <p className="www-back-desc">{sector.desc}</p>
           </div>
-          <button
-            type="button"
-            className="www-back-cta"
-            onClick={(e) => { e.stopPropagation(); onExplore() }}
-          >
-            All 14 sectors <i className="fas fa-arrow-right" />
-          </button>
         </div>
       </div>
     </div>
@@ -935,7 +918,6 @@ function App() {
                       key={sector.id}
                       sector={sector}
                       delay={i * 0.08}
-                      onExplore={() => navigateTo('where-we-work')}
                     />
                   ))}
                 </div>
@@ -1013,24 +995,6 @@ function App() {
               </div>
             </section>
 
-            <div className="communicate">
-              <div className="communicate-content" data-reveal>
-                <p className="section-kicker kicker-on-dark">Next build</p>
-                <h3>Need a smart business platform?</h3>
-                <p>Let’s build your next growth engine with AI and custom software.</p>
-                <a
-                  href="#contact"
-                  className="communicate-btn"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    navigateTo('contact')
-                  }}
-                >
-                  <span>Talk to an engineer</span>
-                  <i className="fas fa-arrow-right" />
-                </a>
-              </div>
-            </div>
 
             <section className="why-choose-section" id="team">
               <div className="why-choose-bg" aria-hidden="true">

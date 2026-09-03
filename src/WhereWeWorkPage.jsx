@@ -51,7 +51,7 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                   }}
                 >
                   <div className="www-flip-inner">
-                    {/* FRONT */}
+                    {/* FRONT: Clean visual artwork, zero hardcoded text */}
                     <div className="www-flip-front">
                       <img
                         src={sector.image}
@@ -60,38 +60,14 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                         loading="lazy"
                         decoding="async"
                       />
-                      <div className="www-front-overlay">
-                        <span className="www-front-title">
-                          <i className={sector.icon} /> {sector.title}
-                        </span>
-                        <span className="www-hover-hint">
-                          <i className="fas fa-sync-alt" /> Tap to explore
-                        </span>
-                      </div>
                     </div>
 
-                    {/* BACK */}
+                    {/* BACK: Pure text content with scroll support */}
                     <div className="www-flip-back">
-                      <div className="www-back-icon">
-                        <i className={sector.icon} />
+                      <div className="www-back-content">
+                        <h3 className="www-back-title">{sector.title}</h3>
+                        <p className="www-back-desc">{sector.desc}</p>
                       </div>
-                      <h3 className="www-back-title">{sector.title}</h3>
-                      <p className="www-back-desc">{sector.desc}</p>
-                      <div className="www-back-tags">
-                        {sector.tags.map((tag) => (
-                          <span key={tag} className="www-back-tag">{tag}</span>
-                        ))}
-                      </div>
-                      <button
-                        type="button"
-                        className="www-back-cta"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onNavigateHome('contact')
-                        }}
-                      >
-                        Start a project <i className="fas fa-arrow-right" />
-                      </button>
                     </div>
                   </div>
                 </div>
