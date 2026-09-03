@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
-import logo from './assets/ChatGPT_Image_Sep_3__2026__02_36_14_PM-removebg-preview.png'
+import logo from './assets/ChatGPT Image Sep 3, 2026, 08_06_56 PM (1).png'
 import servicesFlowGif from './assets/Untitled - September 03, 2026 at 18.43.23.png'
 import svcChatbot from './assets/svc_chatbot.jpg'
 import svcSales from './assets/svc_sales.jpg'
@@ -28,9 +28,11 @@ import { ServicesPage } from './ServicesPage'
 import { AboutPage } from './AboutPage'
 import { CareerPage } from './CareerPage'
 import { ContactPage } from './ContactPage'
+import { WhereWeWorkPage } from './WhereWeWorkPage'
 import { ServiceCarousel } from './ServiceCarousel'
+import { homeFeaturedSectors, sectorImages } from './sectorData'
 
-const navItems = ['Home', 'About', 'Services', 'Career', 'Contact']
+const navItems = ['Home', 'About', 'Services', 'Where We Work', 'Career', 'Contact']
 
 const productList = [
   {
@@ -294,39 +296,6 @@ const practiceAreas = [
   },
 ]
 
-const industryCards = [
-  {
-    icon: 'fas fa-coins',
-    title: 'Fintech',
-    desc: 'Onboarding, payouts, credit scoring, and compliance-ready payment stacks.',
-  },
-  {
-    icon: 'fas fa-heartbeat',
-    title: 'Healthcare',
-    desc: 'Appointment systems, document intake, and secure operational workflows.',
-  },
-  {
-    icon: 'fas fa-store',
-    title: 'Retail & commerce',
-    desc: 'Catalog, checkout, inventory, and multi-brand campaign control.',
-  },
-  {
-    icon: 'fas fa-truck',
-    title: 'Logistics',
-    desc: 'Warehouse visibility, ERP sync, and automated exception handling.',
-  },
-  {
-    icon: 'fas fa-graduation-cap',
-    title: 'Education',
-    desc: 'Scheduling, CRM, and automated learner support across channels.',
-  },
-  {
-    icon: 'fas fa-cloud',
-    title: 'SaaS & services',
-    desc: 'Multi-tenant platforms, billing, and AI copilots inside your own product.',
-  },
-]
-
 const engagementModels = [
   {
     step: '01',
@@ -387,6 +356,53 @@ const workSteps = [
   },
 ]
 
+function HomeFlipCard({ sector, delay, onExplore }) {
+  const [flipped, setFlipped] = useState(false)
+  return (
+    <div
+      className={`industry-image-card industry-flip-card${flipped ? ' is-flipped' : ''}`}
+      data-reveal
+      style={{ '--delay': `${delay}s` }}
+      onClick={() => setFlipped((p) => !p)}
+      role="button"
+      tabIndex={0}
+      aria-label={`${sector.title} — ${flipped ? 'close' : 'learn more'}`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped((p) => !p) }}
+    >
+      <div className="industry-flip-inner">
+        {/* Front */}
+        <div className="industry-flip-front">
+          <img src={sector.image} alt={sector.alt} loading="eager" decoding="async" className="industry-sector-img" />
+          <div className="industry-front-overlay">
+            <span className="industry-front-title">
+              <i className={sector.icon} /> {sector.title}
+            </span>
+            <span className="www-hover-hint"><i className="fas fa-sync-alt" /> Tap to explore</span>
+          </div>
+        </div>
+        {/* Back */}
+        <div className="industry-flip-back">
+          <div className="www-back-icon"><i className={sector.icon} /></div>
+          <h3 className="www-back-title">{sector.title}</h3>
+          <p className="www-back-desc">{sector.desc}</p>
+          <div className="www-back-tags">
+            {sector.tags.map((tag) => (
+              <span key={tag} className="www-back-tag">{tag}</span>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="www-back-cta"
+            onClick={(e) => { e.stopPropagation(); onExplore() }}
+          >
+            All 14 sectors <i className="fas fa-arrow-right" />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [currentView, setCurrentView] = useState('home')
@@ -419,6 +435,9 @@ function App() {
         window.scrollTo({ top: 0, behavior: 'smooth' })
       } else if (hash === '#about-us' || hash === '#aboutus') {
         setCurrentView('about')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (hash === '#where-we-work' || hash === '#/where-we-work' || hash === '#wherewework' || hash === '#industries-page') {
+        setCurrentView('where-we-work')
         window.scrollTo({ top: 0, behavior: 'smooth' })
       } else if (hash === '#career' || hash === '#careers' || hash === '#openings' || hash === '#/career') {
         setCurrentView('career')
@@ -551,6 +570,10 @@ function App() {
       setCurrentView('about')
       window.location.hash = '#about-us'
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else if (destination === 'where-we-work' || destination === 'where we work' || destination === 'wherewework') {
+      setCurrentView('where-we-work')
+      window.location.hash = '#where-we-work'
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (destination === 'career' || destination === 'careers' || destination === 'openings') {
       setCurrentView('career')
       window.location.hash = '#career'
@@ -626,22 +649,25 @@ function App() {
                     ? currentView === 'services'
                     : itemLower === 'about'
                       ? currentView === 'about'
-                      : itemLower === 'career'
-                        ? currentView === 'career'
-                        : itemLower === 'contact'
-                          ? currentView === 'contact'
-                          : currentView === 'home' &&
-                          (itemLower === 'home'
-                            ? !window.location.hash || window.location.hash.toLowerCase() === '#home'
-                            : window.location.hash.toLowerCase() === `#${itemLower}`)
+                      : itemLower === 'where we work' || itemLower === 'where-we-work'
+                        ? currentView === 'where-we-work'
+                        : itemLower === 'career'
+                          ? currentView === 'career'
+                          : itemLower === 'contact'
+                            ? currentView === 'contact'
+                            : currentView === 'home' &&
+                            (itemLower === 'home'
+                              ? !window.location.hash || window.location.hash.toLowerCase() === '#home'
+                              : window.location.hash.toLowerCase() === `#${itemLower}`)
+                const targetKey = itemLower === 'where we work' ? 'where-we-work' : itemLower
                 return (
                   <li key={item}>
                     <a
-                      href={`#${itemLower}`}
+                      href={`#${targetKey}`}
                       className={isActive ? 'active-nav-link' : ''}
                       onClick={(e) => {
                         e.preventDefault()
-                        navigateTo(itemLower)
+                        navigateTo(targetKey)
                       }}
                     >
                       {item}
@@ -666,6 +692,8 @@ function App() {
           />
         ) : currentView === 'about' ? (
           <AboutPage onNavigateHome={(target) => navigateTo(target || 'home')} />
+        ) : currentView === 'where-we-work' ? (
+          <WhereWeWorkPage onNavigateHome={(target) => navigateTo(target || 'home')} />
         ) : currentView === 'career' ? (
           <CareerPage onNavigateHome={(target) => navigateTo(target || 'home')} />
         ) : currentView === 'contact' ? (
@@ -901,14 +929,25 @@ function App() {
                     record — adapted to the industry you already run.
                   </p>
                 </div>
-                <div className="industry-grid">
-                  {industryCards.map((item, i) => (
-                    <article key={item.title} className="industry-card" data-reveal style={{ '--delay': `${i * 0.07}s` }}>
-                      <i className={item.icon} />
-                      <h3>{item.title}</h3>
-                      <p>{item.desc}</p>
-                    </article>
+                <div className="industry-image-grid">
+                  {homeFeaturedSectors.map((sector, i) => (
+                    <HomeFlipCard
+                      key={sector.id}
+                      sector={sector}
+                      delay={i * 0.08}
+                      onExplore={() => navigateTo('where-we-work')}
+                    />
                   ))}
+                </div>
+                <div className="services-explore-cta" data-reveal>
+                  <button
+                    type="button"
+                    className="btn-explore-all-services"
+                    onClick={() => navigateTo('where-we-work')}
+                  >
+                    <span>Explore all 14 sectors</span>
+                    <i className="fa fa-arrow-right" />
+                  </button>
                 </div>
               </div>
             </section>
@@ -1085,9 +1124,10 @@ function App() {
               {[
                 ['Home', 'home'],
                 ['About Us', 'about'],
-                ['What we provide', 'capabilities'],
                 ['Services', 'services'],
+                ['Where We Work', 'where-we-work'],
                 ['How We Work', 'portfolio'],
+                ['Career', 'career'],
                 ['Contact', 'contact'],
               ].map(([label, target]) => (
                 <li key={label}>

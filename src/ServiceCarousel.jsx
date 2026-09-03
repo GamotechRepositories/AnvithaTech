@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-const AUTO_SCROLL_SPEED = 36
-const AUTO_SCROLL_DURATION_MS = 900
+const AUTO_SCROLL_SPEED = 85
+const AUTO_SCROLL_DURATION_MS = 600
 
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2)
 
@@ -41,7 +41,7 @@ export function ServiceCarousel({ services }) {
   const pauseRef = useRef(false)
   const modalOpenRef = useRef(false)
   const loopWidthRef = useRef(0)
-  const isVisibleRef = useRef(false)
+  const isVisibleRef = useRef(true)
   const [activeService, setActiveService] = useState(null)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -50,7 +50,11 @@ export function ServiceCarousel({ services }) {
 
   const updateLoopWidth = () => {
     const track = trackRef.current
-    if (track) {
+    const firstCard = cardRefs.current[0]
+    const secondSetCard = cardRefs.current[services.length]
+    if (secondSetCard && firstCard) {
+      loopWidthRef.current = secondSetCard.offsetLeft - firstCard.offsetLeft
+    } else if (track) {
       loopWidthRef.current = track.scrollWidth / 2
     }
   }
@@ -70,20 +74,18 @@ export function ServiceCarousel({ services }) {
     if (!track) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        isVisibleRef.current = entry.isIntersecting
-        if (entry.isIntersecting) {
+        isVisibleRef.current = entry ? entry.isIntersecting : true
+        if (entry?.isIntersecting) {
           updateLoopWidth()
         }
       },
-      { rootMargin: '100px 0px' }
+      { rootMargin: '300px 0px' }
     )
     observer.observe(track)
     return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
-
     let cancelled = false
     let rafId
     let last = performance.now()
@@ -95,6 +97,9 @@ export function ServiceCarousel({ services }) {
 
       const track = trackRef.current
       if (track && isVisibleRef.current && !pauseRef.current && !modalOpenRef.current) {
+        if (!loopWidthRef.current || loopWidthRef.current <= 0) {
+          updateLoopWidth()
+        }
         track.scrollLeft += AUTO_SCROLL_SPEED * dt
         wrapLoop(track, loopWidthRef.current)
       }
@@ -119,7 +124,7 @@ export function ServiceCarousel({ services }) {
     pauseRef.current = true
     smoothScrollTrack(track, track.scrollLeft + step).then(() => {
       wrapLoop(track, loopWidthRef.current)
-      window.setTimeout(() => { pauseRef.current = false }, 1200)
+      window.setTimeout(() => { pauseRef.current = false }, 500)
     })
   }
 
@@ -145,15 +150,7 @@ export function ServiceCarousel({ services }) {
 
   return (
     <>
-      <div
-        className="svc-carousel"
-        onTouchStart={() => { pauseRef.current = true }}
-        onTouchEnd={() => {
-          window.setTimeout(() => {
-            if (!modalOpenRef.current) pauseRef.current = false
-          }, 2800)
-        }}
-      >
+      <div className="svc-carousel">
         <button
           type="button"
           className="svc-carousel-nav svc-carousel-nav--prev"
