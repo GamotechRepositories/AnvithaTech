@@ -716,15 +716,6 @@ function App() {
                         100% IP ownership — your platform, your code, your data
                       </li>
                     </ul>
-
-                    <div className="platform-actions">
-                      <button type="button" className="home-about-btn" onClick={() => navigateTo('capabilities')}>
-                        Explore the stack <i className="fas fa-arrow-right" />
-                      </button>
-                      <button type="button" className="btn-ghost studio-ghost" onClick={() => navigateTo('about')}>
-                        About AANVITA
-                      </button>
-                    </div>
               </div>
 
                   <div className="platform-stage" data-reveal>
@@ -848,8 +839,8 @@ function App() {
                   <p className="section-kicker">Product suite</p>
                   <h1>Systems that compound</h1>
                   <p>
-                    All 22 systems we ship — swipe through the stack, tap the center card for
-                    details, and request a demo in one step.
+                    All 22 systems we ship — browse the stack, tap Get Started, and request a demo
+                    in one step.
                   </p>
               </div>
 
@@ -928,24 +919,24 @@ function App() {
 
             <section className="engage-section" id="engagement">
               <div className="engage-inner">
-                <div className="services-header" data-reveal>
+                <header className="engage-head" data-reveal>
                   <p className="section-kicker">How to start</p>
-                  <h1>Pick the shape of the engagement</h1>
-                  <p>
+                  <h2 className="engage-title">Pick the shape of the engagement</h2>
+                  <p className="engage-lead">
                     Most teams begin with a focused proof of concept, then expand into an MVP or a
                     dedicated pod. You keep 100% of the IP either way.
                   </p>
-                </div>
-                <div className="engage-grid">
-                  {engagementModels.map((item, i) => (
-                    <article key={item.step} className="engage-card" data-reveal style={{ '--delay': `${i * 0.08}s` }}>
-                      <span>{item.step}</span>
+                </header>
+
+                <ol className="engage-paths" data-reveal>
+                  {engagementModels.map((item) => (
+                    <li key={item.step} className="engage-path">
+                      <span className="engage-path-time">{item.time}</span>
                       <h3>{item.title}</h3>
-                      <em>{item.time}</em>
                       <p>{item.desc}</p>
-                    </article>
+                    </li>
                   ))}
-                </div>
+                </ol>
               </div>
             </section>
 
@@ -969,55 +960,55 @@ function App() {
           </div>
 
           <section className="why-choose-section" id="team">
-            <div className="why-choose-container">
-                <div className="why-choose-left" data-reveal>
-                  <p className="section-kicker">Why AANVITA</p>
+            <div className="why-choose-bg" aria-hidden="true">
+              <div className="why-choose-grid-bg" />
+              <div className="why-choose-orb why-choose-orb--a" />
+              <div className="why-choose-orb why-choose-orb--b" />
+            </div>
+
+            <div className="why-choose-inner">
+              <header className="why-choose-head" data-reveal>
+                <p className="section-kicker">Why AANVITA</p>
                 <h2 className="why-choose-title">
-                    The smart choice for <span>digital growth</span>
+                  The smart choice for <span>digital growth</span>
                 </h2>
                 <p className="why-choose-subtitle">
-                    We combine AI, automation, and deep domain expertise to build systems that give
-                    your business a lasting competitive edge.
+                  We combine AI, automation, and deep domain expertise to build systems that give
+                  your business a lasting competitive edge.
                 </p>
+              </header>
 
-                <div className="why-choose-grid">
-                  {reasons.map((r) => (
-                    <div key={r.title} className="wc-card">
-                      <div className="wc-card-icon">
-                        <i className={r.icon} />
-                      </div>
-                      <div className="wc-card-body">
-                        <h4>{r.title}</h4>
-                        <p>{r.desc}</p>
-                      </div>
+              <ol className="why-reasons" data-reveal>
+                {reasons.map((r, i) => (
+                  <li key={r.title} className="why-reason" style={{ '--delay': `${i * 0.05}s` }}>
+                    <span className="why-reason-icon" aria-hidden="true">
+                      <i className={r.icon} />
+                    </span>
+                    <div className="why-reason-copy">
+                      <h3>{r.title}</h3>
+                      <p>{r.desc}</p>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </li>
+                ))}
+              </ol>
 
-                <div className="why-choose-right" data-reveal>
-                <div className="wc-visual">
-                  <div className="wc-stat-blob">
-                    <div className="wc-stat">
-                      <span className="wc-stat-num">22+</span>
-                        <span className="wc-stat-label">Products & services</span>
-                    </div>
-                    <div className="wc-stat">
-                      <span className="wc-stat-num">480+</span>
-                        <span className="wc-stat-label">Happy clients</span>
-                    </div>
-                    <div className="wc-stat">
-                      <span className="wc-stat-num">720</span>
-                        <span className="wc-stat-label">Projects delivered</span>
-                    </div>
-                    <div className="wc-stat">
-                      <span className="wc-stat-num">18</span>
-                        <span className="wc-stat-label">Awards won</span>
-                    </div>
+              <div className="why-proof" data-reveal>
+                <div className="why-proof-stats">
+                  <div className="why-proof-stat">
+                    <strong>22+</strong>
+                    <span>Products & services</span>
                   </div>
-                  <div className="wc-trusted-badge">
-                    <i className="fas fa-check-circle" />
-                    <span>Trusted by businesses across 10+ countries</span>
+                  <div className="why-proof-stat">
+                    <strong>480+</strong>
+                    <span>Happy clients</span>
+                  </div>
+                  <div className="why-proof-stat">
+                    <strong>720</strong>
+                    <span>Projects delivered</span>
+                  </div>
+                  <div className="why-proof-stat">
+                    <strong>18</strong>
+                    <span>Awards won</span>
                   </div>
                 </div>
               </div>

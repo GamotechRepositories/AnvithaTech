@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
-const AUTO_SCROLL_DWELL_MS = 5200
-const AUTO_SCROLL_DURATION_MS = 1500
+const AUTO_SCROLL_SPEED = 36
+const AUTO_SCROLL_DURATION_MS = 900
 
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2)
 
@@ -26,100 +26,70 @@ function smoothScrollTrack(track, targetLeft, duration = AUTO_SCROLL_DURATION_MS
   })
 }
 
+function wrapLoop(track) {
+  const loopWidth = track.scrollWidth / 2
+  if (loopWidth <= 0) return
+  if (track.scrollLeft >= loopWidth) {
+    track.scrollLeft -= loopWidth
+  } else if (track.scrollLeft < 0) {
+    track.scrollLeft += loopWidth
+  }
+}
+
 export function ServiceCarousel({ services }) {
   const trackRef = useRef(null)
   const cardRefs = useRef([])
   const pauseRef = useRef(false)
-  const [centerIndex, setCenterIndex] = useState(0)
+  const modalOpenRef = useRef(false)
   const [activeService, setActiveService] = useState(null)
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
 
-  const updateCenter = useCallback(() => {
-    const track = trackRef.current
-    if (!track) return
-
-    const trackRect = track.getBoundingClientRect()
-    const centerX = trackRect.left + trackRect.width / 2
-
-    let closest = 0
-    let closestDist = Infinity
-
-    cardRefs.current.forEach((el, i) => {
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      const cardCenter = rect.left + rect.width / 2
-      const dist = Math.abs(centerX - cardCenter)
-      if (dist < closestDist) {
-        closestDist = dist
-        closest = i
-      }
-    })
-
-    setCenterIndex(closest)
-  }, [])
+  const loopItems = useMemo(() => [...services, ...services], [services])
 
   useEffect(() => {
-    const track = trackRef.current
-    if (!track) return undefined
-
-    updateCenter()
-    track.addEventListener('scroll', updateCenter, { passive: true })
-    window.addEventListener('resize', updateCenter)
-
-    return () => {
-      track.removeEventListener('scroll', updateCenter)
-      window.removeEventListener('resize', updateCenter)
-    }
-  }, [updateCenter, services.length])
+    modalOpenRef.current = Boolean(activeService)
+  }, [activeService])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
-    if (window.matchMedia('(pointer: coarse)').matches) return undefined
 
     let cancelled = false
-    let dwellTimer
+    let rafId
+    let last = performance.now()
 
-    const wait = (ms) => new Promise((resolve) => {
-      dwellTimer = window.setTimeout(resolve, ms)
-    })
+    const tick = (now) => {
+      if (cancelled) return
+      const dt = Math.min((now - last) / 1000, 0.05)
+      last = now
 
-    const runAutoScroll = async () => {
-      while (!cancelled) {
-        await wait(AUTO_SCROLL_DWELL_MS)
-        if (cancelled || pauseRef.current || activeService) continue
-
-        const track = trackRef.current
-        const card = cardRefs.current[0]
-        if (!track || !card) continue
-
-        const step = card.offsetWidth + 12
-        const maxScroll = track.scrollWidth - track.clientWidth
-
-        if (track.scrollLeft >= maxScroll - 4) {
-          track.scrollLeft = 0
-          updateCenter()
-          await wait(500)
-        } else {
-          await smoothScrollTrack(track, track.scrollLeft + step)
-        }
+      const track = trackRef.current
+      if (track && !pauseRef.current && !modalOpenRef.current) {
+        track.scrollLeft += AUTO_SCROLL_SPEED * dt
+        wrapLoop(track)
       }
+
+      rafId = requestAnimationFrame(tick)
     }
 
-    runAutoScroll()
+    rafId = requestAnimationFrame(tick)
 
     return () => {
       cancelled = true
-      window.clearTimeout(dwellTimer)
+      cancelAnimationFrame(rafId)
     }
-  }, [activeService, services.length, updateCenter])
+  }, [services.length])
 
   const scrollByCard = (direction) => {
     const track = trackRef.current
     const card = cardRefs.current[0]
     if (!track || !card) return
     const step = direction * (card.offsetWidth + 12)
-    smoothScrollTrack(track, track.scrollLeft + step)
+    pauseRef.current = true
+    smoothScrollTrack(track, track.scrollLeft + step).then(() => {
+      wrapLoop(track)
+      window.setTimeout(() => { pauseRef.current = false }, 1200)
+    })
   }
 
   const openInquiry = (service) => {
@@ -148,7 +118,9 @@ export function ServiceCarousel({ services }) {
         className="svc-carousel"
         onTouchStart={() => { pauseRef.current = true }}
         onTouchEnd={() => {
-          window.setTimeout(() => { pauseRef.current = false }, 4000)
+          window.setTimeout(() => {
+            if (!modalOpenRef.current) pauseRef.current = false
+          }, 2800)
         }}
       >
         <button
@@ -161,74 +133,43 @@ export function ServiceCarousel({ services }) {
         </button>
 
         <div className="svc-carousel-track" ref={trackRef}>
-          {services.map((item, index) => {
-            const isCenter = centerIndex === index
-            return (
-              <article
-                key={item.id || item.title}
-                ref={(el) => { cardRefs.current[index] = el }}
-                className={`svc-flip-card${isCenter ? ' is-centered' : ''}`}
-                aria-current={isCenter ? 'true' : undefined}
-              >
-                <div className="svc-flip-scale">
-                  <div className="svc-flip-inner">
-                    <div className="svc-flip-front service-card">
-                      <div className="service-img-wrap">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="service-img"
-                          loading={index < 4 ? 'eager' : 'lazy'}
-                          decoding="async"
-                        />
-                        <div className="service-img-overlay">
-                          <span className="service-number">
-                            {item.id < 10 ? `0${item.id}` : item.id}
-                          </span>
-                          {item.category ? (
-                            <span className="service-category-tag">{item.category}</span>
-                          ) : null}
-                        </div>
-                      </div>
-                      <div className="service-body">
-                        <h6>{item.title}</h6>
-                        <p className="svc-flip-front-desc">{item.description}</p>
-                      </div>
-                    </div>
-
-                    <div className="svc-flip-back service-card">
-                      <div className="svc-flip-back-bg" aria-hidden="true">
-                        <div className="svc-flip-back-grid" />
-                        <div className="svc-flip-back-orb svc-flip-back-orb--1" />
-                        <div className="svc-flip-back-orb svc-flip-back-orb--2" />
-                        <div className="svc-flip-back-orb svc-flip-back-orb--3" />
-                        <div className="svc-flip-back-shimmer" />
-                        <div className="svc-flip-back-particles">
-                          {[...Array(6)].map((_, i) => (
-                            <span key={i} style={{ '--i': i }} />
-                          ))}
-                        </div>
-                      </div>
-                      <div className="service-body svc-flip-back-body">
-                        {item.category ? (
-                          <span className="service-category-tag svc-flip-back-tag">{item.category}</span>
-                        ) : null}
-                        <h6>{item.title}</h6>
-                        <p>{item.description}</p>
-                        <button
-                          type="button"
-                          className="service-link"
-                          onClick={() => openInquiry(item)}
-                        >
-                          Get Started <i className="fas fa-arrow-right" />
-                        </button>
-                      </div>
+          {loopItems.map((item, index) => (
+            <article
+              key={`${item.id || item.title}-${index}`}
+              ref={(el) => { cardRefs.current[index] = el }}
+              className="svc-flip-card"
+            >
+              <div className="svc-flip-scale">
+                <div className="service-card svc-carousel-card">
+                  <div className="service-img-wrap">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="service-img"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <div className="service-img-overlay">
+                      {item.category ? (
+                        <span className="service-category-tag">{item.category}</span>
+                      ) : null}
                     </div>
                   </div>
+                  <div className="service-body">
+                    <h6>{item.title}</h6>
+                    <p className="svc-flip-front-desc">{item.description}</p>
+                    <button
+                      type="button"
+                      className="service-link"
+                      onClick={() => openInquiry(item)}
+                    >
+                      Get Started <i className="fas fa-arrow-right" />
+                    </button>
+                  </div>
                 </div>
-              </article>
-            )
-          })}
+              </div>
+            </article>
+          ))}
         </div>
 
         <button
@@ -241,8 +182,8 @@ export function ServiceCarousel({ services }) {
         </button>
 
         <p className="svc-carousel-hint">
-          <i className="fas fa-hand-pointer" />
-          Swipe or scroll — center card reveals details
+          <i className="fas fa-sync-alt" />
+          Continuous loop — swipe anytime to browse
         </p>
       </div>
 
@@ -323,7 +264,7 @@ export function ServiceCarousel({ services }) {
 
                     <div className="svc-field">
                       <label>Project notes</label>
-                        <div className="svc-input-box svc-textarea-box">
+                      <div className="svc-input-box svc-textarea-box">
                         <i className="fas fa-comment-alt" />
                         <textarea
                           rows={3}
