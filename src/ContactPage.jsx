@@ -112,49 +112,42 @@ export function ContactPage({ onNavigateHome }) {
             looking for a dedicated tech partner? Reach out and our senior engineers
             will get back to you within 24 hours.
           </p>
-          <div className="cp-hero-actions">
-            <a href="#contact-form-section" className="career-btn-primary">
-              Send a Message <i className="fas fa-arrow-down" />
-            </a>
-            <button
-              type="button"
-              className="career-btn-ghost"
-              onClick={() => onNavigateHome('home')}
-            >
-              <i className="fas fa-home" /> Back to Home
-            </button>
-          </div>
         </div>
         <div className="career-hero-circle c1" />
         <div className="career-hero-circle c2" />
         <div className="career-hero-circle c3" />
       </section>
 
-      {/* ── Contact Methods Grid ── */}
+      {/* ── Contact Methods (Single Unified Card) ── */}
       <section className="cp-methods-section">
         <div className="cp-container">
-          <div className="cp-methods-grid">
-            {contactMethods.map((m) => (
-              <div key={m.title} className="cp-method-card">
-                <div
-                  className="cp-method-icon"
-                  style={{ background: `${m.color}15`, color: m.color }}
-                >
-                  <i className={m.icon} />
+          <div className="cp-unified-contact-card">
+            <div className="cp-unified-grid">
+              {contactMethods.map((m) => (
+                <div key={m.title} className="cp-unified-item">
+                  <div
+                    className="cp-unified-icon"
+                    style={{ background: `${m.color}18`, color: m.color }}
+                  >
+                    <i className={m.icon} />
+                  </div>
+                  <div className="cp-unified-body">
+                    <span className="cp-unified-label">{m.title}</span>
+                    <strong className="cp-unified-value">{m.detail}</strong>
+                    <span className="cp-unified-sub">{m.sub}</span>
+                  </div>
+                  <a
+                    href={m.actionHref}
+                    className="cp-unified-action"
+                    target={m.actionHref.startsWith('http') ? '_blank' : '_self'}
+                    rel="noreferrer"
+                  >
+                    <span>{m.actionText}</span>
+                    <i className="fas fa-arrow-right" />
+                  </a>
                 </div>
-                <h3>{m.title}</h3>
-                <p className="cp-method-detail">{m.detail}</p>
-                <span className="cp-method-sub">{m.sub}</span>
-                <a
-                  href={m.actionHref}
-                  className="cp-method-link"
-                  target={m.actionHref.startsWith('http') ? '_blank' : '_self'}
-                  rel="noreferrer"
-                >
-                  {m.actionText} <i className="fas fa-arrow-right" />
-                </a>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -163,75 +156,7 @@ export function ContactPage({ onNavigateHome }) {
       <section className="cp-form-section" id="contact-form-section">
         <div className="cp-container">
           <div className="cp-layout-grid">
-            {/* Left: Value proposition & Trust Points */}
-            <div className="cp-info-box">
-              <h2>Transform Your Business With Proven Engineering</h2>
-              <p className="cp-info-lead">
-                Every consultation begins with listening to your actual operational
-                bottlenecks and business vision.
-              </p>
-
-              <div className="cp-perks-list">
-                <div className="cp-perk-item">
-                  <div className="cp-perk-bullet">
-                    <i className="fas fa-check" />
-                  </div>
-                  <div>
-                    <h4>Free 30-Min Technical Discovery</h4>
-                    <p>Direct chat with a solutions architect, not an aggressive salesperson.</p>
-                  </div>
-                </div>
-
-                <div className="cp-perk-item">
-                  <div className="cp-perk-bullet">
-                    <i className="fas fa-shield-alt" />
-                  </div>
-                  <div>
-                    <h4>Strict NDA & IP Confidentiality</h4>
-                    <p>Your business logic, documents, and concepts are 100% confidential and protected.</p>
-                  </div>
-                </div>
-
-                <div className="cp-perk-item">
-                  <div className="cp-perk-bullet">
-                    <i className="fas fa-bolt" />
-                  </div>
-                  <div>
-                    <h4>Fast Feasibility & Proposal in 48h</h4>
-                    <p>Transparent timeline, modular budget options, and architectural milestones.</p>
-                  </div>
-                </div>
-
-                <div className="cp-perk-item">
-                  <div className="cp-perk-bullet">
-                    <i className="fas fa-handshake" />
-                  </div>
-                  <div>
-                    <h4>Flexible Working Models</h4>
-                    <p>Fixed-cost milestones, dedicated engineering pods, or long-term product retainers.</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Direct Card */}
-              <div className="cp-direct-card">
-                <i className="fas fa-comments cp-direct-icon" />
-                <div>
-                  <h5>Need Immediate Assistance?</h5>
-                  <p>Speak to our consulting team right away on WhatsApp.</p>
-                  <a
-                    href="https://wa.me/910000000000"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="cp-direct-btn"
-                  >
-                    <i className="fab fa-whatsapp" /> Chat on WhatsApp
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Interactive Contact Form */}
+            {/* Interactive Contact Form */}
             <div className="cp-form-card">
               {!submitted ? (
                 <>

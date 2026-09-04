@@ -41,17 +41,20 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                 <div
                   key={sector.id}
                   className={`www-flip-card${isFlipped ? ' is-flipped' : ''}`}
-                  onClick={() => handleCardInteraction(sector.id)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${sector.title} — click to ${isFlipped ? 'close' : 'learn more'}`}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') handleCardInteraction(sector.id)
-                  }}
+                  aria-label={sector.title}
                 >
                   <div className="www-flip-inner">
-                    {/* FRONT: Clean visual artwork, zero hardcoded text */}
-                    <div className="www-flip-front">
+                    {/* FRONT: Clean visual artwork - only tapping image flips */}
+                    <div
+                      className="www-flip-front"
+                      onClick={() => setFlippedId(sector.id)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${sector.title} — tap image to learn more`}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') setFlippedId(sector.id)
+                      }}
+                    >
                       <img
                         src={sector.image}
                         alt={sector.alt}
@@ -64,8 +67,31 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                     {/* BACK: Pure text content with scroll support */}
                     <div className="www-flip-back">
                       <div className="www-back-content">
-                        <h3 className="www-back-title">{sector.title}</h3>
+                        <div className="www-back-header">
+                          <h3 className="www-back-title">{sector.title}</h3>
+                          <button
+                            type="button"
+                            className="www-back-close-btn"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setFlippedId(null)
+                            }}
+                            aria-label="Back to image"
+                          >
+                            <i className="fas fa-times" />
+                          </button>
+                        </div>
                         <p className="www-back-desc">{sector.desc}</p>
+                        <button
+                          type="button"
+                          className="www-back-flip-btn"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setFlippedId(null)
+                          }}
+                        >
+                          <i className="fas fa-undo" /> View Image
+                        </button>
                       </div>
                     </div>
                   </div>

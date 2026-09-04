@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import logo from './assets/ChatGPT Image Sep 3, 2026, 08_06_56 PM (1).png'
-import servicesFlowGif from './assets/Untitled - September 03, 2026 at 18.43.23.png'
 import svcChatbot from './assets/svc_chatbot.jpg'
 import svcSales from './assets/svc_sales.jpg'
 import svcVoice from './assets/svc_voice.jpg'
@@ -360,26 +359,52 @@ const workSteps = [
 function HomeFlipCard({ sector, delay }) {
   const [flipped, setFlipped] = useState(false)
   return (
-    <div
-      className={`industry-image-card industry-flip-card${flipped ? ' is-flipped' : ''}`}
-      data-reveal
-      style={{ '--delay': `${delay}s` }}
-      onClick={() => setFlipped((p) => !p)}
-      role="button"
-      tabIndex={0}
-      aria-label={`${sector.title} — ${flipped ? 'close' : 'learn more'}`}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped((p) => !p) }}
-    >
-      <div className="industry-flip-inner">
-        {/* Front: Clean image, zero hardcoded text */}
-        <div className="industry-flip-front">
-          <img src={sector.image} alt={sector.alt} loading="eager" decoding="async" className="industry-sector-img" />
-        </div>
-        {/* Back: Pure text content with scroll support */}
-        <div className="industry-flip-back">
-          <div className="www-back-content">
-            <h3 className="www-back-title">{sector.title}</h3>
-            <p className="www-back-desc">{sector.desc}</p>
+    <div className="industry-card-wrap" data-reveal style={{ '--delay': `${delay}s` }}>
+      <div
+        className={`industry-image-card industry-flip-card${flipped ? ' is-flipped' : ''}`}
+        aria-label={sector.title}
+      >
+        <div className="industry-flip-inner">
+          {/* Front: Clean image artwork - only tapping this image triggers flip */}
+          <div
+            className="industry-flip-front"
+            onClick={() => setFlipped(true)}
+            role="button"
+            tabIndex={0}
+            aria-label={`${sector.title} — tap image to learn more`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped(true) }}
+          >
+            <img src={sector.image} alt={sector.alt} loading="eager" decoding="async" className="industry-sector-img" />
+          </div>
+          {/* Back: Text content - scrolling text won't flip card */}
+          <div className="industry-flip-back">
+            <div className="www-back-content">
+              <div className="www-back-header">
+                <h3 className="www-back-title">{sector.title}</h3>
+                <button
+                  type="button"
+                  className="www-back-close-btn"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setFlipped(false)
+                  }}
+                  aria-label="Back to image"
+                >
+                  <i className="fas fa-times" />
+                </button>
+              </div>
+              <p className="www-back-desc">{sector.desc}</p>
+              <button
+                type="button"
+                className="www-back-flip-btn"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setFlipped(false)
+                }}
+              >
+                <i className="fas fa-undo" /> View Image
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -745,8 +770,8 @@ function App() {
                 <div className="hero-stage">
                   <div className="hero-flow">
                     <img
-                      src={servicesFlowGif}
-                      alt="How AANVITA services flow from idea to live product"
+                      src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788507710/f18569e0-65d0-4704-ab87-277a53e6e936.png"
+                      alt="AANVITA builds the stack you run on"
                       decoding="async"
                       loading="eager"
                     />
