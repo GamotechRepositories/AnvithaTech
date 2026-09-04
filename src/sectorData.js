@@ -1,24 +1,9 @@
-import imgFintech from './assets/sector/ChatGPT Image Sep 3, 2026, 07_09_05 PM.png'
-import imgHealthcare from './assets/sector/ChatGPT Image Sep 3, 2026, 07_08_14 PM.png'
-import imgRetail from './assets/sector/ChatGPT Image Sep 3, 2026, 07_07_59 PM.png'
-import imgLogistics from './assets/sector/ChatGPT Image Sep 3, 2026, 07_08_06 PM.png'
-import imgEducation from './assets/sector/ChatGPT Image Sep 3, 2026, 07_08_02 PM.png'
-import imgInsurance from './assets/sector/ChatGPT Image Sep 3, 2026, 07_07_27 PM.png'
-import imgRealEstate from './assets/sector/ChatGPT Image Sep 3, 2026, 07_07_23 PM.png'
-import imgTravel from './assets/sector/ChatGPT Image Sep 3, 2026, 07_07_20 PM.png'
-import imgManufacturing from './assets/sector/ChatGPT Image Sep 3, 2026, 07_07_16 PM.png'
-import imgSaas from './assets/sector/ChatGPT Image Sep 3, 2026, 07_07_12 PM.png'
-import imgMedia from './assets/sector/ChatGPT Image Sep 3, 2026, 07_06_34 PM.png'
-import imgAutomotive from './assets/sector/ChatGPT Image Sep 3, 2026, 07_06_31 PM.png'
-import imgProfessional from './assets/sector/ChatGPT Image Sep 3, 2026, 07_06_28 PM.png'
-import imgGovernment from './assets/sector/ChatGPT Image Sep 3, 2026, 07_06_13 PM (2).png'
-
 export const sectorImages = [
   {
     id: 'fintech',
     title: 'Fintech',
     icon: 'fas fa-coins',
-    image: imgFintech,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506820/ChatGPT_Image_Sep_3_2026_07_09_05_PM.png',
     alt: 'Fintech Sector Solutions — AANVITA Technologies',
     desc: 'We build compliant payment gateways, KYC/KYB verification, loan management systems, and AI-powered fraud detection — engineered for banks, NBFCs, and fintech startups.',
     tags: ['Payment Gateway', 'KYC / KYB', 'Loan Management', 'Fraud Detection'],
@@ -27,7 +12,7 @@ export const sectorImages = [
     id: 'healthcare',
     title: 'Healthcare',
     icon: 'fas fa-heartbeat',
-    image: imgHealthcare,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506821/ChatGPT_Image_Sep_3_2026_07_08_14_PM.png',
     alt: 'Healthcare Sector Solutions — AANVITA Technologies',
     desc: 'From AI-driven appointment scheduling and patient CRM to secure document processing and billing automation — we modernise operations for hospitals, clinics, and healthtech platforms.',
     tags: ['Appointment Systems', 'Patient CRM', 'Medical Billing', 'AI Document AI'],
@@ -36,7 +21,7 @@ export const sectorImages = [
     id: 'retail',
     title: 'Retail & E-commerce',
     icon: 'fas fa-store',
-    image: imgRetail,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506800/ChatGPT_Image_Sep_3_2026_07_07_59_PM.png',
     alt: 'Retail & E-commerce Sector Solutions — AANVITA Technologies',
     desc: 'We deliver high-converting storefronts, multi-channel inventory sync, AI-powered personalisation, and seamless checkout experiences that turn browsers into buyers.',
     tags: ['E-commerce Platform', 'Inventory Management', 'AI Personalisation', 'Multi-channel'],
@@ -45,7 +30,7 @@ export const sectorImages = [
     id: 'logistics',
     title: 'Logistics',
     icon: 'fas fa-truck',
-    image: imgLogistics,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506804/ChatGPT_Image_Sep_3_2026_07_08_06_PM.png',
     alt: 'Logistics Sector Solutions — AANVITA Technologies',
     desc: 'Real-time fleet tracking, warehouse automation, AI route optimisation, and ERP integrations help logistics companies cut costs and improve last-mile delivery accuracy.',
     tags: ['Fleet Tracking', 'Warehouse ERP', 'Route Optimisation', 'Last-mile AI'],
@@ -54,7 +39,7 @@ export const sectorImages = [
     id: 'education',
     title: 'Education',
     icon: 'fas fa-graduation-cap',
-    image: imgEducation,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506801/ChatGPT_Image_Sep_3_2026_07_08_02_PM.png',
     alt: 'Education Sector Solutions — AANVITA Technologies',
     desc: 'We build LMS platforms, AI tutors, automated admissions CRM, fee management, and analytics dashboards that scale from single schools to national EdTech networks.',
     tags: ['LMS Platform', 'Admissions CRM', 'Fee Management', 'AI Tutoring'],
@@ -63,7 +48,7 @@ export const sectorImages = [
     id: 'insurance',
     title: 'Insurance',
     icon: 'fas fa-shield-alt',
-    image: imgInsurance,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506800/ChatGPT_Image_Sep_3_2026_07_07_27_PM.png',
     alt: 'Insurance Sector Solutions — AANVITA Technologies',
     desc: 'From policy management and claims processing automation to AI underwriting and customer self-service portals — we streamline the full insurance lifecycle.',
     tags: ['Policy Management', 'Claims Automation', 'AI Underwriting', 'Self-service Portal'],
@@ -72,7 +57,7 @@ export const sectorImages = [
     id: 'real-estate',
     title: 'Real Estate & Property',
     icon: 'fas fa-building',
-    image: imgRealEstate,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506819/ChatGPT_Image_Sep_3_2026_07_07_23_PM.png',
     alt: 'Real Estate & Property Sector Solutions — AANVITA Technologies',
     desc: 'Property listing platforms, lead qualification bots, automated lease management, and AI-powered market analytics for developers, agents, and PropTech companies.',
     tags: ['Property Listings', 'Lead Bots', 'Lease Management', 'Market Analytics'],
@@ -81,7 +66,7 @@ export const sectorImages = [
     id: 'travel',
     title: 'Travel & Hospitality',
     icon: 'fas fa-plane',
-    image: imgTravel,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506812/ChatGPT_Image_Sep_3_2026_07_07_20_PM.png',
     alt: 'Travel & Hospitality Sector Solutions — AANVITA Technologies',
     desc: 'Booking engines, dynamic pricing systems, AI concierge chatbots, and loyalty programme platforms that elevate guest experiences and maximise occupancy.',
     tags: ['Booking Engine', 'Dynamic Pricing', 'AI Concierge', 'Loyalty Platform'],
@@ -90,7 +75,7 @@ export const sectorImages = [
     id: 'manufacturing',
     title: 'Manufacturing',
     icon: 'fas fa-industry',
-    image: imgManufacturing,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506820/ChatGPT_Image_Sep_3_2026_07_07_16_PM.png',
     alt: 'Manufacturing Sector Solutions — AANVITA Technologies',
     desc: 'Production planning ERP, supply chain visibility, quality control automation, and IoT-connected shop floor dashboards that boost throughput and cut downtime.',
     tags: ['Production ERP', 'Supply Chain', 'Quality Control', 'IoT Dashboards'],
@@ -99,7 +84,7 @@ export const sectorImages = [
     id: 'saas',
     title: 'SaaS & Technology',
     icon: 'fas fa-cloud',
-    image: imgSaas,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506806/ChatGPT_Image_Sep_3_2026_07_07_12_PM.png',
     alt: 'SaaS & Technology Sector Solutions — AANVITA Technologies',
     desc: 'We co-build multi-tenant SaaS platforms, developer tooling, usage-based billing, and AI copilots that embed directly into your product to accelerate growth.',
     tags: ['Multi-tenant SaaS', 'Usage Billing', 'AI Copilots', 'Developer Tools'],
@@ -108,7 +93,7 @@ export const sectorImages = [
     id: 'media',
     title: 'Media & Entertainment',
     icon: 'fas fa-film',
-    image: imgMedia,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506818/ChatGPT_Image_Sep_3_2026_07_06_34_PM.png',
     alt: 'Media & Entertainment Sector Solutions — AANVITA Technologies',
     desc: 'Content management platforms, AI-powered social scheduling, audience analytics, subscription management, and OTT streaming infrastructure for media brands.',
     tags: ['CMS Platform', 'Social Scheduling', 'Audience Analytics', 'Subscription Mgmt'],
@@ -117,7 +102,7 @@ export const sectorImages = [
     id: 'automotive',
     title: 'Automotive',
     icon: 'fas fa-car',
-    image: imgAutomotive,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506811/ChatGPT_Image_Sep_3_2026_07_06_31_PM.png',
     alt: 'Automotive Sector Solutions — AANVITA Technologies',
     desc: 'Dealership CRM, service booking automation, parts inventory systems, and AI-powered lead nurturing pipelines built for OEMs, dealers, and auto service chains.',
     tags: ['Dealership CRM', 'Service Booking', 'Parts Inventory', 'Lead Nurturing'],
@@ -126,7 +111,7 @@ export const sectorImages = [
     id: 'professional',
     title: 'Professional Services',
     icon: 'fas fa-briefcase',
-    image: imgProfessional,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506810/ChatGPT_Image_Sep_3_2026_07_06_28_PM.png',
     alt: 'Professional Services Sector Solutions — AANVITA Technologies',
     desc: 'Client onboarding portals, project management tools, automated billing, and AI document generation for law firms, consultancies, and accounting practices.',
     tags: ['Client Onboarding', 'Project Management', 'Automated Billing', 'Doc Generation'],
@@ -135,7 +120,7 @@ export const sectorImages = [
     id: 'government',
     title: 'Government & Public Services',
     icon: 'fas fa-landmark',
-    image: imgGovernment,
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506807/ChatGPT_Image_Sep_3_2026_07_06_13_PM_2.png',
     alt: 'Government & Public Services Sector Solutions — AANVITA Technologies',
     desc: 'Citizen service portals, e-governance platforms, document digitisation, compliance workflows, and secure data infrastructure for public sector organisations.',
     tags: ['Citizen Portals', 'e-Governance', 'Document Digitisation', 'Compliance Workflows'],
