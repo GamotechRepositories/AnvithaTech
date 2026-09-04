@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export function ServicesPage({ services, onNavigateHome, initialCategory = 'All' }) {
+export function ServicesPage({ services, onNavigateHome, onSelectService, initialCategory = 'All' }) {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
-  const [activeService, setActiveService] = useState(null)
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     setSelectedCategory(initialCategory)
@@ -12,32 +9,20 @@ export function ServicesPage({ services, onNavigateHome, initialCategory = 'All'
 
   const categories = [
     { label: 'All', count: services.length },
-    { label: 'AI & Automation', count: services.filter(s => s.category === 'AI & Automation').length },
-    { label: 'Fintech & Payments', count: services.filter(s => s.category === 'Fintech & Payments').length },
-    { label: 'Enterprise & ERP', count: services.filter(s => s.category === 'Enterprise & ERP').length },
-    { label: 'Growth & Operations', count: services.filter(s => s.category === 'Growth & Operations').length },
+    { label: 'AI & Automation', count: services.filter((s) => s.category === 'AI & Automation').length },
+    { label: 'Fintech & Payments', count: services.filter((s) => s.category === 'Fintech & Payments').length },
+    { label: 'Enterprise & ERP', count: services.filter((s) => s.category === 'Enterprise & ERP').length },
+    { label: 'Growth & Operations', count: services.filter((s) => s.category === 'Growth & Operations').length },
   ]
 
   const filteredServices = services.filter((item) => {
     return selectedCategory === 'All' || item.category === selectedCategory
   })
 
-  const handleOpenService = (item) => {
-    setActiveService(item)
-    setSubmitted(false)
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    document.body.style.overflow = 'hidden'
-  }
-
-  const handleCloseModal = () => {
-    setActiveService(null)
-    setSubmitted(false)
-    document.body.style.overflow = ''
-  }
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault()
-    setSubmitted(true)
+  const handleCardClick = (item) => {
+    if (onSelectService) {
+      onSelectService(item)
+    }
   }
 
   return (
@@ -53,7 +38,6 @@ export function ServicesPage({ services, onNavigateHome, initialCategory = 'All'
             <span className="breadcrumb-current">Services</span>
           </div>
 
-          <p className="section-kicker">22 products</p>
           <h1>Our Complete Suite of Services</h1>
           <p>
             Explore all 22 cutting-edge digital platforms, AI automation systems, fintech infrastructure, 
@@ -118,7 +102,7 @@ export function ServicesPage({ services, onNavigateHome, initialCategory = 'All'
                 <div
                   className="service-card"
                   key={item.id || item.title}
-                  onClick={() => handleOpenService(item)}
+                  onClick={() => handleCardClick(item)}
                   style={{ cursor: 'pointer' }}
                 >
                   <div className="service-img-wrap">
@@ -145,7 +129,7 @@ export function ServicesPage({ services, onNavigateHome, initialCategory = 'All'
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation()
-                        handleOpenService(item)
+                        handleCardClick(item)
                       }}
                       className="service-link"
                     >
@@ -184,177 +168,6 @@ export function ServicesPage({ services, onNavigateHome, initialCategory = 'All'
           </div>
         </div>
       </section>
-
-      {/* ── Interactive Service Details & Get Started Modal ── */}
-      {activeService && (
-        <div className="svc-modal-overlay" onClick={handleCloseModal}>
-          <div className="svc-modal-box" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="svc-modal-close"
-              onClick={handleCloseModal}
-              aria-label="Close modal"
-            >
-              <i className="fas fa-times" />
-            </button>
-
-            {!submitted ? (
-              <>
-                <div className="svc-modal-header">
-                  <div className="svc-modal-img-container">
-                    <img src={activeService.image} alt={activeService.title} className="svc-modal-img" />
-                    <span className="svc-modal-badge">{activeService.category}</span>
-                  </div>
-                  <div className="svc-modal-title-wrap">
-                    <span className="svc-modal-num">
-                      SERVICE #{activeService.id < 10 ? `0${activeService.id}` : activeService.id}
-                    </span>
-                    <h2>{activeService.title}</h2>
-                    <p className="svc-modal-desc">{activeService.description}</p>
-                  </div>
-                </div>
-
-                <div className="svc-modal-features">
-                  <div className="svc-feat-card">
-                    <i className="fas fa-bolt" />
-                    <div>
-                      <strong>Fast Deployment</strong>
-                      <span>Ready-to-integrate APIs and turnkey setup.</span>
-                    </div>
-                  </div>
-                  <div className="svc-feat-card">
-                    <i className="fas fa-shield-alt" />
-                    <div>
-                      <strong>Enterprise Security</strong>
-                      <span>Encrypted, compliant, and robust architecture.</span>
-                    </div>
-                  </div>
-                  <div className="svc-feat-card">
-                    <i className="fas fa-chart-line" />
-                    <div>
-                      <strong>Scalable & Reliable</strong>
-                      <span>Engineered for high performance and uptime.</span>
-                    </div>
-                  </div>
-                  <div className="svc-feat-card">
-                    <i className="fas fa-headset" />
-                    <div>
-                      <strong>24/7 Technical Support</strong>
-                      <span>Dedicated engineers for maintenance & help.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="svc-modal-form-wrap">
-                  <div className="svc-form-header">
-                    <h4>Get Started / Request Demo for <span>{activeService.title}</span></h4>
-                    <p>Fill out the form below or message our team directly to get started instantly.</p>
-                  </div>
-
-                  <form className="svc-inquiry-form" onSubmit={handleFormSubmit}>
-                    <div className="svc-form-row">
-                      <div className="svc-field">
-                        <label>Your Name *</label>
-                        <div className="svc-input-box">
-                          <i className="fas fa-user" />
-                          <input
-                            type="text"
-                            placeholder="Enter your name"
-                            required
-                            value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          />
-                        </div>
-                      </div>
-                      <div className="svc-field">
-                        <label>Phone / WhatsApp *</label>
-                        <div className="svc-input-box">
-                          <i className="fas fa-phone-alt" />
-                          <input
-                            type="tel"
-                            placeholder="e.g. +971 50 123 4567"
-                            required
-                            value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="svc-field">
-                      <label>Work Email *</label>
-                      <div className="svc-input-box">
-                        <i className="fas fa-envelope" />
-                        <input
-                          type="email"
-                          placeholder="your.email@company.com"
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="svc-field">
-                      <label>Project Details / Custom Requirements (Optional)</label>
-                      <div className="svc-input-box svc-textarea-box">
-                        <i className="fas fa-comment-dots" />
-                        <textarea
-                          rows="3"
-                          placeholder={`Tell us what you want to build or integrate with ${activeService.title}...`}
-                          value={formData.message}
-                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="svc-form-buttons">
-                      <button type="submit" className="svc-btn-submit">
-                        <i className="fas fa-paper-plane" /> Submit Request for {activeService.title}
-                      </button>
-
-                      <a
-                        href={`https://wa.me/919999999999?text=Hello%20AANVITA%20Technologies,%20I%20am%20interested%20in%20getting%20started%20with%20${encodeURIComponent(activeService.title)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="svc-btn-whatsapp"
-                      >
-                        <i className="fab fa-whatsapp" /> Chat on WhatsApp
-                      </a>
-                    </div>
-                  </form>
-                </div>
-              </>
-            ) : (
-              <div className="svc-modal-success">
-                <div className="svc-success-icon-wrap">
-                  <i className="fas fa-check-circle" />
-                </div>
-                <h3>Request Received Successfully!</h3>
-                <p className="svc-success-lead">
-                  Thank you <strong>{formData.name || 'valued customer'}</strong>! Your inquiry for <strong>{activeService.title}</strong> has been registered.
-                </p>
-                <p className="svc-success-sub">
-                  Our technical consultant will review your requirements and get in touch with you via email (<strong>{formData.email}</strong>) or phone (<strong>{formData.phone}</strong>) within 24 hours.
-                </p>
-                <div className="svc-success-actions">
-                  <button type="button" className="btn btn-primary-glow" onClick={handleCloseModal}>
-                    Done / Back to Services
-                  </button>
-                  <a
-                    href={`https://wa.me/919999999999?text=Hello%20AANVITA%20Technologies,%20I%20just%20submitted%20a%20request%20for%20${encodeURIComponent(activeService.title)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="svc-btn-whatsapp"
-                  >
-                    <i className="fab fa-whatsapp" /> Connect on WhatsApp Now
-                  </a>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   )
 }

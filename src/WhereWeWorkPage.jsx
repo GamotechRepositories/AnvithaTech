@@ -21,7 +21,6 @@ export function WhereWeWorkPage({ onNavigateHome }) {
             <span className="breadcrumb-current">Where We Work</span>
           </nav>
 
-          <p className="section-kicker">Specialized Sectors</p>
           <h1 className="www-title">
             Where We <span>Work</span>
           </h1>

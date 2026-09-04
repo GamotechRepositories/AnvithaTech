@@ -45,7 +45,6 @@ export function CareerPage({ onNavigateHome }) {
             <span className="breadcrumb-separator">/</span>
             <span className="breadcrumb-current">Careers</span>
           </div>
-          <p className="section-kicker">Careers</p>
           <h1>Build the Future with <span>AANVITA</span></h1>
           <p>
             Join a team of innovators, engineers, and creators building AI-powered products

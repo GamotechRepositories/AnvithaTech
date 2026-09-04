@@ -59,7 +59,6 @@ export function AboutPage({ onNavigateHome }) {
             <span className="breadcrumb-separator">/</span>
             <span className="breadcrumb-current">About Us</span>
           </div>
-          <p className="section-kicker">The company</p>
           <h1>Who We Are</h1>
           <p>
             AANVITA Technologies is a modern technology company focused on delivering

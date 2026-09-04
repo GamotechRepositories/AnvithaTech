@@ -104,7 +104,6 @@ export function ContactPage({ onNavigateHome }) {
             <span className="breadcrumb-separator">/</span>
             <span className="breadcrumb-current">Contact</span>
           </div>
-          <p className="section-kicker">Contact</p>
           <h1>
             Let's Build Something <span>Extraordinary Together</span>
           </h1>

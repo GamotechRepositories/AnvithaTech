@@ -25,6 +25,7 @@ import svcCustomerSupport from './assets/svc_customer_support.svg'
 import svcBusinessAutomation from './assets/svc_business_automation.jpg'
 import svcCustomSaas from './assets/svc_custom_saas.svg'
 import { ServicesPage } from './ServicesPage'
+import { ServiceDetailPage } from './ServiceDetailPage'
 import { AboutPage } from './AboutPage'
 import { CareerPage } from './CareerPage'
 import { ContactPage } from './ContactPage'
@@ -389,6 +390,7 @@ function HomeFlipCard({ sector, delay }) {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [currentView, setCurrentView] = useState('home')
+  const [selectedService, setSelectedService] = useState(null)
   const [servicesCategory, setServicesCategory] = useState('All')
   const [hwwVisible, setHwwVisible] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -413,6 +415,22 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase()
+      if (hash.startsWith('#service/') || hash.startsWith('#services/')) {
+        const idOrSlug = hash.replace(/^#(services?)\//, '').trim()
+        const found = productList.find(
+          (p) =>
+            String(p.id) === idOrSlug ||
+            p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === idOrSlug ||
+            p.title.toLowerCase() === decodeURIComponent(idOrSlug)
+        )
+        if (found) {
+          setSelectedService(found)
+          setCurrentView('service-detail')
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          return
+        }
+      }
+
       if (hash === '#services' || hash === '#/services' || hash === '#all-services') {
         setCurrentView('services')
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -544,7 +562,16 @@ function App() {
 
   const navigateTo = (destination, options = {}) => {
     setMenuOpen(false)
-    if (destination === 'services') {
+    if (destination === 'service-detail' || destination === 'service') {
+      const svc = options.service || (options.id ? productList.find((p) => p.id === options.id) : options)
+      if (svc && svc.title) {
+        setSelectedService(svc)
+        setCurrentView('service-detail')
+        window.location.hash = `#service/${svc.id}`
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        return
+      }
+    } else if (destination === 'services') {
       setServicesCategory(options.category || 'All')
       setCurrentView('services')
       window.location.hash = '#services'
@@ -629,7 +656,7 @@ function App() {
                 const itemLower = item.toLowerCase()
                 const isActive =
                   itemLower === 'services'
-                    ? currentView === 'services'
+                    ? currentView === 'services' || currentView === 'service-detail'
                     : itemLower === 'about'
                       ? currentView === 'about'
                       : itemLower === 'where we work' || itemLower === 'where-we-work'
@@ -667,11 +694,19 @@ function App() {
       </header>
 
       <main id="main">
-        {currentView === 'services' ? (
+        {currentView === 'service-detail' ? (
+          <ServiceDetailPage
+            service={selectedService || productList[0]}
+            allServices={productList}
+            onNavigateHome={(target, opts) => navigateTo(target || 'home', opts)}
+            onSelectService={(svc) => navigateTo('service-detail', { service: svc })}
+          />
+        ) : currentView === 'services' ? (
           <ServicesPage
             services={productList}
             initialCategory={servicesCategory}
             onNavigateHome={(target) => navigateTo(target || 'home')}
+            onSelectService={(svc) => navigateTo('service-detail', { service: svc })}
           />
         ) : currentView === 'about' ? (
           <AboutPage onNavigateHome={(target) => navigateTo(target || 'home')} />
@@ -889,7 +924,10 @@ function App() {
                   </p>
                 </div>
 
-                <ServiceCarousel services={productList} />
+                <ServiceCarousel
+                  services={productList}
+                  onSelectService={(svc) => navigateTo('service-detail', { service: svc })}
+                />
 
                 <div className="services-explore-cta" data-reveal>
                   <button type="button" className="btn-explore-all-services" onClick={() => navigateTo('services')}>
