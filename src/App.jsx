@@ -29,6 +29,7 @@ import { AboutPage } from './AboutPage'
 import { CareerPage } from './CareerPage'
 import { ContactPage } from './ContactPage'
 import { WhereWeWorkPage } from './WhereWeWorkPage'
+import { IntegrationsSection } from './IntegrationsSection'
 import { ServiceCarousel } from './ServiceCarousel'
 import { homeFeaturedSectors, sectorImages } from './sectorData'
 
@@ -1042,6 +1043,11 @@ function App() {
                 </div>
               </div>
             </section>
+
+            <div className="section-seam" aria-hidden="true"><span /></div>
+
+            {/* ── Integrations Ecosystem Section ── */}
+            <IntegrationsSection onNavigate={navigateTo} />
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
