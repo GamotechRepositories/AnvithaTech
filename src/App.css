@@ -12,7 +12,7 @@
 body.menu-open { overflow: hidden; }
 
 h1, h2, h3, h4, h5, .home-about-title, .hww-title, .why-choose-title,
-.about-section-title, .career-section-header h2, .cp-info-box h2 {
+.about-section-title, .career-section-header h2, .cp-info-box h2, .integ-title {
   font-family: var(--font-display);
   letter-spacing: -0.03em;
 }
@@ -4348,20 +4348,28 @@ select option {
 }
 
 .integ-title {
-  font-size: clamp(3rem, 4.4vw, 5rem);
+  font-size: clamp(2.4rem, 3.2vw, 3.8rem);
   font-weight: 800;
   color: #fff;
-  margin: 0 0 1.6rem;
+  margin: 0 0 1.4rem;
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .integ-title {
+    white-space: normal;
+    font-size: clamp(2.4rem, 6vw, 3.2rem);
+  }
 }
 
 .integ-subtitle {
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   line-height: 1.65;
   color: var(--muted);
-  max-width: 680px;
-  margin: 0 auto 3rem;
+  max-width: 660px;
+  margin: 0 auto 3.5rem;
 }
 
 /* ── Master Showcase Frame with Smooth Vertical Auto-Scrolling Streams ── */
@@ -4369,7 +4377,7 @@ select option {
   position: relative;
   max-width: 1220px;
   margin: 0 auto 5.5rem;
-  height: 520px;
+  height: 500px;
   border-radius: 2.8rem;
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -4378,7 +4386,7 @@ select option {
     0 30px 80px rgba(0, 0, 0, 0.7),
     0 0 50px rgba(62, 224, 216, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  padding: 0 2rem;
+  padding: 0 2.4rem;
 }
 
 /* Fading Masks at Top and Bottom */
@@ -4406,7 +4414,7 @@ select option {
 .integ-scroll-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.8rem;
+  gap: 2rem;
   height: 100%;
 }
 
@@ -4419,7 +4427,7 @@ select option {
 .integ-col-track {
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  gap: 1.2rem;
   will-change: transform;
 }
 
@@ -4454,51 +4462,48 @@ select option {
   animation-play-state: paused;
 }
 
-/* Individual Item Card Inside the Stream */
+/* Individual Item — Clean Floating App Row (No card box / border) */
 .integ-item-card {
   display: flex;
   align-items: center;
   gap: 1.4rem;
-  padding: 1.5rem 1.6rem;
-  border-radius: 1.8rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background 0.25s ease, box-shadow 0.35s ease;
+  padding: 0.8rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 1.4rem;
+  box-shadow: none;
+  transition: transform 0.25s var(--ease);
   user-select: none;
-  cursor: pointer;
+  cursor: default;
 }
 
 .integ-item-card:hover {
-  transform: scale(1.03);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(62, 224, 216, 0.45);
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(62, 224, 216, 0.16);
+  transform: translateX(5px);
 }
 
 .integ-item-icon {
-  width: 4.8rem;
-  height: 4.8rem;
-  border-radius: 1.4rem;
+  width: 4.6rem;
+  height: 4.6rem;
+  border-radius: 1.35rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.2rem;
+  font-size: 2.1rem;
   flex-shrink: 0;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.38);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 
 .integ-item-card:hover .integ-item-icon {
-  transform: scale(1.08) rotate(4deg);
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(62, 224, 216, 0.3);
 }
 
 .integ-item-details {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
   overflow: hidden;
 }
 
@@ -4511,6 +4516,11 @@ select option {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.2s var(--ease);
+}
+
+.integ-item-card:hover .integ-item-name {
+  color: var(--cyan);
 }
 
 .integ-item-cat {
@@ -4578,30 +4588,32 @@ select option {
   }
 }
 
-/* ── Responsive Queries ── */
+/* ── Responsive Queries (Ensures 2-column on mobile view) ── */
 @media (max-width: 1040px) {
   .integ-scroll-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 1.6rem;
   }
   .integ-stream-column:nth-child(4) {
     display: none;
   }
   .integ-master-card {
     height: 480px;
-    padding: 0 1.5rem;
+    padding: 0 1.6rem;
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .integ-section {
     padding: 6rem 0 5rem;
   }
+  /* Strict 2-column grid for all mobile view screens */
   .integ-scroll-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 1.2rem;
   }
-  .integ-stream-column:nth-child(3) {
+  .integ-stream-column:nth-child(3),
+  .integ-stream-column:nth-child(4) {
     display: none;
   }
   .integ-master-card {
@@ -4610,33 +4622,47 @@ select option {
     padding: 0 1.2rem;
   }
   .integ-item-card {
-    padding: 1.2rem 1.3rem;
+    padding: 0.6rem 0.4rem;
     gap: 1rem;
-    border-radius: 1.5rem;
   }
   .integ-item-icon {
-    width: 4rem;
-    height: 4rem;
-    font-size: 1.8rem;
+    width: 3.8rem;
+    height: 3.8rem;
+    font-size: 1.75rem;
     border-radius: 1.1rem;
   }
   .integ-item-name {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
   .integ-item-cat {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 480px) {
   .integ-scroll-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .integ-stream-column:nth-child(2) {
-    display: none;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.8rem;
   }
   .integ-master-card {
-    height: 400px;
+    height: 420px;
+    padding: 0 0.8rem;
+    border-radius: 1.8rem;
+  }
+  .integ-item-card {
+    padding: 0.5rem 0.2rem;
+    gap: 0.75rem;
+  }
+  .integ-item-icon {
+    width: 3.4rem;
+    height: 3.4rem;
+    font-size: 1.55rem;
+    border-radius: 0.95rem;
+  }
+  .integ-item-name {
+    font-size: 1.25rem;
+  }
+  .integ-item-cat {
+    font-size: 0.98rem;
   }
 }
