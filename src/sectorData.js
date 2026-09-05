@@ -125,6 +125,15 @@ export const sectorImages = [
     desc: 'Citizen service portals, e-governance platforms, document digitisation, compliance workflows, and secure data infrastructure for public sector organisations.',
     tags: ['Citizen Portals', 'e-Governance', 'Document Digitisation', 'Compliance Workflows'],
   },
+  {
+    id: 'all-sectors',
+    title: 'Empowering Every Sector (And Many More)',
+    icon: 'fas fa-globe',
+    image: 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788506806/ChatGPT_Image_Sep_3_2026_07_05_58_PM.png',
+    alt: 'Empowering Every Sector — Solutions Beyond Boundaries — AANVITA Technologies',
+    desc: 'Solutions Beyond Boundaries: Tailored, future-ready technology driving efficiency and growth across Energy & Utilities, Telecom & Connectivity, Agriculture & AgriTech, Logistics & Supply Chain, NGOs & Non-Profits, Hospitality, Legal, Sports, Cybersecurity, and Emerging Tech (AI, IoT, Blockchain). If you can imagine it, we can build it.',
+    tags: ['Solutions Beyond Boundaries', 'Energy & Telecom', 'AgriTech & NGOs', 'Emerging Tech (AI/IoT)'],
+  },
 ]
 
 export const homeFeaturedSectors = [

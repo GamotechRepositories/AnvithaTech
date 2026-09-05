@@ -42,12 +42,13 @@ const productList = [
     category: 'AI & Automation',
     description: 'Deploy intelligent chatbots on Website & WhatsApp for 24/7 AI-powered customer support and engagement.',
   },
+
   {
     id: 2,
-    image: svcSales,
-    title: 'AI Sales Assistant',
-    category: 'AI & Automation',
-    description: 'Automate lead qualification, follow-ups & conversion journeys with AI-driven sales intelligence.',
+    image: svcKycVerification,
+    title: 'KYC & KYB Verification System',
+    category: 'Fintech & Payments',
+    description: 'AI-powered biometric ID validation, registry verification, risk scoring, and anti-fraud compliance checks.',
   },
   {
     id: 3,
@@ -58,10 +59,10 @@ const productList = [
   },
   {
     id: 4,
-    image: svcCrm,
-    title: 'AI CRM',
-    category: 'AI & Automation',
-    description: 'AI-powered lead management, pipeline automation, and smart sales CRM for growing businesses.',
+    image: svcPayinPayout,
+    title: 'Payin & Payout Platform',
+    category: 'Fintech & Payments',
+    description: 'Automate instant merchant payouts, bulk disbursements, split payments, and multi-channel collection rails.',
   },
   {
     id: 5,
@@ -72,10 +73,10 @@ const productList = [
   },
   {
     id: 6,
-    image: svcAnalytics,
-    title: 'AI Business Analytics',
-    category: 'AI & Automation',
-    description: 'AI-powered dashboards and business intelligence for real-time insights and smarter decisions.',
+    image: svcEcommercePlatform,
+    title: 'E-commerce Platform',
+    category: 'Growth & Operations',
+    description: 'High-converting digital storefronts with catalog management, express checkout, order tracking, and cart sync.',
   },
   {
     id: 7,
@@ -86,11 +87,12 @@ const productList = [
   },
   {
     id: 8,
-    image: svcMultibrandSocial,
-    title: 'Multi-Brand Social Media Dashboard',
-    category: 'Growth & Operations',
-    description: 'Manage multiple brand accounts, audience analytics, engagement metrics, and campaigns from one portal.',
+    image: svcBusinessAutomation,
+    title: 'Business Automation Platform',
+    category: 'AI & Automation',
+    description: 'Custom trigger-based workflow automation connecting APIs, databases, webhooks, and enterprise apps.',
   },
+
   {
     id: 9,
     image: svcPaymentGateway,
@@ -98,48 +100,50 @@ const productList = [
     category: 'Fintech & Payments',
     description: 'Secure, high-speed multi-currency payment gateway with fraud detection and seamless one-click checkout.',
   },
+
   {
     id: 10,
-    image: svcPayinPayout,
-    title: 'Payin & Payout Platform',
-    category: 'Fintech & Payments',
-    description: 'Automate instant merchant payouts, bulk disbursements, split payments, and multi-channel collection rails.',
+    image: svcCrm,
+    title: 'AI CRM',
+    category: 'AI & Automation',
+    description: 'AI-powered lead management, pipeline automation, and smart sales CRM for growing businesses.',
   },
   {
     id: 11,
-    image: svcKycVerification,
-    title: 'KYC & KYB Verification System',
-    category: 'Fintech & Payments',
-    description: 'AI-powered biometric ID validation, registry verification, risk scoring, and anti-fraud compliance checks.',
+    image: svcHrmsSystem,
+    title: 'HRMS',
+    category: 'Enterprise & ERP',
+    description: 'Streamline employee onboarding, attendance, leave approvals, automated payroll, and performance management.',
   },
   {
     id: 12,
+    image: svcSales,
+    title: 'AI Sales Assistant',
+    category: 'AI & Automation',
+    description: 'Automate lead qualification, follow-ups & conversion journeys with AI-driven sales intelligence.',
+  },
+  {
+    id: 13,
     image: svcLoanManagement,
     title: 'Loan Management System (LMS)',
     category: 'Fintech & Payments',
     description: 'End-to-end loan lifecycle management with digital origination, credit scoring, underwriting & EMI collections.',
   },
   {
-    id: 13,
+    id: 14,
     image: svcEnterpriseCrm,
     title: 'CRM',
     category: 'Enterprise & ERP',
     description: 'Comprehensive customer relationship management with deal pipeline tracking, activity logs, and lead scoring.',
   },
   {
-    id: 14,
+    id: 15,
     image: svcErpSystem,
     title: 'ERP',
     category: 'Enterprise & ERP',
     description: 'Integrated enterprise resource planning connecting procurement, finance, operations, and supply chain.',
   },
-  {
-    id: 15,
-    image: svcHrmsSystem,
-    title: 'HRMS',
-    category: 'Enterprise & ERP',
-    description: 'Streamline employee onboarding, attendance, leave approvals, automated payroll, and performance management.',
-  },
+
   {
     id: 16,
     image: svcInventoryMgmt,
@@ -149,11 +153,12 @@ const productList = [
   },
   {
     id: 17,
-    image: svcEcommercePlatform,
-    title: 'E-commerce Platform',
-    category: 'Growth & Operations',
-    description: 'High-converting digital storefronts with catalog management, express checkout, order tracking, and cart sync.',
+    image: svcAnalytics,
+    title: 'AI Business Analytics',
+    category: 'AI & Automation',
+    description: 'AI-powered dashboards and business intelligence for real-time insights and smarter decisions.',
   },
+
   {
     id: 18,
     image: svcBookingManagement,
@@ -177,10 +182,10 @@ const productList = [
   },
   {
     id: 21,
-    image: svcBusinessAutomation,
-    title: 'Business Automation Platform',
-    category: 'AI & Automation',
-    description: 'Custom trigger-based workflow automation connecting APIs, databases, webhooks, and enterprise apps.',
+    image: svcMultibrandSocial,
+    title: 'Multi-Brand Social Media Dashboard',
+    category: 'Growth & Operations',
+    description: 'Manage multiple brand accounts, audience analytics, engagement metrics, and campaigns from one portal.',
   },
   {
     id: 22,
@@ -358,23 +363,42 @@ const workSteps = [
 
 function HomeFlipCard({ sector, delay }) {
   const [flipped, setFlipped] = useState(false)
+  const [temporarilyUnflipped, setTemporarilyUnflipped] = useState(false)
   return (
     <div className="industry-card-wrap" data-reveal style={{ '--delay': `${delay}s` }}>
       <div
-        className={`industry-image-card industry-flip-card${flipped ? ' is-flipped' : ''}`}
+        className={`industry-image-card industry-flip-card${flipped ? ' is-flipped' : ''}${temporarilyUnflipped ? ' is-temporarily-unflipped' : ''}`}
         aria-label={sector.title}
+        onMouseLeave={() => setTemporarilyUnflipped(false)}
       >
+        {/* Ambient Glow Aura */}
+        <div className="www-card-aura" aria-hidden="true" />
+
         <div className="industry-flip-inner">
-          {/* Front: Clean image artwork - only tapping this image triggers flip */}
+          {/* Front: Clean image artwork with 4 corner brackets, sheen & laser rail - ZERO TEXT */}
           <div
             className="industry-flip-front"
-            onClick={() => setFlipped(true)}
+            onClick={() => setFlipped((prev) => !prev)}
             role="button"
             tabIndex={0}
-            aria-label={`${sector.title} — tap image to learn more`}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped(true) }}
+            aria-label={`${sector.title} — click to view insights`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped((prev) => !prev) }}
           >
             <img src={sector.image} alt={sector.alt} loading="eager" decoding="async" className="industry-sector-img" />
+
+            {/* Glass Light Sheen Sweep */}
+            <div className="www-card-sheen" aria-hidden="true" />
+
+            {/* 4 Cyber Corner Reticles (Top & Bottom Corners - Zero Text) */}
+            <div className="www-reticle www-reticle-tl" aria-hidden="true" />
+            <div className="www-reticle www-reticle-tr" aria-hidden="true" />
+            <div className="www-reticle www-reticle-bl" aria-hidden="true" />
+            <div className="www-reticle www-reticle-br" aria-hidden="true" />
+
+            {/* Bottom Glowing Laser Rail (Zero Text) */}
+            <div className="www-hud-bottom" aria-hidden="true">
+              <span className="www-bottom-glow-bar" />
+            </div>
           </div>
           {/* Back: Text content - scrolling text won't flip card */}
           <div className="industry-flip-back">
@@ -387,6 +411,7 @@ function HomeFlipCard({ sector, delay }) {
                   onClick={(e) => {
                     e.stopPropagation()
                     setFlipped(false)
+                    setTemporarilyUnflipped(true)
                   }}
                   aria-label="Back to image"
                 >
@@ -400,6 +425,7 @@ function HomeFlipCard({ sector, delay }) {
                 onClick={(e) => {
                   e.stopPropagation()
                   setFlipped(false)
+                  setTemporarilyUnflipped(true)
                 }}
               >
                 <i className="fas fa-undo" /> View Image
@@ -416,6 +442,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [currentView, setCurrentView] = useState('home')
   const [selectedService, setSelectedService] = useState(null)
+  const [targetServiceId, setTargetServiceId] = useState(null)
   const [servicesCategory, setServicesCategory] = useState('All')
   const [hwwVisible, setHwwVisible] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -450,15 +477,22 @@ function App() {
         )
         if (found) {
           setSelectedService(found)
+          setTargetServiceId(found.id)
           setCurrentView('service-detail')
           window.scrollTo({ top: 0, behavior: 'smooth' })
           return
         }
       }
 
-      if (hash === '#services' || hash === '#/services' || hash === '#all-services') {
+      if (hash === '#services' || hash === '#/services' || hash === '#all-services' || hash.startsWith('#services?')) {
+        const match = hash.match(/[?&]id=(\d+)/)
+        if (match) {
+          setTargetServiceId(Number(match[1]))
+        }
         setCurrentView('services')
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        if (!match) {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
       } else if (hash === '#about-us' || hash === '#aboutus') {
         setCurrentView('about')
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -591,16 +625,23 @@ function App() {
       const svc = options.service || (options.id ? productList.find((p) => p.id === options.id) : options)
       if (svc && svc.title) {
         setSelectedService(svc)
+        setTargetServiceId(svc.id)
         setCurrentView('service-detail')
         window.location.hash = `#service/${svc.id}`
         window.scrollTo({ top: 0, behavior: 'smooth' })
         return
       }
     } else if (destination === 'services') {
+      const returnId = options.serviceId ?? options.id ?? targetServiceId ?? (currentView === 'service-detail' ? selectedService?.id : null)
       setServicesCategory(options.category || 'All')
+      setTargetServiceId(returnId || null)
       setCurrentView('services')
-      window.location.hash = '#services'
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (returnId) {
+        window.location.hash = `#services?id=${returnId}`
+      } else {
+        window.location.hash = '#services'
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     } else if (destination === 'about') {
       setCurrentView('about')
       window.location.hash = '#about-us'
@@ -723,14 +764,17 @@ function App() {
           <ServiceDetailPage
             service={selectedService || productList[0]}
             allServices={productList}
-            onNavigateHome={(target, opts) => navigateTo(target || 'home', opts)}
+            onNavigateHome={(target, opts) =>
+              navigateTo(target || 'services', { ...opts, serviceId: selectedService?.id })
+            }
             onSelectService={(svc) => navigateTo('service-detail', { service: svc })}
           />
         ) : currentView === 'services' ? (
           <ServicesPage
             services={productList}
             initialCategory={servicesCategory}
-            onNavigateHome={(target) => navigateTo(target || 'home')}
+            targetServiceId={targetServiceId}
+            onNavigateHome={(target, opts) => navigateTo(target || 'home', opts)}
             onSelectService={(svc) => navigateTo('service-detail', { service: svc })}
           />
         ) : currentView === 'about' ? (
@@ -965,40 +1009,6 @@ function App() {
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
-            <section className="industry-section" id="industries">
-              <div className="industry-inner">
-                <div className="services-header" data-reveal>
-                  <p className="section-kicker">Where we work</p>
-                  <h1>Built for operators, not slide decks</h1>
-                  <p>
-                    The same platform patterns — identity, money movement, workflows, and systems of
-                    record — adapted to the industry you already run.
-                  </p>
-                </div>
-                <div className="industry-image-grid">
-                  {homeFeaturedSectors.map((sector, i) => (
-                    <HomeFlipCard
-                      key={sector.id}
-                      sector={sector}
-                      delay={i * 0.08}
-                    />
-                  ))}
-                </div>
-                <div className="services-explore-cta" data-reveal>
-                  <button
-                    type="button"
-                    className="btn-explore-all-services"
-                    onClick={() => navigateTo('where-we-work')}
-                  >
-                    <span>Explore all 14 sectors</span>
-                    <i className="fa fa-arrow-right" />
-                  </button>
-                </div>
-              </div>
-            </section>
-
-            <div className="section-seam" aria-hidden="true"><span /></div>
-
             <section className="how-we-work-section" id="portfolio">
               <div className="hww-container">
                 <div className="hww-header" data-reveal>
@@ -1029,6 +1039,40 @@ function App() {
                       <div className="hww-connector" />
                     </div>
                   ))}
+                </div>
+              </div>
+            </section>
+
+            <div className="section-seam" aria-hidden="true"><span /></div>
+
+            <section className="industry-section" id="industries">
+              <div className="industry-inner">
+                <div className="services-header" data-reveal>
+                  <p className="section-kicker">Where we work</p>
+                  <h1>Built for operators, not slide decks</h1>
+                  <p>
+                    The same platform patterns — identity, money movement, workflows, and systems of
+                    record — adapted to the industry you already run.
+                  </p>
+                </div>
+                <div className="industry-image-grid">
+                  {homeFeaturedSectors.map((sector, i) => (
+                    <HomeFlipCard
+                      key={sector.id}
+                      sector={sector}
+                      delay={i * 0.08}
+                    />
+                  ))}
+                </div>
+                <div className="services-explore-cta" data-reveal>
+                  <button
+                    type="button"
+                    className="btn-explore-all-services"
+                    onClick={() => navigateTo('where-we-work')}
+                  >
+                    <span>Explore all sectors</span>
+                    <i className="fa fa-arrow-right" />
+                  </button>
                 </div>
               </div>
             </section>

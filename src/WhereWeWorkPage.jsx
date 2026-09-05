@@ -3,6 +3,7 @@ import { sectorImages } from './sectorData'
 
 export function WhereWeWorkPage({ onNavigateHome }) {
   const [flippedId, setFlippedId] = useState(null)
+  const [temporarilyUnflippedId, setTemporarilyUnflippedId] = useState(null)
 
   const handleCardInteraction = (id) => {
     setFlippedId((prev) => (prev === id ? null : id))
@@ -10,23 +11,27 @@ export function WhereWeWorkPage({ onNavigateHome }) {
 
   return (
     <div className="www-page-wrapper">
-      {/* Hero */}
-      <section className="www-hero">
-        <div className="www-hero-inner">
-          <nav className="www-breadcrumb" aria-label="Breadcrumb">
-            <button type="button" onClick={() => onNavigateHome('home')} className="breadcrumb-link">
+      {/* Hero Header */}
+      <section className="www-hero-section">
+        <div className="www-container">
+          <div className="services-breadcrumb">
+            <button
+              type="button"
+              onClick={() => onNavigateHome && onNavigateHome('home')}
+              className="breadcrumb-link"
+            >
               <i className="fas fa-home" /> Home
             </button>
             <span className="breadcrumb-separator">/</span>
             <span className="breadcrumb-current">Where We Work</span>
-          </nav>
+          </div>
 
-          <h1 className="www-title">
-            Where We <span>Work</span>
+          <h1 className="www-main-title">
+            Where We <span className="hero-gradient">Work</span>
           </h1>
-          <p className="www-subtitle">
-            Enterprise systems, AI automation, and payment platforms engineered specifically for
-            the unique demands of 14+ mission-critical industries.
+          <p className="www-main-lead">
+            Enterprise systems, AI automation, and payment platforms engineered specifically for the
+            unique demands of 15+ mission-critical industries and beyond.
           </p>
         </div>
       </section>
@@ -37,22 +42,27 @@ export function WhereWeWorkPage({ onNavigateHome }) {
           <div className="www-grid">
             {sectorImages.map((sector) => {
               const isFlipped = flippedId === sector.id
+              const isTemporarilyUnflipped = temporarilyUnflippedId === sector.id
               return (
                 <div
                   key={sector.id}
-                  className={`www-flip-card${isFlipped ? ' is-flipped' : ''}`}
+                  className={`www-flip-card${isFlipped ? ' is-flipped' : ''}${isTemporarilyUnflipped ? ' is-temporarily-unflipped' : ''}`}
                   aria-label={sector.title}
+                  onMouseLeave={() => setTemporarilyUnflippedId(null)}
                 >
+                  {/* Ambient Glow Aura */}
+                  <div className="www-card-aura" aria-hidden="true" />
+
                   <div className="www-flip-inner">
-                    {/* FRONT: Clean visual artwork - only tapping image flips */}
+                    {/* FRONT: Ultra-premium HUD Showcase — Zero Text */}
                     <div
                       className="www-flip-front"
-                      onClick={() => setFlippedId(sector.id)}
+                      onClick={() => handleCardInteraction(sector.id)}
                       role="button"
                       tabIndex={0}
-                      aria-label={`${sector.title} — tap image to learn more`}
+                      aria-label={`${sector.title} — click to view insights`}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') setFlippedId(sector.id)
+                        if (e.key === 'Enter' || e.key === ' ') handleCardInteraction(sector.id)
                       }}
                     >
                       <img
@@ -62,6 +72,20 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                         loading="lazy"
                         decoding="async"
                       />
+
+                      {/* Glass Light Sheen Sweep */}
+                      <div className="www-card-sheen" aria-hidden="true" />
+
+                      {/* 4 Cyber Corner Reticles (Top & Bottom Corners - Zero Text) */}
+                      <div className="www-reticle www-reticle-tl" aria-hidden="true" />
+                      <div className="www-reticle www-reticle-tr" aria-hidden="true" />
+                      <div className="www-reticle www-reticle-bl" aria-hidden="true" />
+                      <div className="www-reticle www-reticle-br" aria-hidden="true" />
+
+                      {/* Bottom Glowing Laser Rail (Zero Text) */}
+                      <div className="www-hud-bottom" aria-hidden="true">
+                        <span className="www-bottom-glow-bar" />
+                      </div>
                     </div>
 
                     {/* BACK: Pure text content with scroll support */}
@@ -75,6 +99,7 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                             onClick={(e) => {
                               e.stopPropagation()
                               setFlippedId(null)
+                              setTemporarilyUnflippedId(sector.id)
                             }}
                             aria-label="Back to image"
                           >
@@ -88,6 +113,7 @@ export function WhereWeWorkPage({ onNavigateHome }) {
                           onClick={(e) => {
                             e.stopPropagation()
                             setFlippedId(null)
+                            setTemporarilyUnflippedId(sector.id)
                           }}
                         >
                           <i className="fas fa-undo" /> View Image

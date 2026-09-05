@@ -1,11 +1,43 @@
 import { useEffect, useState } from 'react'
 
-export function ServicesPage({ services, onNavigateHome, onSelectService, initialCategory = 'All' }) {
+export function ServicesPage({ services, onNavigateHome, onSelectService, initialCategory = 'All', targetServiceId = null }) {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
 
   useEffect(() => {
     setSelectedCategory(initialCategory)
   }, [initialCategory])
+
+  // Scroll to and highlight targeted service card if returning from detail page
+  useEffect(() => {
+    if (!targetServiceId) return
+
+    const targetSvc = services.find((s) => String(s.id) === String(targetServiceId))
+    if (targetSvc && selectedCategory !== 'All' && selectedCategory !== targetSvc.category) {
+      setSelectedCategory('All')
+      return
+    }
+
+    let hasScrolled = false
+    const scrollToTarget = () => {
+      const cardEl = document.getElementById(`service-card-${targetServiceId}`)
+      if (cardEl && !hasScrolled) {
+        hasScrolled = true
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        cardEl.classList.add('service-card-return-glow')
+        setTimeout(() => {
+          cardEl.classList.remove('service-card-return-glow')
+        }, 2600)
+      }
+    }
+
+    const timer1 = setTimeout(scrollToTarget, 80)
+    const timer2 = setTimeout(scrollToTarget, 240)
+
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+    }
+  }, [targetServiceId, services, selectedCategory])
 
   const categories = [
     { label: 'All', count: services.length },
@@ -101,6 +133,7 @@ export function ServicesPage({ services, onNavigateHome, onSelectService, initia
               {filteredServices.map((item, index) => (
                 <div
                   className="service-card"
+                  id={`service-card-${item.id}`}
                   key={item.id || item.title}
                   onClick={() => handleCardClick(item)}
                   style={{ cursor: 'pointer' }}

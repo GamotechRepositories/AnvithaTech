@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { serviceDetailsData } from './serviceDetailsData'
 
 export function ServiceDetailPage({ service, allServices = [], onNavigateHome, onSelectService }) {
   const [formData, setFormData] = useState({
@@ -47,8 +48,15 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
     `Hello AANVITA Technologies, I am interested in getting started with ${service.title} (Service #${serviceNum}).`
   )
 
-  // Core features from original design presented as clean list items (NOT cards)
-  const coreFeatures = [
+  // Retrieve unique features and technical specifications for this specific service
+  const serviceDetail =
+    serviceDetailsData[service.id] ||
+    Object.values(serviceDetailsData).find(
+      (s) => s.title?.toLowerCase() === service.title?.toLowerCase()
+    ) ||
+    {}
+
+  const coreFeatures = serviceDetail.features || [
     {
       title: 'Fast Deployment',
       desc: 'Ready-to-integrate APIs, prebuilt SDKs, and turnkey configuration for zero-lag launch.',
@@ -67,37 +75,18 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
     },
   ]
 
-  // Clean capability highlights tailored to category (clean borderless list items)
-  const categoryHighlights = {
-    'AI & Automation': [
-      { label: 'Latency', value: 'Sub-second real-time response pipelines' },
-      { label: 'Data Privacy', value: 'Zero model retention on proprietary business data' },
-      { label: 'Integrations', value: 'WhatsApp, Telegram, Webhooks & enterprise CRMs' },
-      { label: 'Architecture', value: 'Multi-agent orchestration & vector memory' },
-    ],
-    'Fintech & Payments': [
-      { label: 'Compliance', value: 'PCI-DSS certified tokenization & KYC/AML screening' },
-      { label: 'Routing', value: 'Smart multi-rail failover with 99.99% payment success' },
-      { label: 'Settlement', value: 'Instant reconciliation, split payouts & tax invoicing' },
-      { label: 'Security', value: 'Bank-grade 256-bit encryption & anti-fraud AI' },
-    ],
-    'Enterprise & ERP': [
-      { label: 'Data Fabric', value: 'Real-time sync across inventory, HR, finance & CRM' },
-      { label: 'Governance', value: 'Granular role-based access control & full audit trails' },
-      { label: 'Scale', value: 'Multi-tenant cloud architecture with zero downtime' },
-      { label: 'Analytics', value: 'Live executive dashboards & automated report export' },
-    ],
-    'Growth & Operations': [
-      { label: 'Channels', value: 'Centralized publishing across Facebook, IG, LinkedIn & X' },
-      { label: 'Conversion', value: 'Frictionless checkout, cart recovery & lead capture' },
-      { label: 'Automation', value: 'Event-driven triggers, reminders & client notifications' },
-      { label: 'Telemetry', value: 'Deep engagement analytics, ROAS tracking & reporting' },
-    ],
-  }[service.category] || [
+  const specifications = serviceDetail.specs || [
     { label: 'Speed', value: 'Turnkey deployment with modular microservices' },
     { label: 'Security', value: 'Hardened endpoints, SSL/TLS & encrypted databases' },
     { label: 'Capacity', value: 'Engineered for high concurrency & enterprise scale' },
     { label: 'Support', value: 'Direct access to senior solutions architects 24/7' },
+  ]
+
+  const integrations = serviceDetail.integrations || [
+    { name: 'Cloud Infrastructure', category: 'AWS / GCP / Azure', icon: 'fas fa-cloud' },
+    { name: 'Enterprise APIs', category: 'REST / GraphQL', icon: 'fas fa-code' },
+    { name: 'Webhooks & Events', category: 'Real-Time Sync', icon: 'fas fa-bolt' },
+    { name: 'Core Databases', category: 'SQL & NoSQL', icon: 'fas fa-database' },
   ]
 
   return (
@@ -116,7 +105,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
             <span className="breadcrumb-separator">/</span>
             <button
               type="button"
-              onClick={() => onNavigateHome('services')}
+              onClick={() => onNavigateHome('services', { serviceId: service.id })}
               className="breadcrumb-link"
             >
               Services
@@ -127,7 +116,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
 
           <button
             type="button"
-            onClick={() => onNavigateHome('services')}
+            onClick={() => onNavigateHome('services', { serviceId: service.id })}
             className="sd-clean-back-btn"
           >
             <i className="fas fa-arrow-left" /> Back to Services
@@ -180,10 +169,37 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
           </div>
 
           <div className="sd-specs-table">
-            {categoryHighlights.map((spec, i) => (
+            {specifications.map((spec, i) => (
               <div key={i} className="sd-spec-row">
                 <span className="sd-spec-label">{spec.label}</span>
                 <span className="sd-spec-value">{spec.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Integrations & Connectors Section ── */}
+      <section className="sd-clean-integrations-section">
+        <div className="services-container">
+          <div className="sd-specs-header">
+            <span className="section-kicker">Integrations</span>
+            <h2>Supported Integrations & Tech Ecosystem</h2>
+            <p className="sd-section-lead">
+              Seamlessly connects with your existing enterprise systems, payment rails, CRMs, APIs, and cloud services.
+            </p>
+          </div>
+
+          <div className="sd-integrations-grid">
+            {integrations.map((integ, i) => (
+              <div key={i} className="sd-integration-card">
+                <div className="sd-integ-icon-wrap">
+                  <i className={integ.icon || 'fas fa-plug'} />
+                </div>
+                <div className="sd-integ-text">
+                  <strong>{integ.name}</strong>
+                  <span>{integ.category}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -330,7 +346,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
                     <button
                       type="button"
                       className="btn btn-primary-glow"
-                      onClick={() => onNavigateHome('services')}
+                      onClick={() => onNavigateHome('services', { serviceId: service.id })}
                     >
                       ← Back to All Services
                     </button>
@@ -362,7 +378,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
           <button
             type="button"
             className="btn btn-primary-glow"
-            onClick={() => onNavigateHome('services')}
+            onClick={() => onNavigateHome('services', { serviceId: service.id })}
           >
             Browse All 22 Services <i className="fas fa-arrow-right" />
           </button>
