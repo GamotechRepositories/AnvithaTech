@@ -11,10 +11,10 @@ export function WhereWeWorkPage({ onNavigateHome }) {
 
   return (
     <div className="www-page-wrapper">
-      {/* Hero Header */}
-      <section className="www-hero-section">
-        <div className="www-container">
-          <div className="services-breadcrumb">
+      {/* Hero */}
+      <section className="www-hero">
+        <div className="www-hero-inner">
+          <nav className="www-breadcrumb" aria-label="Breadcrumb">
             <button
               type="button"
               onClick={() => onNavigateHome && onNavigateHome('home')}
@@ -24,14 +24,14 @@ export function WhereWeWorkPage({ onNavigateHome }) {
             </button>
             <span className="breadcrumb-separator">/</span>
             <span className="breadcrumb-current">Where We Work</span>
-          </div>
+          </nav>
 
-          <h1 className="www-main-title">
-            Where We <span className="hero-gradient">Work</span>
+          <h1 className="www-title">
+            Where We <span>Work</span>
           </h1>
-          <p className="www-main-lead">
-            Enterprise systems, AI automation, and payment platforms engineered specifically for the
-            unique demands of 15+ mission-critical industries and beyond.
+          <p className="www-subtitle">
+            Enterprise systems, AI automation, and payment platforms engineered specifically for
+            the unique demands of 15+ mission-critical industries and beyond.
           </p>
         </div>
       </section>
