@@ -4457,10 +4457,6 @@ select option {
   animation: vStreamUp 50s linear infinite;
 }
 
-/* Pause scroll when hovering over the showcase */
-.integ-master-card:hover .integ-col-track {
-  animation-play-state: paused;
-}
 
 /* Individual Item — Clean Floating App Row (No card box / border) */
 .integ-item-card {
