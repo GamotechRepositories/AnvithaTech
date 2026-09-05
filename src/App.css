@@ -4348,19 +4348,30 @@ select option {
 }
 
 .integ-title {
+  font-family: var(--font-display);
   font-size: clamp(2.4rem, 3.2vw, 3.8rem);
   font-weight: 800;
   color: #fff;
-  margin: 0 0 1.4rem;
+  margin: 0 auto 1.4rem;
   letter-spacing: -0.02em;
   line-height: 1.2;
   white-space: nowrap;
 }
 
+.integ-title span,
+.integ-title-highlight {
+  display: inline !important;
+  background: linear-gradient(135deg, var(--cyan), #8b7cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 @media (max-width: 640px) {
   .integ-title {
     white-space: normal;
-    font-size: clamp(2.4rem, 6vw, 3.2rem);
+    font-size: clamp(2.2rem, 5.5vw, 3rem);
   }
 }
 

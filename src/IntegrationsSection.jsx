@@ -98,7 +98,7 @@ export function IntegrationsSection() {
           </div>
 
           <h2 className="integ-title">
-            Connect <span className="hero-gradient">400+ Apps</span>
+            Connect <span className="integ-title-highlight">400+ Apps</span>
           </h2>
 
           <p className="integ-subtitle">
