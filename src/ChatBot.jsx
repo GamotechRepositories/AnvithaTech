@@ -191,6 +191,17 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
     }
   }, [isOpen, hasStarted])
 
+  // Prevent background page scrolling when chat is open (especially on mobile)
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [isOpen])
+
   // Admin keyboard shortcut: Ctrl + Shift + L
   useEffect(() => {
     const handleKeyDown = (e) => {
