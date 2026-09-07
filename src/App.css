@@ -4908,3 +4908,1562 @@ select option {
     font-size: 0.98rem;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   AI AGENT STUDIO / LIVE WORKSPACE SIMULATOR SECTION
+   ══════════════════════════════════════════════════════════════ */
+.agent-studio-section {
+  position: relative;
+  padding: 8rem 0 9rem;
+  background: #05070f;
+  overflow: hidden;
+}
+.agent-studio-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.agent-studio-glow--1 {
+  position: absolute;
+  top: 15%;
+  right: -5%;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(62, 224, 216, 0.12) 0%, rgba(62, 224, 216, 0) 70%);
+  filter: blur(80px);
+}
+.agent-studio-glow--2 {
+  position: absolute;
+  bottom: 10%;
+  left: -5%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(99, 102, 241, 0) 70%);
+  filter: blur(80px);
+}
+.agent-studio-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.7;
+}
+
+.agent-studio-container {
+  width: min(1320px, calc(100% - var(--page-x) * 2));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 5rem;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+/* Pitch / Left Column - Fixed and completely stable when right side cycles */
+.agent-studio-pitch {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 9rem;
+  align-self: flex-start;
+}
+.agent-studio-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  background: rgba(62, 224, 216, 0.08);
+  border: 1px solid rgba(62, 224, 216, 0.25);
+  color: var(--cyan);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-bottom: 2rem;
+}
+.agent-studio-badge i {
+  font-size: 1.1rem;
+}
+.agent-studio-title {
+  font-size: clamp(3rem, 4vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.8rem;
+}
+.agent-studio-title span {
+  background: linear-gradient(135deg, #fff 30%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.agent-studio-lead {
+  font-size: 1.65rem;
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 0 0 3rem;
+}
+.agent-studio-actions {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  margin-bottom: 3.6rem;
+}
+
+.agent-studio-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.agent-feat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #c9d2e3;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+.agent-feat-item i {
+  color: var(--cyan);
+  font-size: 1.4rem;
+  width: 1.8rem;
+  text-align: center;
+}
+
+/* Window / Workspace Simulator (Right Column) */
+.agent-studio-window {
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(62, 224, 216, 0.08);
+}
+
+.agent-window-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.8rem;
+  background: #060910;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.agent-window-dots {
+  display: flex;
+  gap: 0.6rem;
+}
+.agent-window-dots .dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+.agent-window-dots .dot.red { background: #ff5f56; }
+.agent-window-dots .dot.yellow { background: #ffbd2e; }
+.agent-window-dots .dot.green { background: #27c93f; }
+
+.agent-window-title {
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.15rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.agent-window-title i {
+  color: var(--cyan);
+}
+.agent-window-live {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #3ee0d8;
+}
+.agent-window-live .live-pulse {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #3ee0d8;
+  box-shadow: 0 0 8px #3ee0d8;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+.agent-window-live .live-pulse.is-paused {
+  background: #fbbf24;
+  box-shadow: 0 0 8px #fbbf24;
+  animation: none;
+}
+
+.agent-window-body {
+  display: grid;
+  grid-template-columns: 10.8rem 1fr;
+  height: 485px;
+  max-height: 485px;
+  overflow: hidden;
+}
+
+/* Sidebar Tabs */
+.agent-tabs-sidebar {
+  background: #060811;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+.agent-tab-btn {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 0.6rem;
+  border-radius: 1.2rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.agent-tab-btn i {
+  font-size: 1.6rem;
+  transition: transform 0.22s ease;
+}
+.agent-tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.03);
+}
+.agent-tab-btn.is-active {
+  color: var(--cyan);
+  background: rgba(62, 224, 216, 0.08);
+  border-color: rgba(62, 224, 216, 0.25);
+  box-shadow: 0 4px 14px rgba(62, 224, 216, 0.12);
+}
+.agent-tab-btn.is-active i {
+  transform: scale(1.1);
+}
+.agent-tab-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--cyan), #60a5fa);
+  box-shadow: 0 0 10px rgba(62, 224, 216, 0.8);
+  animation: tabProgress 3.2s linear forwards;
+}
+.agent-studio-window:hover .agent-tab-progress {
+  animation-play-state: paused;
+}
+@keyframes tabProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Workspace Wrapper with Faint-Out Gradient Mask (like apps showcase) */
+.agent-workspace-wrapper {
+  position: relative;
+  height: 100%;
+  max-height: 485px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 70%, transparent 100%);
+}
+
+/* Main Workspace Panel */
+@keyframes agentPanelFade {
+  from {
+    opacity: 0.2;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.agent-workspace-panel {
+  padding: 2rem 2.2rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  background: #090d16;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  animation: agentPanelFade 0.3s ease-out;
+}
+.agent-workspace-panel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Bottom Fading Mask - Content softens and disappears towards bottom */
+.agent-panel-fade-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 95px;
+  background: linear-gradient(0deg, #090d16 25%, rgba(9, 13, 22, 0.85) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Agent Profile Header */
+.agent-header-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.agent-header-info {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+.agent-avatar-icon {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 1.2rem;
+  background: linear-gradient(135deg, rgba(62, 224, 216, 0.2), rgba(99, 102, 241, 0.2));
+  border: 1px solid rgba(62, 224, 216, 0.3);
+  display: grid;
+  place-items: center;
+  color: var(--cyan);
+  font-size: 1.9rem;
+  box-shadow: 0 0 16px rgba(62, 224, 216, 0.15);
+}
+.agent-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.3rem;
+}
+.agent-desc {
+  font-size: 1.25rem;
+  color: var(--muted);
+  margin: 0;
+  max-width: 38rem;
+  line-height: 1.45;
+}
+
+.agent-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.agent-model-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.9rem;
+  border-radius: 0.8rem;
+}
+.agent-model-chip i {
+  color: #fbbf24;
+}
+.agent-integrations-list {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.agent-integ-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 1.1rem;
+  color: #c4d0e0;
+}
+
+/* Chat & Output Stream */
+.agent-chat-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.agent-user-msg {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+.agent-user-avatar {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(62, 224, 216, 0.4);
+  flex-shrink: 0;
+}
+.agent-user-balloon {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.4rem;
+  border-top-left-radius: 0.4rem;
+  padding: 1.1rem 1.5rem;
+  max-width: 90%;
+}
+.agent-user-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 0.4rem;
+}
+.agent-user-balloon p {
+  font-size: 1.35rem;
+  color: #e8edf5;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Reasoning & Table Card */
+.agent-reasoning-card {
+  background: rgba(6, 9, 16, 0.85);
+  border: 1px solid rgba(62, 224, 216, 0.2);
+  border-radius: 1.6rem;
+  padding: 1.8rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+.agent-reasoning-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.agent-bot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+.agent-bot-badge i {
+  color: var(--cyan);
+}
+.agent-reasoning-status {
+  font-size: 1.15rem;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.agent-trace-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+  padding-left: 0.6rem;
+  border-left: 2px solid rgba(62, 224, 216, 0.3);
+}
+.agent-trace-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+}
+.agent-trace-item i {
+  color: var(--cyan);
+  font-size: 1rem;
+}
+
+.agent-summary-lead {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 1.2rem;
+}
+
+/* Table Artifact */
+.bespoke-card {
+  border-radius: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #060910;
+  padding: 1.8rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  min-height: 275px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 1. CHATBOT: GPS Package Tracker Widget */
+.bespoke-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+.tracker-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.tracker-label {
+  display: block;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.tracker-code {
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+.tracker-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  color: #25d366;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.tracker-badge-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 0 8px #25d366;
+}
+.tracker-stepper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  position: relative;
+  padding: 1rem 0;
+}
+.tracker-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.tracker-step-node {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+  margin-bottom: 0.8rem;
+  transition: all 0.25s ease;
+}
+.tracker-step.is-done .tracker-step-node {
+  background: rgba(37, 211, 102, 0.2);
+  border-color: #25d366;
+  color: #25d366;
+}
+.tracker-step.is-active .tracker-step-node {
+  background: #25d366;
+  border-color: #fff;
+  color: #000;
+  box-shadow: 0 0 16px rgba(37, 211, 102, 0.6);
+  transform: scale(1.15);
+}
+.tracker-step-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 0.3rem;
+}
+.tracker-step.is-active .tracker-step-title {
+  color: #25d366;
+  font-weight: 700;
+}
+.tracker-step-time {
+  font-size: 1.05rem;
+  color: #64748b;
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+}
+.tracker-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 1.25rem;
+  color: #cbd5e1;
+}
+.tracker-destination i, .tracker-eta i {
+  color: #25d366;
+  margin-right: 0.6rem;
+}
+
+/* 2. CRM: Interactive Pipeline & Probability Matrix */
+.bespoke-pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.pipeline-header-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.pipeline-stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1.2rem;
+  padding: 1.2rem 1.4rem;
+}
+.pipeline-stat-box .stat-label {
+  display: block;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+}
+.pipeline-stat-box .stat-num {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.pipeline-stat-box .stat-cyan {
+  color: #38bdf8;
+}
+.pipeline-deals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.pipeline-deal-item {
+  display: grid;
+  grid-template-columns: 1.4fr 1.2fr 1fr;
+  gap: 1.4rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.2rem;
+  padding: 1.2rem 1.6rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.pipeline-deal-item:hover {
+  background: rgba(56, 189, 248, 0.04);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+.deal-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.deal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+.deal-account {
+  font-size: 1.15rem;
+  color: #94a3b8;
+}
+.deal-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.deal-stage-badge {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+.deal-prob-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.deal-prob-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  border-radius: 999px;
+}
+.deal-prob-text {
+  font-size: 1.05rem;
+  color: #4ade80;
+  font-weight: 600;
+}
+.deal-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+.deal-amount {
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #38bdf8;
+}
+.deal-owner {
+  font-size: 1.1rem;
+  color: #94a3b8;
+}
+
+/* 3. VOICE: Live HUD & Animated Audio Waveform */
+.bespoke-voice {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.voice-hud-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  padding: 1.4rem 1.6rem;
+  background: rgba(236, 72, 153, 0.06);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  border-radius: 1.4rem;
+}
+.voice-caller-info {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.voice-avatar-ring {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: rgba(236, 72, 153, 0.2);
+  border: 1.5px solid #ec4899;
+  display: grid;
+  place-items: center;
+  color: #ec4899;
+  font-size: 1.6rem;
+  box-shadow: 0 0 16px rgba(236, 72, 153, 0.4);
+}
+.voice-caller-name {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+}
+.voice-caller-number {
+  display: block;
+  font-size: 1.15rem;
+  color: #94a3b8;
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+}
+.voice-waveform {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+}
+.wave-bar {
+  width: 4px;
+  border-radius: 999px;
+  background: #ec4899;
+  animation: voiceWave 1.2s ease-in-out infinite alternate;
+}
+.wave-bar.w1 { height: 12px; animation-delay: 0.1s; }
+.wave-bar.w2 { height: 26px; animation-delay: 0.25s; }
+.wave-bar.w3 { height: 18px; animation-delay: 0.4s; }
+.wave-bar.w4 { height: 30px; animation-delay: 0.15s; }
+.wave-bar.w5 { height: 22px; animation-delay: 0.35s; }
+.wave-bar.w6 { height: 28px; animation-delay: 0.05s; }
+.wave-bar.w7 { height: 16px; animation-delay: 0.5s; }
+.wave-bar.w8 { height: 10px; animation-delay: 0.2s; }
+@keyframes voiceWave {
+  0% { transform: scaleY(0.4); opacity: 0.5; }
+  100% { transform: scaleY(1.3); opacity: 1; }
+}
+.voice-call-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ec4899;
+  background: rgba(236, 72, 153, 0.12);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+}
+.call-live-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #ec4899;
+  box-shadow: 0 0 8px #ec4899;
+  animation: pulseDot 1.6s infinite ease-in-out;
+}
+
+.voice-transcript-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1.4rem;
+  border-radius: 1rem;
+  background: rgba(236, 72, 153, 0.08);
+  border: 1px dashed rgba(236, 72, 153, 0.35);
+  font-size: 1.2rem;
+  color: #cbd5e1;
+}
+.voice-transcript-bar i {
+  color: #ec4899;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.voice-transcript-bar strong {
+  color: #fff;
+}
+
+.voice-booking-card {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1.4rem 1.8rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.booking-icon {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 1rem;
+  background: rgba(66, 133, 244, 0.15);
+  border: 1px solid rgba(66, 133, 244, 0.3);
+  display: grid;
+  place-items: center;
+  color: #4285f4;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+.booking-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+}
+.booking-kicker {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4285f4;
+}
+.booking-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+.booking-slot {
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+.booking-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* 4. ERP: Warehouse Gauges & Auto-PO */
+.bespoke-erp {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.erp-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.erp-po-info .erp-label {
+  display: block;
+  font-size: 1.1rem;
+  color: #94a3b8;
+}
+.erp-po-code {
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.6rem;
+  color: #0284c7;
+}
+.erp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  color: #38bdf8;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+}
+.erp-stock-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.erp-stock-item {
+  display: grid;
+  grid-template-columns: 1.4fr 1.3fr 1fr;
+  gap: 1.4rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.2rem;
+  padding: 1.2rem 1.6rem;
+}
+.stock-info .stock-sku {
+  display: block;
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+.stock-info .stock-name {
+  font-size: 1.15rem;
+  color: #94a3b8;
+}
+.stock-meter-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.stock-meter-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.stock-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+.stock-meter-fill.fill-low {
+  background: linear-gradient(90deg, #ef4444, #f97316);
+}
+.stock-meter-fill.fill-ok {
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+.stock-count {
+  font-size: 1.1rem;
+  color: #cbd5e1;
+}
+.stock-count strong {
+  color: #fff;
+}
+.reorder-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+}
+.status-ok-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+}
+
+/* 5. FINTECH: Multi-Currency Settlement & VAT Audit */
+.bespoke-fintech {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.fintech-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+.fintech-rail-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.2rem;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rail-name {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+.rail-curr-badge {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.5rem;
+}
+.rail-volume {
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+}
+.rail-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  color: #cbd5e1;
+}
+.rail-status {
+  color: #10b981;
+  font-weight: 600;
+}
+.rail-fee {
+  color: #64748b;
+}
+
+.fintech-audit-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.2rem 1.6rem;
+  border-radius: 1.2rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  font-size: 1.25rem;
+}
+.audit-left {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #e2e8f0;
+}
+.audit-left i {
+  color: #10b981;
+  font-size: 1.6rem;
+}
+.audit-left strong {
+  color: #10b981;
+}
+.audit-right {
+  color: #94a3b8;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 6. HRMS: WPS Payroll & Entity Disbursement */
+.bespoke-hrms {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.hrms-header-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.hrms-stat-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1.2rem;
+  padding: 1.2rem 1.4rem;
+}
+.hrms-stat-item .stat-label {
+  display: block;
+  font-size: 1.1rem;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+}
+.hrms-stat-item strong {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #fff;
+}
+.hrms-stat-item .stat-green {
+  color: #a855f7;
+}
+.wps-certified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #a855f7;
+}
+.hrms-entity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.hrms-entity-item {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 1fr;
+  gap: 1.4rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.2rem;
+  padding: 1.2rem 1.6rem;
+}
+.entity-name {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+.entity-staff {
+  font-size: 1.15rem;
+  color: #94a3b8;
+}
+.entity-gross {
+  display: block;
+  font-family: 'JetBrains Mono', monospace, ui-monospace, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #a855f7;
+}
+.entity-wps {
+  font-size: 1.1rem;
+  color: #cbd5e1;
+}
+.hrms-payout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  justify-content: flex-end;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN ACROSS ALL SCREEN SIZES
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .agent-studio-container {
+    grid-template-columns: 1fr;
+    gap: 4.5rem;
+  }
+  .agent-studio-pitch {
+    position: static;
+    align-self: auto;
+    max-width: 72rem;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+  }
+  .agent-studio-badge {
+    margin: 0 auto 2rem;
+  }
+  .agent-studio-actions {
+    justify-content: center;
+  }
+  .agent-studio-features {
+    width: 100%;
+    max-width: 62rem;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .agent-window-body {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    height: auto;
+    max-height: none;
+  }
+  .agent-workspace-wrapper {
+    height: 450px;
+    max-height: 450px;
+  }
+  .agent-workspace-panel {
+    padding: 1.6rem 1.4rem 4.5rem;
+  }
+  .agent-tabs-sidebar {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.8rem;
+    overflow-x: auto;
+    gap: 0.6rem;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .agent-tabs-sidebar::-webkit-scrollbar {
+    height: 4px;
+  }
+  .agent-tabs-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 4px;
+  }
+  .agent-tab-btn {
+    flex-direction: row;
+    width: auto;
+    white-space: nowrap;
+    padding: 0.8rem 1.4rem;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    font-size: 1.2rem;
+  }
+  .agent-tab-btn i {
+    font-size: 1.4rem;
+  }
+
+  /* Responsive cards for tablet view */
+  .pipeline-deal-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+  }
+  .deal-right {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .erp-stock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+  }
+
+  .hrms-entity-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+  }
+  .hrms-entity-item .entity-mid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hrms-entity-item .entity-right {
+    width: 100%;
+  }
+  .hrms-entity-item .hrms-payout-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .agent-studio-section {
+    padding: 5rem 0 6rem;
+  }
+  .agent-studio-title {
+    font-size: clamp(2.6rem, 5vw, 3.4rem);
+  }
+  .agent-studio-lead {
+    font-size: 1.45rem;
+  }
+  .agent-studio-features {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .agent-window-bar {
+    padding: 1rem 1.4rem;
+  }
+  .agent-window-title {
+    font-size: 1.05rem;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .agent-workspace-panel {
+    padding: 1.8rem 1.4rem;
+    gap: 1.4rem;
+  }
+  .agent-header-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .agent-header-info {
+    gap: 1.2rem;
+  }
+  .agent-avatar-icon {
+    width: 3.8rem;
+    height: 3.8rem;
+    font-size: 1.6rem;
+  }
+  .agent-name {
+    font-size: 1.65rem;
+  }
+  .agent-desc {
+    font-size: 1.2rem;
+  }
+  .agent-header-badges {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .agent-user-msg {
+    gap: 1rem;
+  }
+  .agent-user-avatar {
+    width: 3rem;
+    height: 3rem;
+  }
+  .agent-user-balloon {
+    padding: 1rem 1.3rem;
+    max-width: 100%;
+  }
+  .agent-user-balloon p {
+    font-size: 1.25rem;
+  }
+  .agent-reasoning-card {
+    padding: 1.4rem 1.2rem;
+  }
+  .agent-reasoning-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .agent-trace-steps {
+    font-size: 1.15rem;
+  }
+
+  /* Bespoke elements on medium/mobile */
+  .bespoke-card {
+    padding: 1.4rem;
+  }
+  .pipeline-header-stats,
+  .fintech-summary-grid,
+  .hrms-header-row {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  .tracker-stepper {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+  }
+  .voice-hud-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .voice-waveform {
+    width: 100%;
+    justify-content: center;
+    margin: 0.4rem 0;
+  }
+  .voice-booking-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .booking-badge {
+    align-self: flex-start;
+  }
+  .fintech-audit-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .agent-studio-section {
+    padding: 4rem 0 5rem;
+  }
+  .agent-studio-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  .agent-studio-lead {
+    font-size: 1.35rem;
+    margin-bottom: 2.4rem;
+  }
+  .agent-studio-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 1.2rem;
+    margin-bottom: 2.8rem;
+  }
+  .agent-studio-actions button {
+    width: 100%;
+  }
+  .agent-window-bar {
+    padding: 0.9rem 1.1rem;
+  }
+  .agent-window-title {
+    font-size: 0.95rem;
+    max-width: 160px;
+  }
+  .agent-tab-btn {
+    padding: 0.7rem 1.1rem;
+    font-size: 1.1rem;
+    gap: 0.4rem;
+  }
+  .agent-tab-btn i {
+    font-size: 1.25rem;
+  }
+  .agent-workspace-wrapper {
+    height: 410px;
+    max-height: 410px;
+  }
+  .agent-workspace-panel {
+    padding: 1.4rem 1rem 4.2rem;
+  }
+  .agent-panel-fade-mask {
+    height: 80px;
+  }
+  .bespoke-card {
+    padding: 1.1rem;
+    border-radius: 1.2rem;
+  }
+  .tracker-step-node {
+    width: 2.8rem;
+    height: 2.8rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .tracker-step-title {
+    font-size: 1.1rem;
+  }
+  .tracker-step-time {
+    font-size: 0.95rem;
+  }
+  .tracker-footer {
+    font-size: 1.15rem;
+    gap: 0.8rem;
+  }
+  .pipeline-stat-box .stat-num {
+    font-size: 1.6rem;
+  }
+  .deal-title {
+    font-size: 1.25rem;
+  }
+  .deal-amount {
+    font-size: 1.45rem;
+  }
+  .voice-caller-name {
+    font-size: 1.25rem;
+  }
+  .booking-title {
+    font-size: 1.35rem;
+  }
+  .stock-info .stock-sku {
+    font-size: 1.2rem;
+  }
+  .rail-volume {
+    font-size: 1.55rem;
+  }
+  .hrms-stat-item strong {
+    font-size: 1.45rem;
+  }
+  .entity-name {
+    font-size: 1.25rem;
+  }
+  .entity-gross {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .tracker-stepper {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .tracker-step {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+  .tracker-step-node {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .agent-window-live span:last-child {
+    display: none;
+  }
+}

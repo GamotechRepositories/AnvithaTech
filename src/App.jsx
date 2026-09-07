@@ -31,8 +31,8 @@ import { ContactPage } from './ContactPage'
 import { WhereWeWorkPage } from './WhereWeWorkPage'
 import { IntegrationsSection } from './IntegrationsSection'
 import { ServiceCarousel } from './ServiceCarousel'
+import { AgentStudioSection } from './AgentStudioSection'
 import { ChatBot } from './ChatBot'
-import { homeFeaturedSectors, sectorImages } from './sectorData'
 
 const navItems = ['Home', 'About', 'Services', 'Where We Work', 'Career', 'Contact']
 
@@ -325,83 +325,6 @@ const workSteps = [
     desc: 'Post-launch, we monitor, optimize, and scale your platform — adding features and integrations as your business evolves.',
   },
 ]
-
-function HomeFlipCard({ sector, delay }) {
-  const [flipped, setFlipped] = useState(false)
-  const [temporarilyUnflipped, setTemporarilyUnflipped] = useState(false)
-  return (
-    <div className="industry-card-wrap" data-reveal style={{ '--delay': `${delay}s` }}>
-      <div
-        className={`industry-image-card industry-flip-card${flipped ? ' is-flipped' : ''}${temporarilyUnflipped ? ' is-temporarily-unflipped' : ''}`}
-        aria-label={sector.title}
-        onMouseLeave={() => setTemporarilyUnflipped(false)}
-      >
-        {/* Ambient Glow Aura */}
-        <div className="www-card-aura" aria-hidden="true" />
-
-        <div className="industry-flip-inner">
-          {/* Front: Clean image artwork with 4 corner brackets, sheen & laser rail - ZERO TEXT */}
-          <div
-            className="industry-flip-front"
-            onClick={() => setFlipped((prev) => !prev)}
-            role="button"
-            tabIndex={0}
-            aria-label={`${sector.title} — click to view insights`}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setFlipped((prev) => !prev) }}
-          >
-            <img src={sector.image} alt={sector.alt} loading="eager" decoding="async" className="industry-sector-img" />
-
-            {/* Glass Light Sheen Sweep */}
-            <div className="www-card-sheen" aria-hidden="true" />
-
-            {/* 4 Cyber Corner Reticles (Top & Bottom Corners - Zero Text) */}
-            <div className="www-reticle www-reticle-tl" aria-hidden="true" />
-            <div className="www-reticle www-reticle-tr" aria-hidden="true" />
-            <div className="www-reticle www-reticle-bl" aria-hidden="true" />
-            <div className="www-reticle www-reticle-br" aria-hidden="true" />
-
-            {/* Bottom Glowing Laser Rail (Zero Text) */}
-            <div className="www-hud-bottom" aria-hidden="true">
-              <span className="www-bottom-glow-bar" />
-            </div>
-          </div>
-          {/* Back: Text content - scrolling text won't flip card */}
-          <div className="industry-flip-back">
-            <div className="www-back-content">
-              <div className="www-back-header">
-                <h3 className="www-back-title">{sector.title}</h3>
-                <button
-                  type="button"
-                  className="www-back-close-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setFlipped(false)
-                    setTemporarilyUnflipped(true)
-                  }}
-                  aria-label="Back to image"
-                >
-                  <i className="fas fa-times" />
-                </button>
-              </div>
-              <p className="www-back-desc">{sector.desc}</p>
-              <button
-                type="button"
-                className="www-back-flip-btn"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setFlipped(false)
-                  setTemporarilyUnflipped(true)
-                }}
-              >
-                <i className="fas fa-undo" /> View Image
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -803,6 +726,11 @@ function App() {
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
+            {/* ── AI Agent Studio (Live Interactive Workspace Simulator) ── */}
+            <AgentStudioSection onNavigate={navigateTo} />
+
+            <div className="section-seam" aria-hidden="true"><span /></div>
+
             <section className="pillar-section" id="capabilities">
               <div className="pillar-section-bg" aria-hidden="true">
                 <div className="pillar-section-grid" />
@@ -934,40 +862,6 @@ function App() {
                       <div className="hww-connector" />
                     </div>
                   ))}
-                </div>
-              </div>
-            </section>
-
-            <div className="section-seam" aria-hidden="true"><span /></div>
-
-            <section className="industry-section" id="industries">
-              <div className="industry-inner">
-                <div className="services-header" data-reveal>
-                  <p className="section-kicker">Where we work</p>
-                  <h1>Built for operators, not slide decks</h1>
-                  <p>
-                    The same platform patterns — identity, money movement, workflows, and systems of
-                    record — adapted to the industry you already run.
-                  </p>
-                </div>
-                <div className="industry-image-grid">
-                  {homeFeaturedSectors.map((sector, i) => (
-                    <HomeFlipCard
-                      key={sector.id}
-                      sector={sector}
-                      delay={i * 0.08}
-                    />
-                  ))}
-                </div>
-                <div className="services-explore-cta" data-reveal>
-                  <button
-                    type="button"
-                    className="btn-explore-all-services"
-                    onClick={() => navigateTo('where-we-work')}
-                  >
-                    <span>Explore all sectors</span>
-                    <i className="fa fa-arrow-right" />
-                  </button>
                 </div>
               </div>
             </section>
