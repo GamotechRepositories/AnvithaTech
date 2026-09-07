@@ -825,11 +825,27 @@ function App() {
                 </div>
               </div>
 
-              <button type="button" className="hero-scroll" onClick={() => navigateTo('about')}>
+              <button
+                type="button"
+                className="hero-scroll"
+                onClick={() => {
+                  const target = document.getElementById('integrations') || document.getElementById('about')
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' })
+                  } else {
+                    navigateTo('about')
+                  }
+                }}
+              >
                 <span>Scroll</span>
                 <i />
               </button>
             </section>
+
+            <div className="section-seam" aria-hidden="true"><span /></div>
+
+            {/* ── Integrations Ecosystem Section (400+ Apps) ── */}
+            <IntegrationsSection onNavigate={navigateTo} />
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
@@ -1044,11 +1060,6 @@ function App() {
                 </div>
               </div>
             </section>
-
-            <div className="section-seam" aria-hidden="true"><span /></div>
-
-            {/* ── Integrations Ecosystem Section ── */}
-            <IntegrationsSection onNavigate={navigateTo} />
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
