@@ -271,25 +271,6 @@ export function AgentStudioSection({ onNavigate }) {
               Explore Solutions
             </button>
           </div>
-
-          <div className="agent-studio-features">
-            <div className="agent-feat-item">
-              <i className="fas fa-bolt" />
-              <span>Real-time Triggers</span>
-            </div>
-            <div className="agent-feat-item">
-              <i className="fas fa-network-wired" />
-              <span>400+ Connectors</span>
-            </div>
-            <div className="agent-feat-item">
-              <i className="fas fa-table" />
-              <span>Tailored Visual UI</span>
-            </div>
-            <div className="agent-feat-item">
-              <i className="fas fa-shield-alt" />
-              <span>Guardrails & Safety</span>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Interactive Workspace Simulator with Bespoke UI for Each Service */}
