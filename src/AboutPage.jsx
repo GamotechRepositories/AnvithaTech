@@ -47,6 +47,37 @@ export function AboutPage({ onNavigateHome }) {
     { year: 'Phase 4', event: 'Scaling client deliveries to 480+ businesses from Dubai and expanding global reach' },
   ]
 
+  const technicalFramework = [
+    {
+      step: '01',
+      title: 'Ingest',
+      tag: 'Data Pipeline',
+      desc: 'Multi-source ingestion connecting CRM, ERP, legacy databases, and live communication channels into a unified knowledge graph.',
+      features: ['Data Connectors', 'Stream Ingest', 'Schema Normalizer'],
+    },
+    {
+      step: '02',
+      title: 'Understand',
+      tag: 'Cognitive Engine',
+      desc: 'Hybrid LLM orchestration, structured entity extraction, and retrieval-augmented verification for enterprise context.',
+      features: ['Context Engine', 'Vector Store', 'Multi-Model Router'],
+    },
+    {
+      step: '03',
+      title: 'Orchestrate',
+      tag: 'Workflow Logic',
+      desc: 'Deterministic workflow engines, policy guardrails, human-in-the-loop approvals, and audit tracing.',
+      features: ['State Machine', 'Policy Guardrails', 'Event Triggers'],
+    },
+    {
+      step: '04',
+      title: 'Execute',
+      tag: 'Runtime Delivery',
+      desc: 'Sub-second execution across APIs, webhooks, robotic automation, and transactional pipelines.',
+      features: ['Action Runtime', 'API Gateway', 'Real-time Sync'],
+    },
+  ]
+
   return (
     <div className="about-page-wrapper">
       {/* Hero */}
@@ -133,6 +164,41 @@ export function AboutPage({ onNavigateHome }) {
                   <div className="about-milestone-year">{m.year}</div>
                   <div className="about-milestone-dot" />
                   <div className="about-milestone-event">{m.event}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Architecture / Methodology */}
+      <section className="about-tech-section">
+        <div className="about-container">
+          <div className="about-tech-header">
+            <p className="section-kicker">Architecture & Methodology</p>
+            <h2 className="about-section-title">How We Engineer Intelligence</h2>
+            <p className="about-section-subtitle">
+              Our end-to-end framework bridges complex enterprise data with production-ready AI and deterministic execution.
+            </p>
+          </div>
+
+          <div className="about-pipeline-flow">
+            <div className="about-pipeline-steps">
+              {technicalFramework.map((f) => (
+                <div key={f.step} className="about-pipeline-step">
+                  <div className="about-pipeline-node">
+                    <span className="about-pipeline-num">{f.step}</span>
+                  </div>
+                  <div className="about-pipeline-body">
+                    <span className="about-pipeline-tag">{f.tag}</span>
+                    <h3 className="about-pipeline-title">{f.title}</h3>
+                    <p className="about-pipeline-desc">{f.desc}</p>
+                    <div className="about-pipeline-chips">
+                      {f.features.map((feat) => (
+                        <span key={feat} className="about-pipeline-chip">{feat}</span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

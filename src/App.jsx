@@ -231,43 +231,6 @@ const reasons = [
   },
 ]
 
-const aiPipeline = [
-  {
-    step: '01',
-    icon: 'fas fa-satellite-dish',
-    title: 'Ingest',
-    desc: 'Chat, voice, documents, and APIs — every signal lands in one stream.',
-  },
-  {
-    step: '02',
-    icon: 'fas fa-brain',
-    title: 'Understand',
-    desc: 'Models read intent, risk, and context in milliseconds — not batch reports.',
-  },
-  {
-    step: '03',
-    icon: 'fas fa-project-diagram',
-    title: 'Orchestrate',
-    desc: 'Rules and AI decide which system, agent, or human should act next.',
-  },
-  {
-    step: '04',
-    icon: 'fas fa-bolt',
-    title: 'Execute',
-    desc: 'Payments, CRM, ERP, tickets, and workflows close the loop automatically.',
-  },
-]
-
-const platformDomains = [
-  'AI chat & voice',
-  'Document intelligence',
-  'KYC / KYB',
-  'Payment rails',
-  'CRM · ERP · HRMS',
-  'Analytics copilots',
-  'Custom SaaS',
-]
-
 const practiceAreas = [
   {
     icon: 'fas fa-robot',
@@ -449,17 +412,8 @@ function App() {
   const [hwwVisible, setHwwVisible] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const progressBarRef = useRef(null)
-  const [activeStep, setActiveStep] = useState(0)
   const hwwRef = useRef(null)
   const glowRef = useRef(null)
-
-  useEffect(() => {
-    if (currentView !== 'home') return undefined
-    const id = window.setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % aiPipeline.length)
-    }, 2800)
-    return () => window.clearInterval(id)
-  }, [currentView])
 
   useEffect(() => {
     document.body.classList.toggle('menu-open', menuOpen)
@@ -846,83 +800,6 @@ function App() {
 
             {/* ── Integrations Ecosystem Section (400+ Apps) ── */}
             <IntegrationsSection onNavigate={navigateTo} />
-
-            <div className="section-seam" aria-hidden="true"><span /></div>
-
-            <section id="about" className="platform-intro">
-              <div className="platform-bg" aria-hidden="true">
-                <div className="platform-grid" />
-                <div className="platform-orb platform-orb-a" />
-                <div className="platform-orb platform-orb-b" />
-              </div>
-
-              <div className="platform-inner">
-                <div className="platform-split">
-                  <div className="platform-copy" data-reveal>
-                    <p className="section-kicker">Next-generation stack</p>
-                    <h2 className="platform-title">
-                      AANVITA builds the <span>AI operating layer</span> serious companies run on
-                    </h2>
-                    <p className="platform-lead">
-                      Not another plugin shop. We connect agents, fintech rails, and enterprise
-                      systems into one architecture — so your business moves faster than competitors
-                      still wiring tools together by hand.
-                    </p>
-
-                    <ul className="platform-points">
-                      <li>
-                        <i className="fas fa-check" />
-                        One event stream from chat and voice to CRM, ERP, and payouts
-                      </li>
-                      <li>
-                        <i className="fas fa-check" />
-                        Production-grade security, observability, and SLA-backed support
-                      </li>
-                      <li>
-                        <i className="fas fa-check" />
-                        100% IP ownership — your platform, your code, your data
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="platform-stage" data-reveal>
-                    <div className="stage-panel">
-                      <div className="stage-head">
-                        <span className="stage-live">
-                          <i className="live-dot" /> Intelligence loop
-                        </span>
-                        <em>always processing</em>
-                      </div>
-
-                      <ol className="stage-flow">
-                        {aiPipeline.map((item, i) => (
-                          <li
-                            key={item.step}
-                            className={activeStep === i ? 'is-active' : ''}
-                          >
-                            <div className="stage-marker">
-                              <i className={item.icon} />
-                            </div>
-                            <div className="stage-body">
-                              <span>
-                                {item.step} · {item.title}
-                              </span>
-                              <p>{item.desc}</p>
-                            </div>
-                          </li>
-                        ))}
-                      </ol>
-
-                      <div className="stage-tags" aria-label="Platform domains">
-                        {platformDomains.map((tag) => (
-                          <span key={tag}>{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 
