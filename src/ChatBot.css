@@ -1,0 +1,1319 @@
+/* ==========================================================================
+   AANVITA TECHNOLOGIES - GEMINI AI CHATBOT STYLING
+   ========================================================================== */
+
+.aanvi-chatbot-wrapper {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  font-family: 'Outfit', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Floating Launcher Button */
+.aanvi-launcher-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(8, 14, 28, 0.96) 0%, rgba(15, 23, 42, 0.96) 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(0, 210, 255, 0.45);
+  border-radius: 999px;
+  padding: 8px 18px 8px 8px;
+  cursor: pointer;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 210, 255, 0.25);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.aanvi-launcher-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: #00d2ff;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 210, 255, 0.45);
+}
+
+.aanvi-launcher-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.aanvi-launcher-icon-wrap {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, #00d2ff, #7928ca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.aanvi-launcher-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #080c16;
+  display: block;
+}
+
+.aanvi-pulse-ring {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 229, 255, 0.7);
+  animation: aanviPulse 2.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  pointer-events: none;
+}
+
+@keyframes aanviPulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.aanvi-launcher-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  padding-right: 4px;
+}
+
+/* Chat Window Modal */
+.aanvi-chat-card {
+  position: fixed;
+  bottom: 88px;
+  right: 24px;
+  width: 415px;
+  max-width: calc(100vw - 32px);
+  height: 630px;
+  max-height: calc(100vh - 110px);
+  background: radial-gradient(circle at 80% 0%, rgba(0, 150, 255, 0.1) 0%, rgba(9, 14, 26, 0.97) 100%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(0, 210, 255, 0.28);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 45px rgba(0, 110, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  animation: aanviCardOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 99999;
+}
+
+@keyframes aanviCardOpen {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   PRE-CHAT ONBOARDING SCREEN (WELCOME HERO)
+   ========================================================================== */
+
+.aanvi-onboarding-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 24px 22px 26px;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 50% 32%, rgba(121, 40, 202, 0.28) 0%, rgba(0, 210, 255, 0.08) 48%, rgba(6, 9, 20, 0.98) 85%);
+  overflow: hidden;
+  animation: aanviFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aanvi-chat-active-flow {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  animation: aanviFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes aanviFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Onboarding Top Bar */
+.aanvi-onboarding-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  z-index: 10;
+}
+
+.aanvi-onboarding-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(126, 34, 206, 0.9) 0%, rgba(109, 40, 217, 0.9) 100%);
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(109, 40, 217, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Center Hero Stage */
+.aanvi-onboarding-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-align: center;
+  margin: 6px 0 12px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Orbit Stage with Concentric Wireframe Waves */
+.aanvi-orbit-stage {
+  position: relative;
+  width: 250px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.aanvi-orbit-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 330px;
+  height: 330px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 3D Robot Centerpiece */
+.aanvi-hero-avatar-wrap {
+  position: relative;
+  z-index: 3;
+  width: 165px;
+  height: 165px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: aanviHeroFloat 3.8s ease-in-out infinite;
+}
+
+.aanvi-hero-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 28px rgba(0, 210, 255, 0.42)) drop-shadow(0 0 35px rgba(121, 40, 202, 0.55));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@keyframes aanviHeroFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.2deg);
+  }
+}
+
+/* Floating Cosmic Crystals / Shards */
+.aanvi-floating-shard {
+  position: absolute;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(121, 40, 202, 0.85), rgba(0, 210, 255, 0.65));
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.shard-1 {
+  width: 15px;
+  height: 15px;
+  top: 32px;
+  left: 22px;
+  transform: rotate(20deg);
+  animation: aanviDrift1 4.5s ease-in-out infinite alternate;
+}
+
+.shard-2 {
+  width: 19px;
+  height: 19px;
+  top: 70px;
+  right: 16px;
+  transform: rotate(-15deg);
+  animation: aanviDrift2 5.5s ease-in-out infinite alternate;
+}
+
+.shard-3 {
+  width: 13px;
+  height: 13px;
+  bottom: 34px;
+  left: 22px;
+  transform: rotate(45deg);
+  animation: aanviDrift3 4s ease-in-out infinite alternate;
+}
+
+.shard-4 {
+  width: 11px;
+  height: 11px;
+  bottom: 52px;
+  right: 26px;
+  transform: rotate(-30deg);
+  animation: aanviDrift1 5s ease-in-out infinite alternate;
+}
+
+@keyframes aanviDrift1 {
+  0% { transform: translateY(0) rotate(15deg); }
+  100% { transform: translateY(-7px) rotate(25deg); }
+}
+
+@keyframes aanviDrift2 {
+  0% { transform: translateY(0) rotate(-10deg); }
+  100% { transform: translateY(-9px) rotate(-20deg); }
+}
+
+@keyframes aanviDrift3 {
+  0% { transform: translateY(0) rotate(40deg); }
+  100% { transform: translateY(6px) rotate(50deg); }
+}
+
+/* Heading Typography */
+.aanvi-onboarding-copy {
+  margin-top: 2px;
+}
+
+.aanvi-onboarding-hi {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #00d2ff;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  text-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
+}
+
+.aanvi-onboarding-title {
+  font-size: 1.78rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.24;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Bottom Get Started Button */
+.aanvi-onboarding-bottom {
+  width: 100%;
+  padding-top: 8px;
+  z-index: 10;
+}
+
+.aanvi-get-started-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #070b14;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.22), 0 0 20px rgba(0, 210, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.aanvi-get-started-btn:hover {
+  transform: translateY(-2.5px) scale(1.015);
+  background: #f8fafc;
+  box-shadow: 0 12px 35px rgba(255, 255, 255, 0.38), 0 0 32px rgba(0, 210, 255, 0.45);
+}
+
+.aanvi-get-started-btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+@media (max-width: 480px) {
+  .aanvi-orbit-stage {
+    width: 210px;
+    height: 200px;
+    margin-bottom: 14px;
+  }
+  .aanvi-orbit-svg {
+    width: 275px;
+    height: 275px;
+  }
+  .aanvi-hero-avatar-wrap {
+    width: 140px;
+    height: 140px;
+  }
+  .aanvi-onboarding-title {
+    font-size: 1.6rem;
+  }
+  .aanvi-get-started-btn {
+    height: 48px;
+    font-size: 0.98rem;
+  }
+}
+
+/* Chat Header */
+.aanvi-chat-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(180deg, rgba(16, 24, 45, 0.98) 0%, rgba(10, 15, 30, 0.94) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.aanvi-chat-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00d2ff 30%, #7928ca 70%, transparent);
+}
+
+.aanvi-header-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.aanvi-header-avatar-box {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  padding: 2px;
+  background: linear-gradient(135deg, #00d2ff, #7928ca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 210, 255, 0.35);
+  flex-shrink: 0;
+}
+
+.aanvi-header-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #0a0f1d;
+  display: block;
+}
+
+.aanvi-header-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.aanvi-header-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.aanvi-header-sub {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.aanvi-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.aanvi-icon-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #94a3b8;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.aanvi-icon-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+}
+
+.aanvi-icon-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* Restart Button */
+.aanvi-restart-btn:hover {
+  background: rgba(0, 210, 255, 0.15);
+  color: #00e5ff;
+  border-color: rgba(0, 210, 255, 0.5);
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.35);
+}
+
+.aanvi-restart-btn:hover i {
+  transform: rotate(180deg);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Close / Cross Button */
+.aanvi-close-btn:hover {
+  background: rgba(239, 68, 68, 0.18);
+  color: #ff6b81;
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.35);
+}
+
+.aanvi-close-btn:hover i {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Chat Body / Messages Area */
+.aanvi-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+.aanvi-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+
+.aanvi-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+/* Welcome Box */
+.aanvi-welcome-banner {
+  background: radial-gradient(circle at 50% 0%, rgba(0, 150, 255, 0.16) 0%, rgba(11, 17, 34, 0.75) 100%);
+  border: 1px solid rgba(0, 210, 255, 0.24);
+  border-radius: 18px;
+  padding: 18px 16px;
+  text-align: center;
+  margin-bottom: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.aanvi-welcome-avatar {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  padding: 2.5px;
+  background: linear-gradient(135deg, #00d2ff, #7928ca);
+  box-shadow: 0 0 24px rgba(0, 210, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aanvi-welcome-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #080c16;
+  display: block;
+}
+
+.aanvi-welcome-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.aanvi-welcome-desc {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.aanvi-welcome-chips-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #00d2ff;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.aanvi-chips-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.aanvi-chip-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 9px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  gap: 8px;
+}
+
+.aanvi-chip-btn:hover {
+  background: rgba(0, 210, 255, 0.12);
+  border-color: #00d2ff;
+  color: #00e5ff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 14px rgba(0, 210, 255, 0.18);
+}
+
+.aanvi-chip-arrow {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.aanvi-chip-btn:hover .aanvi-chip-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* Message Rows */
+.aanvi-msg-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  animation: aanviMsgIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes aanviMsgIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.aanvi-msg-row.user {
+  justify-content: flex-end;
+}
+
+.aanvi-msg-row.model {
+  justify-content: flex-start;
+}
+
+.aanvi-msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #00d2ff, #7928ca);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 210, 255, 0.3);
+}
+
+.aanvi-msg-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #080c16;
+  display: block;
+}
+
+.aanvi-msg-bubble {
+  max-width: 84%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  line-height: 1.58;
+  word-break: break-word;
+}
+
+.aanvi-msg-row.user .aanvi-msg-bubble {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #ffffff;
+  border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.aanvi-msg-row.model .aanvi-msg-bubble {
+  background: rgba(16, 24, 42, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #f1f5f9;
+  border-radius: 18px 18px 18px 4px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Markdown rendering inside bot bubbles */
+.aanvi-msg-bubble h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #00e5ff;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+
+.aanvi-msg-bubble p {
+  margin: 0 0 8px 0;
+}
+
+.aanvi-msg-bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.aanvi-msg-bubble ul,
+.aanvi-msg-bubble ol {
+  margin: 4px 0 8px 18px;
+  padding: 0;
+}
+
+.aanvi-msg-bubble li {
+  margin-bottom: 4px;
+}
+
+.aanvi-msg-bubble strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.aanvi-msg-bubble a {
+  color: #00e5ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.aanvi-msg-bubble a:hover {
+  opacity: 0.8;
+}
+
+/* Quick Navigation Action Buttons from Bot Responses */
+.aanvi-msg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.aanvi-action-chip {
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  color: #00e5ff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.aanvi-action-chip:hover {
+  background: #00e5ff;
+  color: #080c16;
+  border-color: #00e5ff;
+  transform: translateY(-1px);
+}
+
+/* Typing indicator */
+.aanvi-typing-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aanvi-typing-bubble {
+  background: rgba(22, 30, 52, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 16px;
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.aanvi-typing-dot {
+  width: 6px;
+  height: 6px;
+  background: #00d2ff;
+  border-radius: 50%;
+  animation: aanviDotBounce 1.4s infinite ease-in-out both;
+}
+
+.aanvi-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.aanvi-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.aanvi-typing-dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes aanviDotBounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Chat Input Footer */
+.aanvi-chat-footer {
+  padding: 12px 16px 14px;
+  background: rgba(9, 14, 28, 0.96);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.aanvi-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 999px;
+  padding: 5px 6px 5px 16px;
+  transition: all 0.25s ease;
+}
+
+.aanvi-input-wrap:focus-within {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: #00d2ff;
+  box-shadow: 0 0 16px rgba(0, 210, 255, 0.3);
+}
+
+.aanvi-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.88rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.aanvi-input-field::placeholder {
+  color: #64748b;
+}
+
+.aanvi-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00d2ff, #0066ff);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.aanvi-send-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(0, 210, 255, 0.65);
+}
+
+.aanvi-send-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.aanvi-footer-powered {
+  text-align: center;
+  font-size: 0.68rem;
+  color: #64748b;
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.aanvi-footer-powered span {
+  color: #00d2ff;
+  font-weight: 600;
+}
+
+/* Settings Flyout */
+.aanvi-settings-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(8, 12, 22, 0.96);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: aanviFadeIn 0.2s ease;
+}
+
+@keyframes aanviFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.aanvi-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.aanvi-settings-header h4 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aanvi-settings-body {
+  flex: 1;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.aanvi-settings-desc {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.aanvi-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.aanvi-status-badge.active {
+  background: rgba(0, 255, 170, 0.12);
+  color: #00ffaa;
+  border: 1px solid rgba(0, 255, 170, 0.3);
+}
+
+.aanvi-status-badge.inactive {
+  background: rgba(255, 180, 0, 0.12);
+  color: #ffb400;
+  border: 1px solid rgba(255, 180, 0, 0.3);
+}
+
+.aanvi-key-input-box label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+}
+
+.aanvi-key-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+  font-family: monospace;
+}
+
+.aanvi-key-input:focus {
+  border-color: #00d2ff;
+  box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+
+.aanvi-key-hint {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.aanvi-key-hint a {
+  color: #00d2ff;
+  text-decoration: underline;
+}
+
+.aanvi-settings-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+}
+
+.aanvi-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.aanvi-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.aanvi-btn-primary {
+  background: linear-gradient(135deg, #00d2ff, #0066ff);
+  border: none;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 102, 255, 0.4);
+  transition: all 0.2s;
+}
+
+.aanvi-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.6);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .aanvi-chatbot-wrapper {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .aanvi-launcher-label {
+    display: none;
+  }
+
+  .aanvi-launcher-btn {
+    padding: 12px;
+    border-radius: 50%;
+  }
+
+  .aanvi-chat-card {
+    right: 8px;
+    bottom: 74px;
+    width: calc(100vw - 16px);
+    height: calc(100vh - 90px);
+    border-radius: 16px;
+  }
+}
+
+/* ── Inline Lead Capture Card ── */
+.aanvi-lead-card {
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%);
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aanvi-lead-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #00e5ff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aanvi-lead-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aanvi-lead-input {
+  background: rgba(8, 12, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 0.78rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.aanvi-lead-input:focus {
+  border-color: #00d2ff;
+}
+
+.aanvi-lead-submit-btn {
+  background: linear-gradient(135deg, #00d2ff, #0066ff);
+  border: none;
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.aanvi-lead-submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 210, 255, 0.4);
+}
+
+/* ── Admin Leads Dashboard Modal ── */
+.aanvi-admin-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(6, 10, 20, 0.98);
+  backdrop-filter: blur(24px);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  animation: aanviFadeIn 0.2s ease;
+}
+
+.aanvi-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.aanvi-admin-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #00e5ff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aanvi-admin-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aanvi-admin-empty {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.8rem;
+  padding: 30px 10px;
+}
+
+.aanvi-admin-lead-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.78rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.aanvi-admin-lead-item:hover {
+  border-color: rgba(0, 210, 255, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.aanvi-admin-lead-top {
+  display: flex;
+  justify-content: space-between;
+  color: #94a3b8;
+  font-size: 0.7rem;
+}
+
+.aanvi-admin-lead-name {
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.aanvi-admin-lead-contact {
+  color: #00d2ff;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.aanvi-admin-lead-contact a {
+  color: #00d2ff;
+  text-decoration: none;
+}
+
+.aanvi-admin-lead-contact a:hover {
+  text-decoration: underline;
+}
+
+.aanvi-admin-lead-msg {
+  color: #cbd5e1;
+  font-size: 0.74rem;
+  line-height: 1.35;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.aanvi-admin-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
+.aanvi-admin-btn-export {
+  background: linear-gradient(135deg, #00d2ff, #0066ff);
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.aanvi-admin-btn-export:hover {
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.4);
+}
+
+.aanvi-admin-btn-clear {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.aanvi-admin-btn-clear:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.aanvi-footer-powered-clickable {
+  cursor: pointer;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+
+.aanvi-footer-powered-clickable:hover {
+  opacity: 0.8;
+}
+

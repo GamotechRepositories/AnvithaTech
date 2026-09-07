@@ -31,6 +31,7 @@ import { ContactPage } from './ContactPage'
 import { WhereWeWorkPage } from './WhereWeWorkPage'
 import { IntegrationsSection } from './IntegrationsSection'
 import { ServiceCarousel } from './ServiceCarousel'
+import { ChatBot } from './ChatBot'
 import { homeFeaturedSectors, sectorImages } from './sectorData'
 
 const navItems = ['Home', 'About', 'Services', 'Where We Work', 'Career', 'Contact']
@@ -1283,6 +1284,12 @@ function App() {
           </button>
         </div>
       </footer>
+
+      {/* 24/7 Gemini AI Assistant */}
+      <ChatBot
+        onNavigatePage={(page) => navigateTo(page)}
+        onNavigateService={(svcId) => navigateTo('service-detail', { id: svcId })}
+      />
     </>
   )
 }
