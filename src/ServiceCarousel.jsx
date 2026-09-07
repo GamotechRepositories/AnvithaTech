@@ -124,15 +124,7 @@ export function ServiceCarousel({ services, onSelectService }) {
   }
 
   return (
-    <div
-      className="svc-carousel-wrapper"
-      onPointerEnter={() => {
-        pauseRef.current = true
-      }}
-      onPointerLeave={() => {
-        pauseRef.current = false
-      }}
-    >
+    <div className="svc-carousel-wrapper">
       <div className="svc-carousel-stage">
         <button
           type="button"
