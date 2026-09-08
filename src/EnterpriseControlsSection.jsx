@@ -1,483 +1,540 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './EnterpriseControlsSection.css'
 
+const ssoOptions = [
+  { id: 'google', name: 'Google SSO', icon: 'fab fa-google', color: '#EA4335' },
+  { id: 'microsoft', name: 'Microsoft 365', icon: 'fab fa-microsoft', color: '#00A4EF' },
+  { id: 'azure', name: 'Azure AD', icon: 'fas fa-cloud', color: '#0078D4' },
+  { id: 'okta', name: 'Okta Verify', icon: 'fas fa-circle-notch', color: '#007dc1' },
+  { id: 'otp', name: 'SMS / WhatsApp', icon: 'fab fa-whatsapp', color: '#25D366' },
+  { id: 'saml', name: 'SAML 2.0', icon: 'fas fa-shield-alt', color: '#8b7cff' },
+  { id: 'biometric', name: 'Passkey / 2FA', icon: 'fas fa-fingerprint', color: '#3ee0d8' },
+  { id: 'ping', name: 'PingIdentity', icon: 'fas fa-id-badge', color: '#f43f5e' }
+]
+
+const SSO_STEP_PX = 27 // 23px button height + 4px gap
+const triSsoOptions = [...ssoOptions, ...ssoOptions, ...ssoOptions]
+
 export function EnterpriseControlsSection({ onNavigate }) {
-  // Interactive state for Model Restrictions widget
-  const [modelStates, setModelStates] = useState({
-    claude: true,
-    gemini: true,
-    gpt: true,
-    deepseek: false,
-    grok: false,
-  })
+  // Interactive branch selection state
+  const [activeBranch, setActiveBranch] = useState('Pune (HQ)')
+  
+  // Interactive model toggle state
+  const [activeModel, setActiveModel] = useState('gemini')
 
-  // Interactive state for Spend Cap Approval widget
-  const [approvalStatus, setApprovalStatus] = useState('pending') // 'pending' | 'approved' | 'denied'
+  // Interactive guardrail rule state
+  const [ruleApproved, setRuleApproved] = useState(null)
 
-  const toggleModel = (key) => {
-    setModelStates((prev) => ({ ...prev, [key]: !prev[key] }))
+  // Interactive and auto-cycling circular SSO state (centered active selection)
+  const [ssoIndex, setSsoIndex] = useState(ssoOptions.length) // starts at 8 (first item of middle set)
+  const [ssoTransition, setSsoTransition] = useState(true)
+  const [isSsoPaused, setIsSsoPaused] = useState(false)
+
+  useEffect(() => {
+    if (isSsoPaused) return
+    const timer = setInterval(() => {
+      setSsoTransition(true)
+      setSsoIndex((prev) => prev + 1)
+    }, 2200)
+    return () => clearInterval(timer)
+  }, [isSsoPaused])
+
+  const handleSsoTransitionEnd = () => {
+    const N = ssoOptions.length
+    if (ssoIndex >= N * 2) {
+      setSsoTransition(false)
+      setSsoIndex((prev) => (prev % N) + N)
+    } else if (ssoIndex < N) {
+      setSsoTransition(false)
+      setSsoIndex((prev) => (prev % N) + N)
+    }
   }
 
+  useEffect(() => {
+    if (!ssoTransition) {
+      const id = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setSsoTransition(true)
+        })
+      })
+      return () => cancelAnimationFrame(id)
+    }
+  }, [ssoTransition])
+
   return (
-    <section className="enterprise-controls-section" id="security-controls">
-      {/* Background ambient lighting and grid */}
-      <div className="ent-bg-glow ent-bg-glow--left" aria-hidden="true" />
-      <div className="ent-bg-glow ent-bg-glow--right" aria-hidden="true" />
-      <div className="ent-grid-overlay" aria-hidden="true" />
-
-      <div className="ent-container">
-        {/* Section Header */}
-        <header className="ent-header" data-reveal>
-          <div
-            className="ent-kicker-badge"
-            role="button"
-            tabIndex={0}
-            onClick={() => onNavigate && onNavigate('contact')}
-            onKeyDown={(e) => e.key === 'Enter' && onNavigate && onNavigate('contact')}
-          >
-            <span>Controls</span>
-            <i className="fas fa-arrow-right" />
+    <section className="egc-section" id="enterprise-controls">
+      <div className="egc-container">
+        {/* Header matching Screenshot 1 */}
+        <div className="egc-header">
+          <div className="egc-kicker">
+            <span>Enterprise Infrastructure</span>
+            <span className="egc-kicker-arrow" aria-hidden="true">&rarr;</span>
           </div>
-          <h2 className="ent-title">Enterprise-grade controls</h2>
-          <p className="ent-subtitle">
-            Security, private cloud isolation, and governance built for high-scale enterprise operations.
-          </p>
-        </header>
+          <h2 className="egc-title">Enterprise-grade controls</h2>
+        </div>
 
-        {/* ── Top Bento Grid (Usage Monitoring, Audit Logging, VPC Deployments) ── */}
-        <div className="ent-bento-grid">
-          {/* Card 1: Usage Monitoring (Left Wide Card) */}
-          <div className="ent-card ent-card--usage" data-reveal>
-            <div className="ent-usage-metrics">
-              <div className="ent-metric-col">
-                <span className="ent-metric-label">Credits used</span>
-                <span className="ent-metric-val">48.6k</span>
-              </div>
-              <div className="ent-metric-col">
-                <span className="ent-metric-label">Spend</span>
-                <span className="ent-metric-val">$243.00</span>
-              </div>
-              <div className="ent-metric-col">
-                <span className="ent-metric-label">Budget used</span>
-                <span className="ent-metric-val ent-metric-val--highlight">86%</span>
-              </div>
-            </div>
-
-            {/* Interactive Trend Chart Graphic */}
-            <div className="ent-chart-container">
-              {/* Legend lines */}
-              <div className="ent-chart-legend">
-                <span className="ent-legend-tag ent-legend-tag--current">This quarter</span>
-                <span className="ent-legend-tag ent-legend-tag--budget">Budget</span>
-                <span className="ent-legend-tag ent-legend-tag--past">Last quarter</span>
-              </div>
-
-              {/* Chart SVG Graphic */}
-              <div className="ent-chart-stage">
-                {/* Projected Overrun Alert Tooltip */}
-                <div className="ent-chart-tooltip">
-                  <div className="ent-tooltip-inner">
-                    <i className="fas fa-exclamation-triangle" />
-                    <div>
-                      <strong>At Risk</strong>
-                      <span>Projected overrun</span>
-                    </div>
-                  </div>
-                  <div className="ent-tooltip-stem" />
-                </div>
-
-                <svg className="ent-chart-svg" viewBox="0 0 540 180" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#ff007a" stopOpacity="0.35" />
-                      <stop offset="100%" stopColor="#ff007a" stopOpacity="0.0" />
-                    </linearGradient>
-                  </defs>
-
-                  {/* Budget threshold dashed line */}
-                  <line x1="20" y1="75" x2="520" y2="75" stroke="#374151" strokeDasharray="4 4" strokeWidth="1.5" />
-
-                  {/* Last Quarter Line (Muted Grey) */}
-                  <path
-                    d="M 30,135 Q 150,138 270,132 T 510,128"
-                    fill="none"
-                    stroke="#4b5563"
-                    strokeWidth="2"
-                    strokeOpacity="0.7"
-                  />
-                  {/* Dots for last quarter */}
-                  <circle cx="30" cy="135" r="3.5" fill="#1e2230" stroke="#4b5563" strokeWidth="2" />
-                  <circle cx="150" cy="138" r="3.5" fill="#1e2230" stroke="#4b5563" strokeWidth="2" />
-                  <circle cx="270" cy="132" r="3.5" fill="#1e2230" stroke="#4b5563" strokeWidth="2" />
-                  <circle cx="390" cy="130" r="3.5" fill="#1e2230" stroke="#4b5563" strokeWidth="2" />
-                  <circle cx="510" cy="128" r="3.5" fill="#1e2230" stroke="#4b5563" strokeWidth="2" />
-
-                  {/* Current Quarter Area & Curve (Vibrant Neon Pink) */}
-                  <path
-                    d="M 30,120 Q 150,110 270,82 T 510,38 L 510,175 L 30,175 Z"
-                    fill="url(#pinkGrad)"
-                  />
-                  <path
-                    d="M 30,120 Q 150,110 270,82 T 510,38"
-                    fill="none"
-                    stroke="#ff007a"
-                    strokeWidth="3"
-                  />
-
-                  {/* Dots for current quarter */}
-                  <circle cx="30" cy="120" r="4.5" fill="#ff007a" stroke="#ffffff" strokeWidth="2" />
-                  <circle cx="150" cy="110" r="4.5" fill="#ff007a" stroke="#ffffff" strokeWidth="2" />
-                  <circle cx="270" cy="82" r="5" fill="#ffffff" stroke="#ff007a" strokeWidth="2.5" className="ent-pulse-node" />
-                  <circle cx="390" cy="60" r="4.5" fill="#ff007a" stroke="#ffffff" strokeWidth="2" />
-                  <circle cx="510" cy="38" r="4.5" fill="#ff007a" stroke="#ffffff" strokeWidth="2" />
-                </svg>
-
-                {/* X-Axis Month Labels */}
-                <div className="ent-chart-axis">
-                  <span>Jan</span>
-                  <span>Feb</span>
-                  <span className="ent-axis-highlight">Mar</span>
-                  <span>Apr</span>
-                  <span>May</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="ent-card-copy">
-              <h3>Usage monitoring</h3>
-              <p>
-                Track organization-wide credit and API usage in real time. Implement budget, token limits,
-                and quota controls to avoid surprises.
-              </p>
-            </div>
+        {/* VPC Deployments Banner Card matching Screenshot 1 */}
+        <div className="egc-vpc-card">
+          <div className="egc-vpc-content">
+            <h3 className="egc-vpc-title">Private Cloud & VPC deployments</h3>
+            <p className="egc-vpc-desc">
+              Deploy your custom ERP, AI assistants, and web platforms inside your own AWS, Microsoft Azure, Google Cloud, or secure on-premise servers.
+            </p>
           </div>
 
-          {/* Right Column: Stacked Cards (Audit Logging & VPC Deployments) */}
-          <div className="ent-bento-col-right">
-            {/* Card 2: Audit Logging */}
-            <div className="ent-card ent-card--audit" data-reveal>
-              <div className="ent-audit-status">
-                <span className="ent-pulse-radar" />
-                <span className="ent-status-text">Capturing...</span>
+          <div className="egc-vpc-logos">
+            <div className="egc-cloud-item">
+              <div className="egc-cloud-badge egc-cloud-azure" title="Microsoft Azure">
+                <img 
+                  src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788851349/ea585cc5-81f7-46a3-8443-6912933f218c.png" 
+                  alt="Microsoft Azure" 
+                  className="egc-cloud-img"
+                  loading="lazy"
+                />
               </div>
-
-              <div className="ent-audit-feed">
-                <div className="ent-audit-item">
-                  <span className="ent-feed-node" />
-                  <p>
-                    <strong>Kat</strong> updated Aron's role to Admin
-                  </p>
-                </div>
-                <div className="ent-audit-item">
-                  <span className="ent-feed-node" />
-                  <p>
-                    <strong>Rahul</strong> invited a new workspace member
-                  </p>
-                </div>
-                <div className="ent-audit-item">
-                  <span className="ent-feed-node" />
-                  <p>
-                    <strong>Max</strong> created the Data Analyst agent
-                  </p>
-                </div>
-                <div className="ent-audit-item ent-audit-item--masked">
-                  <span className="ent-feed-node" />
-                  <p>
-                    <strong>System</strong> exported encrypted SOC 2 audit log
-                  </p>
-                </div>
-              </div>
-
-              <div className="ent-card-copy">
-                <h3>Audit logging</h3>
-                <p>
-                  Capture detailed audit trails for actions across the organization to understand where data is flowing.
-                </p>
-              </div>
+              <span className="egc-cloud-label">Azure</span>
             </div>
 
-            {/* Card 3: VPC Deployments */}
-            <div className="ent-card ent-card--vpc" data-reveal>
-              <div className="ent-cloud-logos">
-                {/* Microsoft Azure */}
-                <div className="ent-cloud-badge ent-cloud-badge--azure" title="Microsoft Azure">
-                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none">
-                    <path d="M12.9 2L4 16.5h6.2L12.9 2z" fill="#0078d4" />
-                    <path d="M13.6 5.5l-2.7 4.5 4.3 7h4.8l-6.4-11.5z" fill="#50e6ff" />
-                  </svg>
-                  <span>Azure</span>
-                </div>
-
-                {/* AWS */}
-                <div className="ent-cloud-badge ent-cloud-badge--aws" title="Amazon Web Services">
-                  <i className="fab fa-aws" />
-                  <span>AWS</span>
-                </div>
-
-                {/* Google Cloud */}
-                <div className="ent-cloud-badge ent-cloud-badge--gcp" title="Google Cloud Platform">
-                  <i className="fab fa-google" />
-                  <span>Google Cloud</span>
-                </div>
+            <div className="egc-cloud-item">
+              <div className="egc-cloud-badge egc-cloud-aws" title="Amazon Web Services">
+                <img 
+                  src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788851840/443727b5-1209-4e22-a591-1b1a65bc3ac9.png" 
+                  alt="Amazon Web Services" 
+                  className="egc-cloud-img" 
+                  loading="lazy"
+                />
               </div>
+              <span className="egc-cloud-label">AWS</span>
+            </div>
 
-              <div className="ent-card-copy">
-                <h3>VPC deployments</h3>
-                <p>
-                  Deploy Aanvitha platforms inside your own AWS, Azure, or Google Cloud environment to keep data in your private network.
-                </p>
+            <div className="egc-cloud-item">
+              <div className="egc-cloud-badge egc-cloud-gcp" title="Google Cloud Platform">
+                <img 
+                  src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788851489/6ac4c360-66ef-449d-b8df-b9b2c234917e.png" 
+                  alt="Google Cloud Platform" 
+                  className="egc-cloud-img"
+                  loading="lazy"
+                />
               </div>
+              <span className="egc-cloud-label">Google Cloud</span>
+            </div>
+
+            <div className="egc-cloud-item">
+              <div className="egc-cloud-badge egc-cloud-local" title="Private Server / On-Premise">
+                <img 
+                  src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788851619/e2edded3-c09a-4a86-892e-09f530780b1c.png" 
+                  alt="On-Premise Server" 
+                  className="egc-cloud-img"
+                  loading="lazy"
+                />
+              </div>
+              <span className="egc-cloud-label">On-Premise</span>
             </div>
           </div>
         </div>
 
-        {/* ── Bottom 10-Item Enterprise Governance Matrix ── */}
-        <div className="ent-features-matrix">
-          {/* 1. Roles and Permissions */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--roles">
-              <div className="ent-role-header">
-                <span className="ent-role-pill">Admin</span>
-                <div className="ent-avatar-stack">
-                  <span className="ent-avatar ent-avatar--1">K</span>
-                  <span className="ent-avatar ent-avatar--2">R</span>
-                  <span className="ent-avatar ent-avatar--3">M</span>
-                  <span className="ent-avatar-more">+4</span>
+        {/* ── 10 Core Features Grid (Aanvitha Tech Genuine Capabilities) ── */}
+        {/* Open 5-column layout without generic cards, compact & responsive */}
+        <div className="egc-grid">
+          
+          {/* Item 1: Role-Based ERP Control */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-admin-box">
+                <div className="egc-w-admin-top">
+                  <span className="egc-w-admin-tag">
+                    <i className="fas fa-user-shield" style={{ color: '#3ee0d8', marginRight: '4px' }} /> Admin
+                  </span>
+                  <div className="egc-w-avatar-group">
+                    <span className="egc-w-avatar egc-av-1" title="Receptionist" />
+                    <span className="egc-w-avatar egc-av-2" title="Accountant" />
+                    <span className="egc-w-avatar egc-av-3" title="Manager" />
+                    <span className="egc-w-avatar-plus">+6</span>
+                  </div>
+                </div>
+                <div className="egc-w-admin-grid">
+                  <div className="egc-w-admin-col">
+                    <span className="egc-app-link"><i className="fas fa-file-invoice-dollar" style={{ color: '#3ee0d8' }} /> Billing</span>
+                    <span className="egc-app-link"><i className="fas fa-boxes" style={{ color: '#f5c16c' }} /> Stock</span>
+                    <span className="egc-app-link"><i className="fas fa-chart-line" style={{ color: '#8b7cff' }} /> Reports</span>
+                  </div>
+                  <div className="egc-w-admin-col">
+                    <span className="egc-app-link"><i className="fas fa-users-cog" style={{ color: '#10b981' }} /> Staff</span>
+                    <span className="egc-app-link"><i className="fas fa-history" style={{ color: '#38bdf8' }} /> Audit</span>
+                    <span className="egc-app-link"><i className="fas fa-lock" style={{ color: '#ef4444' }} /> Scoped</span>
+                  </div>
                 </div>
               </div>
-              <div className="ent-integration-pills">
-                <span className="ent-chip"><i className="fab fa-slack" /> Slack</span>
-                <span className="ent-chip"><i className="fas fa-envelope" /> Gmail</span>
-                <span className="ent-chip"><i className="fab fa-github" /> GitHub</span>
-                <span className="ent-chip"><i className="fas fa-stream" /> Linear</span>
-                <span className="ent-chip"><i className="fab fa-jira" /> Jira</span>
-              </div>
             </div>
-            <h4>Roles and permissions.</h4>
-            <p>Manage reusable roles, credentials, and secrets with scoped access.</p>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Role-based ERP control.</strong> Configure custom permissions for Admins, Managers, Accountants, and Staff.
+            </p>
           </div>
 
-          {/* 2. SAML SSO and SCIM */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--sso">
-              <div className="ent-sso-item">
-                <i className="far fa-circle" />
-                <span>Sign in with Okta</span>
-              </div>
-              <div className="ent-sso-item">
-                <i className="fab fa-google" />
-                <span>Sign in with Google</span>
-              </div>
-              <div className="ent-sso-item">
-                <i className="fab fa-microsoft" />
-                <span>Sign in with Microsoft</span>
-              </div>
-              <div className="ent-sso-item ent-sso-item--azure">
-                <span className="ent-azure-icon">A</span>
-                <span>Sign in with Azure AD</span>
-              </div>
-            </div>
-            <h4>SAML SSO and SCIM.</h4>
-            <p>Securely streamline identity and access management.</p>
-          </div>
-
-          {/* 3. AI Model Restrictions */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--models">
-              <div
-                className={`ent-model-toggle ${modelStates.claude ? 'is-allowed' : 'is-blocked'}`}
-                onClick={() => toggleModel('claude')}
+          {/* Item 2: Enterprise Single Sign-On (SSO) */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div 
+                className="egc-w-sso-stack"
+                onMouseEnter={() => setIsSsoPaused(true)}
+                onMouseLeave={() => setIsSsoPaused(false)}
+                title="Auto-cycling SSO providers (Click or hover to select)"
               >
-                <span className="ent-model-name">
-                  <i className="fas fa-brain" /> Claude 3.5 Sonnet
-                </span>
-                <span className="ent-toggle-badge">{modelStates.claude ? '✓' : '✕'}</span>
-              </div>
-              <div
-                className={`ent-model-toggle ${modelStates.gemini ? 'is-allowed' : 'is-blocked'}`}
-                onClick={() => toggleModel('gemini')}
-              >
-                <span className="ent-model-name">
-                  <i className="fas fa-bolt" /> Gemini 2.5/3.6 Flash
-                </span>
-                <span className="ent-toggle-badge">{modelStates.gemini ? '✓' : '✕'}</span>
-              </div>
-              <div
-                className={`ent-model-toggle ${modelStates.gpt ? 'is-allowed' : 'is-blocked'}`}
-                onClick={() => toggleModel('gpt')}
-              >
-                <span className="ent-model-name">
-                  <i className="fas fa-robot" /> GPT-4o Enterprise
-                </span>
-                <span className="ent-toggle-badge">{modelStates.gpt ? '✓' : '✕'}</span>
-              </div>
-              <div
-                className={`ent-model-toggle ${modelStates.deepseek ? 'is-allowed' : 'is-blocked'}`}
-                onClick={() => toggleModel('deepseek')}
-              >
-                <span className="ent-model-name">
-                  <i className="fas fa-code-branch" /> DeepSeek V3
-                </span>
-                <span className="ent-toggle-badge">{modelStates.deepseek ? '✓' : '✕'}</span>
-              </div>
-            </div>
-            <h4>AI model restrictions.</h4>
-            <p>Control which AI models and cognitive engines teams can use.</p>
-          </div>
-
-          {/* 4. SOC 2 Type II */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--soc">
-              <div className="ent-shield-wrapper">
-                <span className="ent-shield-glow" />
-                <div className="ent-shield-icon">
-                  <i className="fas fa-shield-alt" />
-                </div>
-              </div>
-            </div>
-            <h4>SOC 2 Type II.</h4>
-            <p>Independently audited and compliant architecture.</p>
-          </div>
-
-          {/* 5. GDPR & Sovereignty */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--gdpr">
-              <div className="ent-gdpr-badge">
-                <div className="ent-star-ring">
-                  {[...Array(12)].map((_, i) => (
-                    <span key={i} className="ent-star" style={{ transform: `rotate(${i * 30}deg) translateY(-26px)` }}>★</span>
-                  ))}
-                </div>
-                <i className="fas fa-lock ent-gdpr-lock" />
-              </div>
-            </div>
-            <h4>GDPR.</h4>
-            <p>Zero Data Retention agreements for private models.</p>
-          </div>
-
-          {/* 6. Credential Management */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--credentials">
-              <div className="ent-secret-box">
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-                <span className="ent-secret-bullet" />
-              </div>
-            </div>
-            <h4>Credential management.</h4>
-            <p>Store secrets in one place and scope who can use them.</p>
-          </div>
-
-          {/* 7. App Policies and Guardrails */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--guardrails">
-              <div className="ent-policy-row ent-policy-row--allowed">
-                <span><i className="fas fa-envelope" /> Email a teammate</span>
-                <span className="ent-policy-check">✓</span>
-              </div>
-              <div className="ent-policy-row ent-policy-row--blocked">
-                <span><i className="fas fa-envelope-open" /> Email a vendor</span>
-                <span className="ent-policy-cross">✕</span>
-              </div>
-              <div className="ent-rule-tag">"Block all external emails"</div>
-            </div>
-            <h4>App policies and guardrails.</h4>
-            <p>Write plain English rules that block, tag, or log actions before they run.</p>
-          </div>
-
-          {/* 8. MCP Client and Server Tracking */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--tracking">
-              <div className="ent-flow-diagram">
-                <div className="ent-flow-meta">
-                  <span className="ent-flow-author">By Operator</span>
-                  <span className="ent-flow-date">Sep 17</span>
-                </div>
-                <div className="ent-flow-node">
-                  <i className="fab fa-slack" />
-                  <span>Slack</span>
-                  <small>send message</small>
-                </div>
-                <div className="ent-flow-footer">
-                  <span>Via Claude</span>
-                  <span className="ent-executed-tag">Executed</span>
-                </div>
-              </div>
-            </div>
-            <h4>MCP client and server tracking.</h4>
-            <p>Trace every tool call through one logging and analytics layer.</p>
-          </div>
-
-          {/* 9. Reporting and Analytics */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--analytics">
-              <div className="ent-bar-chart">
-                <div className="ent-bar-group">
-                  <span className="ent-bar-label">1.2k</span>
-                  <div className="ent-bar ent-bar--q1" />
-                  <span className="ent-bar-quarter">Q1</span>
-                </div>
-                <div className="ent-bar-group">
-                  <span className="ent-bar-label">2.6k</span>
-                  <div className="ent-bar ent-bar--q2" />
-                  <span className="ent-bar-quarter">Q2</span>
-                </div>
-                <div className="ent-bar-group">
-                  <span className="ent-bar-label ent-bar-label--hi">5.4k</span>
-                  <div className="ent-bar ent-bar--q3" />
-                  <span className="ent-bar-quarter">Q3</span>
-                </div>
-              </div>
-            </div>
-            <h4>Reporting and analytics.</h4>
-            <p>See AI adoption, usage, and outcomes for every team in one place.</p>
-          </div>
-
-          {/* 10. Spend Caps and Approvals */}
-          <div className="ent-matrix-item" data-reveal>
-            <div className="ent-mini-widget ent-mini-widget--spend">
-              <div className="ent-approval-dialog">
-                <div className="ent-approval-title">
-                  <i className="fas fa-credit-card" />
-                  <span>Credit increase request</span>
-                </div>
-                <p className="ent-approval-desc">
-                  Gonzalo hit the 50k cap on Deal Reviewer. Raise to 75k?
-                </p>
-                <div className="ent-approval-actions">
-                  {approvalStatus === 'pending' ? (
-                    <>
-                      <button
-                        type="button"
-                        className="ent-btn-deny"
-                        onClick={() => setApprovalStatus('denied')}
+                <div 
+                  className="egc-sso-scroll-track"
+                  onTransitionEnd={handleSsoTransitionEnd}
+                  style={{
+                    transform: `translateY(-${(ssoIndex - 1) * SSO_STEP_PX}px)`,
+                    transition: ssoTransition ? 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)' : 'none'
+                  }}
+                >
+                  {triSsoOptions.map((opt, idx) => {
+                    const isActive = idx === ssoIndex
+                    return (
+                      <div 
+                        key={`${opt.id}-${idx}`}
+                        className={`egc-sso-btn ${isActive ? 'egc-sso-active' : ''}`}
+                        onClick={() => {
+                          setSsoTransition(true)
+                          setSsoIndex(idx)
+                        }}
+                        title={opt.name}
                       >
-                        Deny
-                      </button>
-                      <button
-                        type="button"
-                        className="ent-btn-approve"
-                        onClick={() => setApprovalStatus('approved')}
+                        <i className={`${opt.icon} egc-sso-ico`} style={{ color: opt.color }} />
+                        <span className="egc-sso-label">{opt.name}</span>
+                        {isActive && <i className="fas fa-check egc-sso-active-check" />}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Enterprise Single Sign-On.</strong> Seamless 1-click identity verification with Google, Microsoft, Okta, and SMS OTP.
+            </p>
+          </div>
+
+          {/* Item 3: Multi-LLM AI Engine */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-models-box">
+                <div className="egc-models-scroll-container">
+                  <div className="egc-models-track">
+                    {/* Primary Set */}
+                    {[
+                      { id: 'gemini', name: 'Gemini 2.0 Flash', icon: 'fas fa-sparkles', color: '#3ee0d8', allowed: true },
+                      { id: 'gpt', name: 'OpenAI GPT-4o', icon: 'fas fa-robot', color: '#10a37f', allowed: true },
+                      { id: 'claude', name: 'Claude 3.5 Sonnet', icon: 'fas fa-brain', color: '#d97706', allowed: true },
+                      { id: 'llama', name: 'Llama 3.3 70B', icon: 'fas fa-microchip', color: '#8b7cff', allowed: true },
+                      { id: 'deepseek', name: 'DeepSeek R1 Local', icon: 'fas fa-server', color: '#38bdf8', allowed: true },
+                      { id: 'mistral', name: 'Mistral Large 2', icon: 'fas fa-wind', color: '#f59e0b', allowed: true },
+                      { id: 'gpt35', name: 'Legacy GPT-3.5', icon: 'fas fa-history', color: '#ef4444', allowed: false },
+                      { id: 'uncensored', name: 'Public Raw AI', icon: 'fas fa-shield-virus', color: '#ef4444', allowed: false },
+                      { id: 'unverified', name: 'Unsigned 3rd Party', icon: 'fas fa-ban', color: '#ef4444', allowed: false },
+                      { id: 'rawapi', name: 'Zero-Filter APIs', icon: 'fas fa-exclamation-triangle', color: '#ef4444', allowed: false }
+                    ].map((m, idx) => (
+                      <div 
+                        key={`m1-${m.id}-${idx}`}
+                        className={`egc-model-row ${m.allowed ? '' : 'egc-model-blocked'} ${activeModel === m.id ? 'egc-model-selected' : ''}`}
+                        onClick={() => m.allowed && setActiveModel(m.id)}
+                        title={m.allowed ? `${m.name} (Production Ready)` : `${m.name} (Restricted/Blocked)`}
                       >
-                        Approve
-                      </button>
-                    </>
-                  ) : (
-                    <div className={`ent-approval-confirmed ${approvalStatus}`}>
-                      {approvalStatus === 'approved' ? '✓ Approved' : '✕ Denied'}
+                        <span className="egc-model-name">
+                          <i className={m.icon} style={{ color: m.color }} /> {m.name}
+                        </span>
+                        {m.allowed ? (
+                          <i className="fas fa-check-circle egc-icon-check" />
+                        ) : (
+                          <i className="fas fa-times-circle egc-icon-cross" />
+                        )}
+                      </div>
+                    ))}
+                    {/* Duplicate Set for Seamless Infinite Vertical Marquee */}
+                    {[
+                      { id: 'gemini-dup', name: 'Gemini 2.0 Flash', icon: 'fas fa-sparkles', color: '#3ee0d8', allowed: true },
+                      { id: 'gpt-dup', name: 'OpenAI GPT-4o', icon: 'fas fa-robot', color: '#10a37f', allowed: true },
+                      { id: 'claude-dup', name: 'Claude 3.5 Sonnet', icon: 'fas fa-brain', color: '#d97706', allowed: true },
+                      { id: 'llama-dup', name: 'Llama 3.3 70B', icon: 'fas fa-microchip', color: '#8b7cff', allowed: true },
+                      { id: 'deepseek-dup', name: 'DeepSeek R1 Local', icon: 'fas fa-server', color: '#38bdf8', allowed: true },
+                      { id: 'mistral-dup', name: 'Mistral Large 2', icon: 'fas fa-wind', color: '#f59e0b', allowed: true },
+                      { id: 'gpt35-dup', name: 'Legacy GPT-3.5', icon: 'fas fa-history', color: '#ef4444', allowed: false },
+                      { id: 'uncensored-dup', name: 'Public Raw AI', icon: 'fas fa-shield-virus', color: '#ef4444', allowed: false },
+                      { id: 'unverified-dup', name: 'Unsigned 3rd Party', icon: 'fas fa-ban', color: '#ef4444', allowed: false },
+                      { id: 'rawapi-dup', name: 'Zero-Filter APIs', icon: 'fas fa-exclamation-triangle', color: '#ef4444', allowed: false }
+                    ].map((m, idx) => (
+                      <div 
+                        key={`m2-${m.id}-${idx}`}
+                        className={`egc-model-row ${m.allowed ? '' : 'egc-model-blocked'} ${activeModel === m.id.replace('-dup', '') ? 'egc-model-selected' : ''}`}
+                        onClick={() => m.allowed && setActiveModel(m.id.replace('-dup', ''))}
+                        title={m.allowed ? `${m.name} (Production Ready)` : `${m.name} (Restricted/Blocked)`}
+                      >
+                        <span className="egc-model-name">
+                          <i className={m.icon} style={{ color: m.color }} /> {m.name}
+                        </span>
+                        {m.allowed ? (
+                          <i className="fas fa-check-circle egc-icon-check" />
+                        ) : (
+                          <i className="fas fa-times-circle egc-icon-cross" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Multi-LLM AI engine.</strong> Connect production-grade Gemini, OpenAI, Claude, or private on-premise AI models.
+            </p>
+          </div>
+
+          {/* Item 4: Enterprise Data Security */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-soc2-imgbox">
+                <img 
+                  src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788852068/1af7f596-23be-439f-aea2-a5c4368ecb7c.png" 
+                  alt="Enterprise Data Security" 
+                  className="egc-soc2-custom-img"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Enterprise data security.</strong> Military-grade AES-256 database encryption at rest and TLS 1.3 in transit.
+            </p>
+          </div>
+
+          {/* Item 5: 100% Data Ownership & Privacy */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-privacy-imgbox">
+                <img 
+                  src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788854100/16d1c718-84a7-4f8a-88e3-20fbd6f077cb.png" 
+                  alt="100% Data Privacy" 
+                  className="egc-privacy-custom-img"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">100% Data privacy.</strong> You retain complete ownership of your code and customer database with zero vendor lock-in.
+            </p>
+          </div>
+
+          {/* Item 6: Encrypted API & Secrets Vault */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-pwd-box">
+                <div className="egc-pwd-header">
+                  <div className="egc-pwd-header-left">
+                    <i className="fas fa-key egc-pwd-key-ico" />
+                    <span>API Key Vault</span>
+                  </div>
+                  <span className="egc-vault-status-pill">
+                    <i className="fas fa-lock" /> AES
+                  </span>
+                </div>
+
+                <div className="egc-pwd-strip">
+                  <div className="egc-pwd-stars">
+                    {[...Array(8)].map((_, i) => (
+                      <i 
+                        key={i} 
+                        className="fas fa-star egc-star-glyph" 
+                        style={{ animationDelay: `${i * 0.25}s` }} 
+                      />
+                    ))}
+                  </div>
+                  <i className="fas fa-shield-alt egc-strip-lock" />
+                </div>
+
+                <div className="egc-pwd-badges">
+                  <span className="egc-vbadge">
+                    <i className="fas fa-bolt" /> Razorpay
+                  </span>
+                  <span className="egc-vbadge">
+                    <i className="fab fa-whatsapp" /> WhatsApp
+                  </span>
+                  <span className="egc-vbadge">
+                    <i className="fas fa-comment-dots" /> SMS
+                  </span>
+                </div>
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Encrypted API vault.</strong> Hardware-grade secret management for payment gateways, WhatsApp API, and SMS keys.
+            </p>
+          </div>
+
+          {/* Item 7: Custom Business Guardrails */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-policy-box">
+                <div className="egc-policy-item">
+                  <span className="egc-policy-label">
+                    <i className="fas fa-check" style={{ color: '#10b981' }} /> Verify bill before cancel
+                  </span>
+                  <i className="fas fa-check-circle egc-icon-check" />
+                </div>
+                <div className="egc-policy-item egc-policy-blocked">
+                  <span className="egc-policy-label">
+                    <i className="fas fa-ban" style={{ color: '#ef4444' }} /> Discount &gt; 20% without OTP
+                  </span>
+                  <i className="fas fa-times-circle egc-icon-cross" />
+                </div>
+                <p className="egc-policy-caption">"Enforce fraud protection & limits"</p>
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Custom business guardrails.</strong> Enforce anti-fraud checks, billing caps, and mandatory approval workflows.
+            </p>
+          </div>
+
+          {/* Item 8: Real-Time Activity Audit Trail */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-mcp-flow">
+                <span className="egc-mcp-lbl egc-mcp-tl">By Manager</span>
+                <span className="egc-mcp-lbl egc-mcp-tr">Just now</span>
+
+                <svg className="egc-mcp-svg" viewBox="0 0 180 84" fill="none" aria-hidden="true">
+                  {/* Top-Left down to horizontal across to pill top */}
+                  <path className="egc-mcp-path egc-mcp-path-tl" d="M 24 14 V 20 A 6 6 0 0 0 30 26 H 64 A 6 6 0 0 1 70 32 V 33" />
+                  {/* Top-Right down to horizontal across to pill top */}
+                  <path className="egc-mcp-path egc-mcp-path-tr" d="M 156 14 V 20 A 6 6 0 0 1 150 26 H 116 A 6 6 0 0 0 110 32 V 33" />
+                  {/* Bottom-Left up to horizontal across to pill bottom */}
+                  <path className="egc-mcp-path egc-mcp-path-bl" d="M 24 70 V 64 A 6 6 0 0 1 30 58 H 64 A 6 6 0 0 0 70 52 V 51" />
+                  {/* Bottom-Right from pill bottom down to Executed */}
+                  <path className="egc-mcp-path egc-mcp-path-br" d="M 110 51 V 52 A 6 6 0 0 0 116 58 H 150 A 6 6 0 0 1 156 64 V 70" />
+                </svg>
+
+                <div className="egc-mcp-pill-node">
+                  <i className="fas fa-file-invoice" style={{ color: '#3ee0d8', fontSize: '1.15rem' }} />
+                  <strong className="egc-mcp-brand">Invoice</strong>
+                  <span className="egc-mcp-action">#2489 Logged</span>
+                </div>
+
+                <span className="egc-mcp-lbl egc-mcp-bl">Via ERP Core</span>
+                <span className="egc-mcp-lbl egc-mcp-br">Encrypted</span>
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Real-time audit trails.</strong> Tamper-proof logs tracking every billing edit, login, and inventory shift with timestamps.
+            </p>
+          </div>
+
+          {/* Item 9: Automated Daily Cloud Backups */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-bar-chart">
+                <div className="egc-chart-bars">
+                  <div className="egc-bar-col">
+                    <span className="egc-bar-val">✓ Mon</span>
+                    <div className="egc-bar egc-bar-1" />
+                    <span className="egc-bar-lbl">Cloud</span>
+                  </div>
+                  <div className="egc-bar-col">
+                    <span className="egc-bar-val">✓ Tue</span>
+                    <div className="egc-bar egc-bar-2" />
+                    <span className="egc-bar-lbl">Daily</span>
+                  </div>
+                  <div className="egc-bar-col">
+                    <span className="egc-bar-val">✓ Today</span>
+                    <div className="egc-bar egc-bar-3" />
+                    <span className="egc-bar-lbl">Live</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Automated daily backups.</strong> Geo-redundant database snapshots with point-in-time instant recovery.
+            </p>
+          </div>
+
+          {/* Item 10: Multi-Branch & Cloud Scalability */}
+          <div className="egc-item">
+            <div className="egc-widget-canvas">
+              <div className="egc-w-spend-modal" title="Multi-Location 2-Way Realtime Replication">
+                {/* Header */}
+                <div className="egc-sync-hdr">
+                  <div className="egc-sync-hdr-title">
+                    <i className="fas fa-network-wired egc-sync-hdr-ico" />
+                    <span>Multi-Location Sync</span>
+                  </div>
+                  <div className="egc-sync-live-badge">
+                    <span className="egc-sync-live-dot" />
+                    <span>14ms</span>
+                  </div>
+                </div>
+
+                {/* Live Nodes & Replication Highway */}
+                <div className="egc-sync-nodes-row">
+                  <div 
+                    className={`egc-sync-node ${activeBranch === 'Pune (HQ)' ? 'active' : ''}`}
+                    onClick={() => setActiveBranch('Pune (HQ)')}
+                    title="Click to view Pune Primary DB"
+                  >
+                    <span className="egc-node-title">
+                      <i className="fas fa-building" />
+                      Pune (HQ)
+                    </span>
+                    <span className="egc-node-role">Primary DB</span>
+                    <span className="egc-node-state">
+                      <i className="fas fa-check-circle" /> Synced
+                    </span>
+                  </div>
+
+                  <div className="egc-sync-highway">
+                    <div className="egc-highway-track">
+                      <div className="egc-highway-pulse" />
                     </div>
-                  )}
+                    <span className="egc-highway-lbl">⇄ 2-Way</span>
+                  </div>
+
+                  <div 
+                    className={`egc-sync-node ${activeBranch === 'Mumbai' ? 'active' : ''}`}
+                    onClick={() => setActiveBranch('Mumbai')}
+                    title="Click to view Mumbai Retail Hub"
+                  >
+                    <span className="egc-node-title">
+                      <i className="fas fa-store" />
+                      Mumbai
+                    </span>
+                    <span className="egc-node-role">Retail Hub</span>
+                    <span className="egc-node-state">
+                      <i className="fas fa-check-circle" /> Synced
+                    </span>
+                  </div>
+                </div>
+
+                {/* Telemetry Status Bar */}
+                <div className="egc-sync-footer">
+                  <span className="egc-sync-foot-item">
+                    <i className="fas fa-boxes" /> Stock: Live
+                  </span>
+                  <span className="egc-sync-foot-div">•</span>
+                  <span className="egc-sync-foot-item">
+                    <i className="fas fa-shield-alt" /> 0 Conflict
+                  </span>
                 </div>
               </div>
             </div>
-            <h4>Spend caps and approvals.</h4>
-            <p>Cap spend by agent, team, or org, and approve costly actions.</p>
+            <p className="egc-feature-text">
+              <strong className="egc-feature-title">Multi-branch scalability.</strong> Centralized visibility to run multi-location hotels, hospitals, and stores in real time.
+            </p>
           </div>
+
+        </div>
+
+        {/* Bottom Contact / Architecture Review Callout */}
+        <div className="egc-bottom-cta">
+          <button 
+            type="button" 
+            className="btn btn--primary" 
+            onClick={() => onNavigate && onNavigate('Contact')}
+          >
+            Consult Our Solution Architect
+          </button>
         </div>
       </div>
     </section>
