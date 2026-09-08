@@ -32,6 +32,7 @@ import { WhereWeWorkPage } from './WhereWeWorkPage'
 import { IntegrationsSection } from './IntegrationsSection'
 import { ServiceCarousel } from './ServiceCarousel'
 import { AgentStudioSection } from './AgentStudioSection'
+import { EnterpriseControlsSection } from './EnterpriseControlsSection'
 import { ChatBot } from './ChatBot'
 
 const navItems = ['Home', 'About', 'Services', 'Where We Work', 'Career', 'Contact']
@@ -728,6 +729,11 @@ function App() {
 
             {/* ── AI Agent Studio (Live Interactive Workspace Simulator) ── */}
             <AgentStudioSection onNavigate={navigateTo} />
+
+            <div className="section-seam" aria-hidden="true"><span /></div>
+
+            {/* ── Enterprise-Grade Controls, Security & Cloud Infrastructure ── */}
+            <EnterpriseControlsSection onNavigate={navigateTo} />
 
             <div className="section-seam" aria-hidden="true"><span /></div>
 

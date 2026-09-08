@@ -1,0 +1,1026 @@
+/* ==========================================================================
+   Enterprise-Grade Controls & Security Section
+   ========================================================================== */
+
+.enterprise-controls-section {
+  position: relative;
+  width: 100%;
+  padding: 100px 24px 120px;
+  background-color: #07080e;
+  overflow: hidden;
+  color: #f1f5f9;
+  font-family: 'Outfit', 'Manrope', -apple-system, sans-serif;
+}
+
+/* Ambient Radial Glows & Grid */
+.ent-bg-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(140px);
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.ent-bg-glow--left {
+  top: 10%;
+  left: -150px;
+  background: radial-gradient(circle, #ff007a, transparent 70%);
+}
+
+.ent-bg-glow--right {
+  bottom: 10%;
+  right: -150px;
+  background: radial-gradient(circle, #38bdf8, transparent 70%);
+}
+
+.ent-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ent-container {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+/* ── Section Header ── */
+.ent-header {
+  margin-bottom: 56px;
+}
+
+.ent-kicker-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 20px;
+}
+
+.ent-kicker-badge:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.ent-kicker-badge i {
+  font-size: 11px;
+  transition: transform 0.25s ease;
+}
+
+.ent-kicker-badge:hover i {
+  transform: translateX(3px);
+}
+
+.ent-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4.5vw, 54px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.ent-subtitle {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #94a3b8;
+  max-width: 620px;
+}
+
+/* ── Top Bento Grid ── */
+.ent-bento-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+/* Base Bento Card */
+.ent-card {
+  background: rgba(15, 18, 26, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.ent-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.ent-bento-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Card 1: Usage Monitoring ── */
+.ent-usage-metrics {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 28px;
+}
+
+.ent-metric-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ent-metric-label {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.ent-metric-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.ent-metric-val--highlight {
+  color: #ff007a;
+}
+
+/* Chart Container & Graphic */
+.ent-chart-container {
+  position: relative;
+  width: 100%;
+  background: rgba(8, 10, 15, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 20px 20px 14px;
+  margin-bottom: 28px;
+}
+
+.ent-chart-legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.ent-legend-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.ent-legend-tag--current {
+  color: #ff007a;
+}
+
+.ent-legend-tag--budget {
+  color: #64748b;
+}
+
+.ent-legend-tag--past {
+  color: #475569;
+}
+
+.ent-chart-stage {
+  position: relative;
+  width: 100%;
+  height: 140px;
+}
+
+/* Alert Tooltip Box */
+.ent-chart-tooltip {
+  position: absolute;
+  top: 10px;
+  left: 48%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.ent-tooltip-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(26, 17, 24, 0.95);
+  border: 1px solid rgba(255, 0, 122, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(255, 0, 122, 0.25);
+}
+
+.ent-tooltip-inner i {
+  color: #ff007a;
+  font-size: 12px;
+}
+
+.ent-tooltip-inner strong {
+  display: block;
+  font-size: 11px;
+  color: #ff60a8;
+  line-height: 1.2;
+}
+
+.ent-tooltip-inner span {
+  display: block;
+  font-size: 10px;
+  color: #94a3b8;
+  line-height: 1.2;
+}
+
+.ent-tooltip-stem {
+  width: 1px;
+  height: 22px;
+  background: #ff007a;
+  margin: 0 auto;
+}
+
+.ent-chart-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ent-pulse-node {
+  animation: entPulseGlow 2s infinite alternate ease-in-out;
+}
+
+@keyframes entPulseGlow {
+  0% {
+    r: 5;
+    stroke-width: 2.5;
+  }
+  100% {
+    r: 7;
+    stroke-width: 4;
+  }
+}
+
+.ent-chart-axis {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 8px;
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.ent-axis-highlight {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Card Text Copy */
+.ent-card-copy h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.ent-card-copy p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+/* ── Card 2: Audit Logging ── */
+.ent-audit-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ent-pulse-radar {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: radarPulse 1.8s infinite;
+}
+
+@keyframes radarPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.ent-status-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.ent-audit-feed {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(8, 10, 15, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.ent-audit-feed::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 20px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ent-audit-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 2px;
+}
+
+.ent-feed-node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #38bdf8;
+  border: 1px solid #080a0f;
+  z-index: 1;
+}
+
+.ent-audit-item p {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ent-audit-item strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ent-audit-item--masked {
+  filter: blur(1.5px);
+  opacity: 0.5;
+  user-select: none;
+}
+
+/* ── Card 3: VPC Deployments ── */
+.ent-cloud-logos {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(8, 10, 15, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.ent-cloud-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  transition: all 0.25s ease;
+}
+
+.ent-cloud-badge:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.ent-cloud-badge--aws i {
+  color: #ff9900;
+  font-size: 18px;
+}
+
+.ent-cloud-badge--gcp i {
+  color: #4285f4;
+  font-size: 18px;
+}
+
+/* ==========================================================================
+   Bottom 10-Item Enterprise Governance Matrix
+   ========================================================================== */
+
+.ent-features-matrix {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+
+.ent-matrix-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mini Interactive/Visual Widget Container */
+.ent-mini-widget {
+  height: 130px;
+  background: rgba(15, 18, 26, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 14px;
+  transition: border-color 0.25s ease, background 0.25s ease;
+  overflow: hidden;
+}
+
+.ent-matrix-item:hover .ent-mini-widget {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(20, 24, 34, 0.8);
+}
+
+.ent-matrix-item h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.ent-matrix-item p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8da2b8;
+  margin: 0;
+}
+
+/* 1. Roles Widget */
+.ent-role-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.ent-role-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  color: #cbd5e1;
+}
+
+.ent-avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.ent-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #334155;
+  border: 2px solid #0f121a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: -6px;
+  color: #fff;
+}
+
+.ent-avatar--1 { background: #6366f1; }
+.ent-avatar--2 { background: #06b6d4; }
+.ent-avatar--3 { background: #f59e0b; }
+
+.ent-avatar-more {
+  font-size: 9px;
+  color: #94a3b8;
+  margin-left: 4px;
+}
+
+.ent-integration-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ent-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  padding: 3px 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  color: #94a3b8;
+}
+
+.ent-chip i {
+  font-size: 9px;
+}
+
+/* 2. SAML SSO Widget */
+.ent-mini-widget--sso {
+  gap: 5px;
+}
+
+.ent-sso-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #cbd5e1;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ent-sso-item--azure {
+  background: rgba(0, 120, 212, 0.1);
+  border-color: rgba(0, 120, 212, 0.25);
+  color: #50e6ff;
+}
+
+.ent-azure-icon {
+  font-weight: 800;
+  font-size: 10px;
+  color: #50e6ff;
+}
+
+/* 3. AI Model Restrictions Widget */
+.ent-mini-widget--models {
+  gap: 5px;
+}
+
+.ent-model-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.ent-model-toggle.is-allowed {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #e2e8f0;
+}
+
+.ent-model-toggle.is-allowed .ent-toggle-badge {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.ent-model-toggle.is-blocked {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #94a3b8;
+}
+
+.ent-model-toggle.is-blocked .ent-toggle-badge {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.ent-model-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ent-model-name i {
+  font-size: 9px;
+}
+
+/* 4. SOC 2 Type II Widget */
+.ent-mini-widget--soc {
+  align-items: center;
+  justify-content: center;
+}
+
+.ent-shield-wrapper {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ent-shield-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3), transparent 70%);
+  animation: shieldPulse 3s infinite alternate;
+}
+
+@keyframes shieldPulse {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.ent-shield-icon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+  font-size: 18px;
+}
+
+/* 5. GDPR Widget */
+.ent-mini-widget--gdpr {
+  align-items: center;
+  justify-content: center;
+}
+
+.ent-gdpr-badge {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ent-star-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.ent-star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 7px;
+  color: #e2e8f0;
+  opacity: 0.6;
+}
+
+.ent-gdpr-lock {
+  font-size: 16px;
+  color: #ffffff;
+  z-index: 2;
+}
+
+/* 6. Credential Management Widget */
+.ent-mini-widget--credentials {
+  align-items: center;
+  justify-content: center;
+}
+
+.ent-secret-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.ent-secret-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+/* 7. App Policies Widget */
+.ent-mini-widget--guardrails {
+  gap: 6px;
+}
+
+.ent-policy-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.ent-policy-row--allowed {
+  background: rgba(16, 185, 129, 0.08);
+  color: #cbd5e1;
+}
+
+.ent-policy-check {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.ent-policy-row--blocked {
+  background: rgba(239, 68, 68, 0.08);
+  color: #cbd5e1;
+}
+
+.ent-policy-cross {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+.ent-rule-tag {
+  font-size: 9px;
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+}
+
+/* 8. Tracking Widget */
+.ent-mini-widget--tracking {
+  justify-content: center;
+}
+
+.ent-flow-diagram {
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+.ent-flow-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.ent-flow-node {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 10px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.ent-flow-node small {
+  color: #94a3b8;
+  font-size: 8px;
+}
+
+.ent-flow-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8px;
+  color: #94a3b8;
+}
+
+.ent-executed-tag {
+  padding: 1px 4px;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* 9. Analytics Widget */
+.ent-mini-widget--analytics {
+  justify-content: flex-end;
+  padding-bottom: 8px;
+}
+
+.ent-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 80px;
+}
+
+.ent-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 26px;
+}
+
+.ent-bar-label {
+  font-size: 9px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.ent-bar-label--hi {
+  color: #ff007a;
+}
+
+.ent-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+}
+
+.ent-bar--q1 {
+  height: 25px;
+  background: #334155;
+}
+
+.ent-bar--q2 {
+  height: 44px;
+  background: #475569;
+}
+
+.ent-bar--q3 {
+  height: 65px;
+  background: #ff007a;
+  box-shadow: 0 0 10px rgba(255, 0, 122, 0.4);
+}
+
+.ent-bar-quarter {
+  font-size: 8px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* 10. Spend Widget */
+.ent-mini-widget--spend {
+  justify-content: center;
+}
+
+.ent-approval-dialog {
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+}
+
+.ent-approval-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.ent-approval-title i {
+  font-size: 8px;
+  color: #38bdf8;
+}
+
+.ent-approval-desc {
+  font-size: 8px !important;
+  color: #94a3b8 !important;
+  line-height: 1.3 !important;
+  margin-bottom: 6px !important;
+}
+
+.ent-approval-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.ent-btn-deny,
+.ent-btn-approve {
+  flex: 1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.ent-btn-deny {
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+.ent-btn-deny:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.ent-btn-approve {
+  background: #ffffff;
+  color: #080a0f;
+}
+
+.ent-btn-approve:hover {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.ent-approval-confirmed {
+  width: 100%;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 0;
+  border-radius: 4px;
+}
+
+.ent-approval-confirmed.approved {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.ent-approval-confirmed.denied {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* ── Responsive Media Queries ── */
+@media (max-width: 1100px) {
+  .ent-features-matrix {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .ent-bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ent-features-matrix {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .enterprise-controls-section {
+    padding: 70px 16px 80px;
+  }
+
+  .ent-usage-metrics {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .ent-cloud-logos {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ent-features-matrix {
+    grid-template-columns: 1fr;
+  }
+}
