@@ -333,8 +333,7 @@ function App() {
   const [selectedService, setSelectedService] = useState(null)
   const [targetServiceId, setTargetServiceId] = useState(null)
   const [servicesCategory, setServicesCategory] = useState('All')
-  const [hwwVisible, setHwwVisible] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef(null)
   const progressBarRef = useRef(null)
   const hwwRef = useRef(null)
   const glowRef = useRef(null)
@@ -404,14 +403,21 @@ function App() {
 
   useEffect(() => {
     let ticking = false
+    let cachedMax = 1
+
+    const updateMaxScroll = () => {
+      const doc = document.documentElement
+      cachedMax = Math.max(1, doc.scrollHeight - window.innerHeight)
+    }
+
     const updateScroll = () => {
       const y = window.scrollY
       const isScrolled = y > 24
-      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev))
+      if (headerRef.current) {
+        headerRef.current.classList.toggle('header--scrolled', isScrolled)
+      }
       if (progressBarRef.current) {
-        const doc = document.documentElement
-        const max = doc.scrollHeight - window.innerHeight
-        const pct = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0
+        const pct = Math.min(1, Math.max(0, y / cachedMax))
         progressBarRef.current.style.transform = `scaleX(${pct})`
       }
       ticking = false
@@ -426,9 +432,11 @@ function App() {
 
     const onResize = () => {
       if (window.innerWidth > 1000) setMenuOpen(false)
+      updateMaxScroll()
       onScroll()
     }
 
+    updateMaxScroll()
     updateScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onResize, { passive: true })
@@ -483,17 +491,18 @@ function App() {
   }, [currentView])
 
   useEffect(() => {
+    const el = hwwRef.current
+    if (!el) return
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setHwwVisible(true)
+          el.classList.add('hww-visible')
           observer.disconnect()
         }
       },
       { threshold: 0.01, rootMargin: '120px 0px 0px 0px' }
     )
-    const el = hwwRef.current
-    if (el) observer.observe(el)
+    observer.observe(el)
     return () => observer.disconnect()
   }, [currentView])
 
@@ -559,19 +568,21 @@ function App() {
     }
   }
 
-  const headerSolid = scrolled || currentView !== 'home' || menuOpen
+  const headerSolid = currentView !== 'home' || menuOpen
 
   return (
     <>
       <div ref={progressBarRef} className="site-progress" />
-      <div className="site-grain" aria-hidden="true" />
       <div className="cursor-glow" ref={glowRef} aria-hidden="true" />
 
       <a href="#main" className="skip-link">
         Skip to content
       </a>
 
-      <header className={`header${headerSolid ? ' header--solid' : ''}${menuOpen ? ' header--open' : ''}`}>
+      <header
+        ref={headerRef}
+        className={`header${headerSolid ? ' header--solid' : ''}${menuOpen ? ' header--open' : ''}`}
+      >
         <div className="header-inner">
           <a
             href="#home"
@@ -851,7 +862,7 @@ function App() {
                   </p>
                 </div>
 
-                <div className={`hww-steps${hwwVisible ? ' hww-visible' : ''}`} ref={hwwRef}>
+                <div className="hww-steps" ref={hwwRef}>
                   <div className="hww-pulse-dots" aria-hidden="true">
                     <span className="hww-dot hww-dot-1" />
                     <span className="hww-dot hww-dot-2" />

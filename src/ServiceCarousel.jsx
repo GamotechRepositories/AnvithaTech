@@ -41,6 +41,8 @@ export function ServiceCarousel({ services, onSelectService }) {
   const pauseRef = useRef(false)
   const loopWidthRef = useRef(0)
   const isVisibleRef = useRef(true)
+  const isWindowScrollingRef = useRef(false)
+  const windowScrollTimeoutRef = useRef(null)
 
   const loopItems = useMemo(() => [...services, ...services], [services])
 
@@ -61,6 +63,22 @@ export function ServiceCarousel({ services, onSelectService }) {
     return () => window.removeEventListener('resize', updateLoopWidth)
   }, [loopItems.length])
 
+  // Pause carousel RAF mutations while user is scrolling the main page to keep 60-120fps scrolling
+  useEffect(() => {
+    const handleWindowScroll = () => {
+      isWindowScrollingRef.current = true
+      if (windowScrollTimeoutRef.current) clearTimeout(windowScrollTimeoutRef.current)
+      windowScrollTimeoutRef.current = setTimeout(() => {
+        isWindowScrollingRef.current = false
+      }, 140)
+    }
+    window.addEventListener('scroll', handleWindowScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleWindowScroll)
+      if (windowScrollTimeoutRef.current) clearTimeout(windowScrollTimeoutRef.current)
+    }
+  }, [])
+
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
@@ -71,7 +89,7 @@ export function ServiceCarousel({ services, onSelectService }) {
           updateLoopWidth()
         }
       },
-      { rootMargin: '300px 0px' }
+      { rootMargin: '100px 0px' }
     )
     observer.observe(track)
     return () => observer.disconnect()
@@ -88,7 +106,7 @@ export function ServiceCarousel({ services, onSelectService }) {
       last = now
 
       const track = trackRef.current
-      if (track && isVisibleRef.current && !pauseRef.current) {
+      if (track && isVisibleRef.current && !pauseRef.current && !isWindowScrollingRef.current) {
         if (!loopWidthRef.current || loopWidthRef.current <= 0) {
           updateLoopWidth()
         }
