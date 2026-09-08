@@ -705,7 +705,7 @@ function App() {
                 <div className="hero-stage">
                   <div className="hero-flow">
                     <img
-                      src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788507710/f18569e0-65d0-4704-ab87-277a53e6e936.png"
+                      src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1788871354/40af036f-918c-46c9-ae6d-c734da5bd6a0.png"
                       alt="AANVITA builds the stack you run on"
                       decoding="async"
                       loading="eager"
