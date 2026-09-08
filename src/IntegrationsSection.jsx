@@ -93,8 +93,8 @@ export function IntegrationsSection() {
         {/* Header Block */}
         <div className="integ-header" data-reveal>
           <div className="integ-badge">
-            <span className="live-dot" />
             <span>Integrations · 400+ Apps</span>
+            <span className="kicker-arrow" aria-hidden="true">&rarr;</span>
           </div>
 
           <h2 className="integ-title">

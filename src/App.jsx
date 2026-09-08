@@ -897,6 +897,7 @@ function App() {
               </div>
             </section>
 
+            <div className="section-seam" aria-hidden="true"><span /></div>
 
             <section className="why-choose-section" id="team">
               <div className="why-choose-bg" aria-hidden="true">
