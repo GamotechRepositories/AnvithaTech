@@ -76,12 +76,13 @@ export function cleanBotResponse(text) {
     .trim()
 }
 
-// Fast lightweight models prioritized for ultra-low latency (< 1.5s) and high quota
+// Ultra-fast lightweight models prioritized for sub-second latency (< 1s) and high quota
 const FAST_MODELS = [
-  'gemini-flash-latest',
+  'gemini-3.5-flash-lite',
   'gemini-flash-lite-latest',
   'gemini-3.5-flash',
-  'gemini-3.7-flash',
+  'gemini-3.6-flash',
+  'gemini-flash-latest',
 ]
 
 /**
@@ -101,7 +102,7 @@ export async function streamGeminiMessage(conversationHistory, onChunk, leadCont
     return fallback
   }
 
-  // Sliding memory window: Keep last 6 messages to keep payloads small & latency under 1.5s
+  // Sliding memory window: Keep last 6 messages to keep payloads small & latency under 1s
   const historyToSend = conversationHistory.slice(-6)
   const contents = historyToSend.map((msg) => ({
     role: msg.role === 'user' ? 'user' : 'model',
@@ -109,8 +110,8 @@ export async function streamGeminiMessage(conversationHistory, onChunk, leadCont
   }))
 
   const systemText = leadContext
-    ? `${SYSTEM_INSTRUCTION}\n\n${leadContext}\n\nCRITICAL LANGUAGE REMINDER: Always reply in the visitor's language (e.g. Marathi, Hindi, etc.)! Do not reply in English if visitor is speaking Marathi or any other language.`
-    : `${SYSTEM_INSTRUCTION}\n\nCRITICAL LANGUAGE REMINDER: Always reply in the visitor's language (e.g. Marathi, Hindi, etc.)! Do not reply in English if visitor is speaking Marathi or any other language.`
+    ? `${SYSTEM_INSTRUCTION}\n\n${leadContext}`
+    : `${SYSTEM_INSTRUCTION}\n\nCRITICAL LANGUAGE MANDATE: Always reply in the visitor's EXACT language (English, Arabic, Hindi, Marathi, Spanish, French, German, Gujarati, Tamil, etc.). Never switch languages!`
 
   const requestBody = {
     system_instruction: {
@@ -118,9 +119,9 @@ export async function streamGeminiMessage(conversationHistory, onChunk, leadCont
     },
     contents: contents,
     generationConfig: {
-      temperature: 0.6,
+      temperature: 0.5,
       topP: 0.9,
-      maxOutputTokens: 1500,
+      maxOutputTokens: 800,
     },
   }
 
@@ -212,9 +213,9 @@ export async function sendGeminiMessage(conversationHistory, leadContext = '') {
     },
     contents: contents,
     generationConfig: {
-      temperature: 0.6,
+      temperature: 0.5,
       topP: 0.9,
-      maxOutputTokens: 1500,
+      maxOutputTokens: 800,
     },
   }
 
@@ -302,7 +303,7 @@ Output MUST be valid JSON only matching:
     },
   }
 
-  for (const model of ['gemini-flash-latest', 'gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-3.7-flash']) {
+  for (const model of ['gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-3.6-flash']) {
     try {
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`
       const response = await fetch(endpoint, {

@@ -456,36 +456,39 @@ Review what the visitor wrote: "${prompt}".
   -> Give clear bullet points, key capabilities, and explain how Aanvitha Technologies builds or deploys this solution.
   -> NEVER ignore or skip the visitor's question to just ask for contact info!
 
-2. LANGUAGE MANDATE:
-- You MUST reply in the EXACT SAME LANGUAGE as the visitor (e.g. natural, polite Marathi if Marathi is used, Hindi if Hindi, English if English).
+2. UNIVERSAL LANGUAGE MIRRORING MANDATE (CRITICAL & STRICT):
+- You MUST detect the language and script of the visitor's message and reply in that EXACT SAME LANGUAGE without exception!
+- This applies to ANY language globally (English, Arabic, Hindi, Marathi, Spanish, French, German, Gujarati, Tamil, Telugu, Kannada, Bengali, Russian, Japanese, etc.).
+- NEVER switch to another language! Whatever language the visitor is communicating in, reply 100% in that exact language.
+- If the visitor only inputs a person's name (e.g. "Ahmed", "Carlos", "Hans", "Rahul"), phone/email, or a single word:
+  -> Review the earlier messages in this conversation and CONTINUE in that EXACT ongoing language of the conversation!
 
 3. CONVERSATIONAL SITUATION:
 `
 
     if (userDeclinedName) {
-      leadInstruction += `- The visitor said "${prompt}" ("nothing" / "काही नाही" / declined name).
+      leadInstruction += `- The visitor declined or said "${prompt}" ("nothing" / no name / refusal).
 - Under NO circumstances call them "${prompt}" or treat it as a name!
-- Acknowledge politely: "काही हरकत नाही!" (or in their language: "No problem at all!").
+- Acknowledge politely in the visitor's ongoing language (e.g., "No problem at all! How can I assist you?" / "काही हरकत नाही!" / "لا مشكلة على الإطلاق!", etc.).
 - Do NOT ask for their name again.
 - Answer any question they asked thoroughly, or ask how you can assist them with Aanvitha Technologies' solutions.`
     } else if (updatedDraft.name && updatedDraft.stage === 'awaiting_contact') {
       leadInstruction += `- The visitor introduced their name: "${updatedDraft.name}".
-- First, answer any questions or comments they made thoroughly.
-- Then warmly greet them by name in the visitor's language (e.g. "तुम्हाला भेटून खूप आनंद झाला, ${updatedDraft.name}!").
-- Ask if they would like to share their WhatsApp or mobile phone number (and optional email) so our solutions team can share the tailored live demo and proposal.`
+- First, answer any questions or comments they made thoroughly in the visitor's ongoing language.
+- Then warmly greet them by name in that exact same ongoing language (e.g. "It's a pleasure to meet you, ${updatedDraft.name}!" in English, "تشرفت بلقائك يا ${updatedDraft.name}!" in Arabic, "तुम्हाला भेटून आनंद झाला, ${updatedDraft.name}!" in Marathi, etc.).
+- Ask in the visitor's language if they would like to share their WhatsApp or mobile phone number (and optional email) so our solutions team can share the tailored live demo and proposal.`
     } else if (updatedDraft.stage === 'awaiting_details') {
       leadInstruction += `- The visitor (${updatedDraft.name || 'Visitor'}) has shared contact details (${updatedDraft.phone ? `Phone: ${updatedDraft.phone}` : ''}${updatedDraft.email ? `, Email: ${updatedDraft.email}` : ''}).
-- First, answer any questions they asked.
-- Ask for their business/hotel name, city/address location, and any specific requirements.`
+- First, answer any questions they asked in the visitor's language.
+- Ask for their business or organization name, location, and specific feature requirements.`
     } else if (updatedDraft.stage === 'completed') {
       leadInstruction += `- The visitor (${updatedDraft.name || 'Visitor'}) has provided requirements: "${prompt}".
-- Confirm that all details have been recorded and our senior engineering team at Aanvitha Technologies in Dubai will review everything and contact them shortly via WhatsApp/email.`
+- Confirm in the visitor's language that all details have been recorded and our senior engineering team at Aanvitha Technologies in Dubai will review everything and contact them shortly via WhatsApp/email.`
     } else if (updatedDraft.stage === 'awaiting_name' && !userDeclinedName) {
-      leadInstruction += `- Answer the visitor's inquiry in depth with 2-3 clear, high-impact bullet points.
-- At the very end of your answer, gently ask for their name in their language:
-  (e.g., in Marathi: "तुमच्या व्यवसायासाठी योग्य प्रस्ताव आणि डेमो देण्यासाठी तुमचे नाव जाणून घेऊ शकतो का?", in Hindi: "क्या मैं आपका नाम जान सकता हूँ?", in English: "May I please know your name?")`
+      leadInstruction += `- Answer the visitor's inquiry in depth with 2-3 clear, high-impact bullet points in the visitor's language.
+- At the very end of your answer, gently ask for their name in the visitor's exact language so our solutions team can prepare a personalized proposal and live demo.`
     } else {
-      leadInstruction += `- Provide a warm, intelligent, and helpful response regarding Aanvitha Technologies' enterprise digital solutions.`
+      leadInstruction += `- Provide a warm, intelligent, and helpful response regarding Aanvitha Technologies' enterprise digital solutions in the visitor's exact language.`
     }
 
     leadInstruction += `
