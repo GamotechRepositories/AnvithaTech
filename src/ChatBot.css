@@ -50,6 +50,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  animation: aanviIconZoom 2.4s ease-in-out infinite;
+  will-change: transform;
 }
 
 .aanvi-launcher-img {
@@ -85,6 +87,15 @@
   100% {
     transform: scale(1.6);
     opacity: 0;
+  }
+}
+
+@keyframes aanviIconZoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
   }
 }
 
