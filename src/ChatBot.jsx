@@ -114,30 +114,144 @@ function MarkdownText({ text }) {
   return <>{elements}</>
 }
 
-// Helper to check if a string is a valid person name
-const INVALID_NAMES = new Set([
-  'yes', 'yeah', 'yep', 'yup', 'sure', 'ok', 'okay', 'fine', 'haan', 'ho', 'hnn',
-  'nahi', 'no', 'nope', 'hi', 'hello', 'hey', 'namaste', 'namaskar', 'shubh',
-  'kashi', 'kasa', 'kashi ahes', 'kasa ahes', 'kase ahat', 'kay chalay', 'kay challay',
-  'kaise ho', 'kaisi ho', 'kya haal hai', 'kem cho', 'majama', 'thik', 'thik ahe', 'chaan',
+// Check if user input is an explicit negation, refusal, or "nothing" (e.g. "kay nahi", "nothing", etc.)
+function isRefusalOrNothing(text) {
+  if (!text) return false
+  const t = text.trim().toLowerCase()
+
+  const exactRefusals = new Set([
+    'kay nahi', 'kahi nahi', 'kahi nahi re', 'kahi nako', 'kahi pan', 'kay nai', 'kahi nai', 'kay naahi', 'kahi naahi',
+    'kuch nahi', 'kuchh nahi', 'kuch bhi nahi', 'kuch nai', 'kuchh nai',
+    'nothing', 'nothing special', 'nothing much', 'nothing really', 'none', 'no name', 'no thanks',
+    'nahi', 'nahin', 'na', 'no', 'nope', 'nah', 'nako', 'nakoy', 'nko', 'nahit', 'nahi re', 'nahi g',
+    'kashala', 'kashasathi', 'kashala pahije', 'ka', 'ka bar', 'ka bara', 'kyu', 'kyun', 'kyun chahiye', 'kis liye',
+    'why', 'why do you ask', 'why do you need it', 'what for',
+    'nantar', 'nantar sangu', 'nantar bolu', 'baad me', 'baad mein', 'fir kabhi', 'phir kabhi', 'later', 'not now', 'maybe later',
+    'nahi sangnar', 'nahi sangayche', 'mala nahi sangayche', 'nahi batana', 'dont want to say', "don't want to say", 'skip', 'n/a',
+    'mahit nahi', 'mahiti nahi', 'mala mahit nahi', 'pata nahi', 'malum nahi', 'mujhe nahi pata', "don't know", 'dont know',
+    'काही नाही', 'काही नाही रे', 'नाही', 'नको', 'कशाला', 'का', 'काहीपण', 'काही पण', 'माहित नाही', 'नंतर', 'काही नको',
+    'कुछ नहीं', 'नहीं', 'नहीं बताना', 'क्यों', 'क्यों चाहिए', 'पता नहीं', 'मालूम नहीं', 'बाद में'
+  ])
+
+  if (exactRefusals.has(t)) return true
+
+  // Pattern matches
+  if (/^(kay|kahi|kuch|kuchh)\s+(nahi|nai|naahi)\b/i.test(t)) return true
+  if (/\b(kay|kahi|kuch)\s+(nahi|nai)\b/i.test(t)) return true
+  if (/^(nothing|none|no thanks|not now|skip|later)\b/i.test(t)) return true
+  if (/^(nahi\s+(sangnar|sangu|batana|dunga|pahije|hawa)|nako\s+ahe|nako\s+mala)\b/i.test(t)) return true
+  if (/(?:nahi\s+sangnar|not\s+interested|don'?t\s+want|prefer\s+not|dont\s+know|don'?t\s+know)/i.test(t)) return true
+  if (/^(काही\s+नाही|कुछ\s+नहीं|नाही\s+सांगणार)/.test(t)) return true
+
+  return false
+}
+
+// Check if user input is a question
+function isQuestion(text) {
+  if (!text) return false
+  const t = text.trim().toLowerCase()
+  if (t.includes('?')) return true
+
+  const questionWordList = [
+    'kay', 'kahi', 'kasa', 'kashi', 'kase', 'kiti', 'kuthe', 'kadhi', 'kashala', 'ka', 'kon',
+    'what', 'which', 'where', 'when', 'who', 'whom', 'whose', 'why', 'how', 'can you', 'could you', 'do you',
+    'kya', 'kaise', 'kaisi', 'kahan', 'kitna', 'kitne', 'kitni', 'kyu', 'kyun', 'kaun', 'konsa', 'konse',
+    'pricing kay', 'cost kiti', 'kay chalalay', 'kay kartes', 'kay karta', 'kay ahe',
+    'काय', 'कसे', 'कशी', 'कुठे', 'किती', 'कधी', 'कशाला', 'का', 'कोण', 'कसं', 'सांगा'
+  ]
+
+  return questionWordList.some((w) => new RegExp(`(^|\\s)${w}(\\s|$)`, 'i').test(t))
+}
+
+// Check if user input is a greeting or casual chat
+function isCasualOrGreeting(text) {
+  if (!text) return false
+  const t = text.trim().toLowerCase()
+  const casualPhrases = [
+    'hi', 'hello', 'hey', 'namaskar', 'namaste', 'shubh', 'kem cho', 'majama',
+    'kashi ahes', 'kasa ahes', 'kase ahat', 'kay chalay', 'kay challay', 'kay chalalay', 'kay kartes', 'kay karta',
+    'kaise ho', 'kaisi ho', 'kya haal hai', 'kya chal raha hai', 'kya karte ho',
+    'good morning', 'good afternoon', 'good evening', 'good night',
+    'thik', 'thik ahe', 'chaan', 'mast', 'bar', 'bara ahe', 'acha', 'accha', 'achha', 'theek', 'theek hai',
+    'dhanyawad', 'thank you', 'thanks', 'bye', 'alvida', 'shukriya',
+    'नमस्कार', 'नमस्ते', 'कशी आहेस', 'कसा आहेस', 'काय चाललंय', 'काय करतेस', 'ठीक आहे', 'छान'
+  ]
+  return casualPhrases.some((p) => t === p || t.startsWith(p + ' '))
+}
+
+// Non-name words and tech vocabulary that should never be treated as names
+const NON_NAME_WORDS = new Set([
+  'yes', 'yeah', 'yep', 'yup', 'sure', 'ok', 'okay', 'fine', 'haan', 'ho', 'hnn', 'ha',
+  'nahi', 'no', 'nope', 'nah', 'nako', 'nakoy', 'nko', 'nahit',
+  'hi', 'hello', 'hey', 'namaste', 'namaskar', 'shubh',
+  'kashi', 'kasa', 'kase', 'kashi ahes', 'kasa ahes', 'kase ahat', 'kay chalay', 'kay challay',
+  'kaise ho', 'kaisi ho', 'kya haal hai', 'kem cho', 'majama', 'thik', 'thik ahe', 'chaan', 'mast',
   'tell me', 'more', 'details', 'info', 'interested', 'services', 'service', 'products', 'product',
-  'pricing', 'price', 'cost', 'quote', 'demo', 'ai', 'fintech', 'erp', 'crm', 'hotel', 'hospital', 'app',
-  'website', 'software', 'dashboard', 'saas', 'hrms', 'lms', 'kyc', 'kyb', 'developer',
-  'which service', 'which services', 'what do you do', 'good', 'great', 'pls', 'please',
-  'me marathi madhe bolat ahe', 'marathi', 'software development', 'mala software develop karayach ahe',
-  'mala software delvelop karayach ahe', 'visitor', 'website visitor'
+  'pricing', 'price', 'cost', 'quote', 'proposal', 'demo', 'ai', 'fintech', 'erp', 'crm', 'hotel', 'hospital', 'app',
+  'website', 'software', 'dashboard', 'saas', 'hrms', 'lms', 'kyc', 'kyb', 'developer', 'engineering',
+  'which service', 'which services', 'what do you do', 'good', 'great', 'pls', 'please', 'help',
+  'me marathi madhe bolat ahe', 'marathi', 'hindi', 'english',
+  'mala software develop karayach ahe', 'visitor', 'website visitor', 'user', 'client',
+  'dubai', 'office', 'headquarters', 'company', 'address', 'contact', 'email', 'phone', 'number',
+  'booking', 'payment', 'gateway', 'voice', 'agent', 'document', 'ecommerce', 'scheduler',
+  'mala', 'me', 'amhi', 'tumhi', 'aapan', 'aap', 'hum', 'tum', 'main', 'mujhe', 'mera', 'meri', 'mere',
+  'kay nahi', 'kahi nahi', 'kuch nahi', 'nothing', 'kashala', 'why', 'nantar', 'later'
 ])
 
+// Strict person name validator
 function isValidPersonName(str) {
   if (!str) return false
   const trimmed = str.trim()
   const lower = trimmed.toLowerCase()
-  if (INVALID_NAMES.has(lower)) return false
+
+  if (NON_NAME_WORDS.has(lower)) return false
+  if (isRefusalOrNothing(trimmed)) return false
+  if (isQuestion(trimmed)) return false
+  if (isCasualOrGreeting(trimmed)) return false
+  if (detectBusinessIntent(trimmed)) return false
+
+  // Cannot contain numbers
   if (/\d/.test(trimmed)) return false
+
+  // Max 3 words (e.g. First Middle Last)
+  const words = trimmed.split(/\s+/)
+  if (words.length > 3) return false
+
+  // Total length must be reasonable (2 to 30 chars)
   if (trimmed.length < 2 || trimmed.length > 30) return false
-  if (/^(kashi|kasa|kaise|kaisi|kya|kem|hello|hi|hey|mala|me|amhi|aapan)\b/i.test(lower)) return false
-  if (!/^[a-zA-Z\s.'-]+$/.test(trimmed)) return false
+
+  // Each word should be at least 2 chars
+  if (words.some((w) => w.length < 2)) return false
+
+  // Allowed characters: English letters, Devanagari characters, space, dot, apostrophe, hyphen
+  if (!/^[a-zA-Z\u0900-\u097F\s.'-]+$/.test(trimmed)) return false
+
   return true
+}
+
+// Extract explicit name introduction pattern (e.g. "My name is X", "Maza nav X ahe", "माझे नाव X आहे")
+function extractExplicitName(text) {
+  if (!text) return null
+  const t = text.trim()
+
+  const patterns = [
+    /^(?:my name is|i am|i'm|this is|call me|myself|name is|name:)\s+([a-zA-Z\u0900-\u097F\s.'-]+)/i,
+    /^(?:maz[ae]?\s+(?:nav|naav|naam|name)\s+(?:ahe\s+)?|mera\s+naam\s+|nav\s+|naav\s+|naam\s+|माझे\s+नाव\s+|नाव\s+)\s*([a-zA-Z\u0900-\u097F\s.'-]+)/i,
+    /([a-zA-Z\u0900-\u097F\s.'-]+)\s+(?:nav|naav)\s+ahe/i,
+  ]
+
+  for (const pattern of patterns) {
+    const match = t.match(pattern)
+    if (match && match[1]) {
+      // Clean up trailing copula verbs e.g. "ahe", "hai", "is", "here", "boltoy", "आहे", "है"
+      let candidate = match[1].replace(/\s+(?:ahe|aahe|hai|is|here|boltoy|boltoi|boltoy me|आहे|है|हूँ)$/i, '').trim()
+      if (isValidPersonName(candidate)) {
+        return candidate
+      }
+    }
+  }
+
+  return null
 }
 
 // Helper to detect business context or project inquiry intent
@@ -167,7 +281,7 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
     email: '',
     business: '',
     details: '',
-    stage: 'idle', // 'idle' | 'awaiting_name' | 'awaiting_phone' | 'awaiting_email' | 'awaiting_details' | 'completed'
+    stage: 'idle', // 'idle' | 'awaiting_name' | 'declined_name' | 'awaiting_contact' | 'awaiting_details' | 'completed'
   })
 
   // Admin Leads Dashboard state
@@ -229,10 +343,21 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
 
     setInputText('')
 
-    // ── Smart Conversational Lead Extraction ──
+    // ── Smart Conversational Lead & Name Extraction ──
     const lastBotMsg = [...messages].reverse().find((m) => m.role === 'model')?.content?.toLowerCase() || ''
     const detected = extractContactDetails(prompt)
     let updatedDraft = { ...leadDraft }
+
+    // Did bot just ask for their name in the last message?
+    const isBotAskingForName =
+      updatedDraft.stage === 'awaiting_name' ||
+      lastBotMsg.includes('तुमचे नाव') ||
+      lastBotMsg.includes('your name') ||
+      lastBotMsg.includes('आपला नाव') ||
+      lastBotMsg.includes('aapka naam') ||
+      lastBotMsg.includes('know your name') ||
+      lastBotMsg.includes('नांव') ||
+      lastBotMsg.includes('नाव जाणून')
 
     // 1. Extract Phone or Email if present anywhere in the message
     if (detected?.phone) {
@@ -248,15 +373,35 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
       updatedDraft.name = ''
     }
 
-    // 3. Extract Name ONLY if it is a valid person name and not a contact or correction
-    if (!detected?.phone && !detected?.email && !isNameCorrection) {
-      const cleanCandidate = prompt.replace(/^(my name is|i am|this is|i'm|myself|naam|naav|nav|name|call me)\s+/i, '').trim()
-      if (isValidPersonName(cleanCandidate)) {
-        updatedDraft.name = cleanCandidate
+    // 3. Detect Refusal / "Nothing" / "kay nahi"
+    const userDeclinedName = isRefusalOrNothing(prompt)
+
+    if (userDeclinedName) {
+      // User explicitly declined or said "kay nahi" / "kahi nahi" / "nothing"
+      updatedDraft.name = ''
+      if (isBotAskingForName) {
+        updatedDraft.stage = 'declined_name'
+      }
+    } else if (!detected?.phone && !detected?.email && !isNameCorrection) {
+      // 4. Try explicit name introduction pattern (e.g. "My name is Priya", "Maza nav Rahul ahe")
+      const explicitName = extractExplicitName(prompt)
+      if (explicitName) {
+        updatedDraft.name = explicitName
+        updatedDraft.stage = 'awaiting_contact'
+      } else if (
+        isBotAskingForName &&
+        !isQuestion(prompt) &&
+        !isCasualOrGreeting(prompt) &&
+        !detectBusinessIntent(prompt) &&
+        isValidPersonName(prompt)
+      ) {
+        // 5. Standalone direct name only when bot actually just asked for it
+        updatedDraft.name = prompt.trim()
+        updatedDraft.stage = 'awaiting_contact'
       }
     }
 
-    // 4. User provides requirements/details
+    // 6. User provides requirements/details
     if (
       (updatedDraft.stage === 'awaiting_details' ||
         lastBotMsg.includes('business or hotel') ||
@@ -269,13 +414,14 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
       !lastBotMsg.includes('email address') &&
       prompt.length > 3 &&
       !isValidPersonName(prompt) &&
-      !isNameCorrection
+      !isNameCorrection &&
+      !userDeclinedName
     ) {
       updatedDraft.details = prompt
       updatedDraft.stage = 'completed'
     }
 
-    // 5. Check user intent flags
+    // 7. Check user intent flags
     const isAffirmative = /^(yes|yeah|yep|yup|sure|ok|okay|haan|ho|hnn|interested|definitely|tell me|more|pls|please|bolo|sang|sanga)\b/i.test(prompt)
     const isBusinessOrServiceInquiry = detectBusinessIntent(prompt)
 
@@ -288,7 +434,7 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
     }
 
     // Determine current progression stage
-    if (!updatedDraft.name && updatedDraft.stage !== 'idle') {
+    if (!updatedDraft.name && updatedDraft.stage !== 'idle' && updatedDraft.stage !== 'declined_name') {
       updatedDraft.stage = 'awaiting_name'
     } else if (updatedDraft.name && !updatedDraft.phone && !updatedDraft.email) {
       updatedDraft.stage = 'awaiting_contact'
@@ -301,55 +447,53 @@ export function ChatBot({ onNavigatePage, onNavigateService }) {
     setLeadDraft(updatedDraft)
 
     // Build targeted, strict dynamic instruction for Gemini
-    let leadInstruction = ''
+    // CRITICAL: Always prioritize deeply thinking through and answering the user's question first!
+    let leadInstruction = `ACTIVE CONVERSATION INSTRUCTION:
+1. PRIMARY MANDATE - ANSWER THE VISITOR'S QUESTION OR TOPIC FIRST:
+Review what the visitor wrote: "${prompt}".
+- If the visitor asked any question, requested details, or shared a business requirement (e.g. AI Voice Agent, KYC/KYB biometric system, ERP, CRM, payment gateway, pricing structure, Dubai office, or technical capabilities):
+  -> You MUST FIRST provide a comprehensive, thoughtful, well-structured, and insightful answer in the visitor's language!
+  -> Give clear bullet points, key capabilities, and explain how Aanvitha Technologies builds or deploys this solution.
+  -> NEVER ignore or skip the visitor's question to just ask for contact info!
 
-    if (!updatedDraft.name) {
-      // If user said "yes", "sure", "interested" to explore solutions
-      if (
-        isAffirmative ||
-        lastBotMsg.includes('particular domain') ||
-        lastBotMsg.includes('caught your interest') ||
-        lastBotMsg.includes('which specific domain') ||
-        lastBotMsg.includes('solution you would like')
-      ) {
-        leadInstruction = `ACTIVE CONVERSATION INSTRUCTION:
-The visitor replied "${prompt}" to explore our solutions.
-1. Acknowledge their interest enthusiastically:
-   "That's wonderful! Which specific domain or solution caught your interest (AI & Automation, Fintech & Payments, Enterprise ERP, or Growth & Operations)?"
-2. IN THE VERY SAME RESPONSE, ASK FOR THEIR NAME AND CONTACT:
-   "Also, to help our solutions team prepare a customized live demo and proposal for you, may I please know your name and WhatsApp/phone number (and email, if you'd like)?"
-3. STRICT PROHIBITION: DO NOT write "Chat on WhatsApp", "Go to Contact Page", or "Request Callback". Do NOT present button choices. End with this dual question.`
-      } else if (isBusinessOrServiceInquiry) {
-        leadInstruction = `ACTIVE CONVERSATION INSTRUCTION:
-The visitor is asking about solutions or services: "${prompt}".
-1. Explain our core offerings clearly and concisely in 2-3 high-impact bullet points.
-2. AT THE VERY END OF YOUR ANSWER, ASK FOR THEIR NAME IN THE VISITOR'S LANGUAGE:
-   (e.g., in Marathi: "तुमच्या व्यवसायासाठी योग्य प्रस्ताव आणि डेमो देण्यासाठी तुमचे नाव जाणून घेऊ शकतो का?", in Hindi: "क्या मैं आपका नाम जान सकता हूँ?", in English: "May I please know your name?")
-3. LANGUAGE MANDATE: You MUST reply in the EXACT SAME LANGUAGE as the user!
-4. STRICT PROHIBITION: DO NOT write "Chat on WhatsApp", "Go to Contact Page", or "Request Callback". Do NOT present any buttons or options. End strictly with this question.`
-      }
-    } else if (updatedDraft.stage === 'awaiting_contact' && isValidPersonName(updatedDraft.name)) {
-      leadInstruction = `ACTIVE CONVERSATION INSTRUCTION:
-The visitor provided their name: "${updatedDraft.name}".
-1. Acknowledge them warmly by name IN THE VISITOR'S LANGUAGE (e.g. in Marathi: "तुम्हाला भेटून खूप आनंद झाला, ${updatedDraft.name}!", in Hindi: "आपसे मिलकर खुशी हुई, ${updatedDraft.name}!", in English: "Nice to meet you, ${updatedDraft.name}!").
-2. Ask for their WhatsApp or mobile phone number (and optional email address) IN THE VISITOR'S LANGUAGE so our solutions team can reach out with the proposal and demo.
-3. LANGUAGE MANDATE: You MUST reply in the EXACT SAME LANGUAGE (Marathi/Hindi/English/etc.) as the visitor!
-4. STRICT PROHIBITION: DO NOT write "Chat on WhatsApp", "Go to Contact Page", or "Request Callback".`
+2. LANGUAGE MANDATE:
+- You MUST reply in the EXACT SAME LANGUAGE as the visitor (e.g. natural, polite Marathi if Marathi is used, Hindi if Hindi, English if English).
+
+3. CONVERSATIONAL SITUATION:
+`
+
+    if (userDeclinedName) {
+      leadInstruction += `- The visitor said "${prompt}" ("nothing" / "काही नाही" / declined name).
+- Under NO circumstances call them "${prompt}" or treat it as a name!
+- Acknowledge politely: "काही हरकत नाही!" (or in their language: "No problem at all!").
+- Do NOT ask for their name again.
+- Answer any question they asked thoroughly, or ask how you can assist them with Aanvitha Technologies' solutions.`
+    } else if (updatedDraft.name && updatedDraft.stage === 'awaiting_contact') {
+      leadInstruction += `- The visitor introduced their name: "${updatedDraft.name}".
+- First, answer any questions or comments they made thoroughly.
+- Then warmly greet them by name in the visitor's language (e.g. "तुम्हाला भेटून खूप आनंद झाला, ${updatedDraft.name}!").
+- Ask if they would like to share their WhatsApp or mobile phone number (and optional email) so our solutions team can share the tailored live demo and proposal.`
     } else if (updatedDraft.stage === 'awaiting_details') {
-      leadInstruction = `ACTIVE CONVERSATION INSTRUCTION:
-The visitor (${updatedDraft.name || 'Visitor'}) has shared their contact details (${updatedDraft.phone ? `Phone: ${updatedDraft.phone}` : ''}${updatedDraft.email ? `, Email: ${updatedDraft.email}` : ''}).
-1. Acknowledge their contact details warmly IN THE VISITOR'S LANGUAGE.
-2. Ask for their business/hotel name, city/address/location, and any specific requirements IN THE VISITOR'S LANGUAGE.
-3. LANGUAGE MANDATE: You MUST reply in the EXACT SAME LANGUAGE (Marathi/Hindi/English/etc.) as the visitor!
-4. STRICT PROHIBITION: DO NOT write "Chat on WhatsApp", "Go to Contact Page", or "Request Callback".`
+      leadInstruction += `- The visitor (${updatedDraft.name || 'Visitor'}) has shared contact details (${updatedDraft.phone ? `Phone: ${updatedDraft.phone}` : ''}${updatedDraft.email ? `, Email: ${updatedDraft.email}` : ''}).
+- First, answer any questions they asked.
+- Ask for their business/hotel name, city/address location, and any specific requirements.`
     } else if (updatedDraft.stage === 'completed') {
-      leadInstruction = `ACTIVE CONVERSATION INSTRUCTION:
-The visitor (${updatedDraft.name || 'Visitor'}) has provided all requirements and address details: "${prompt}".
-1. Warmly confirm IN THE VISITOR'S LANGUAGE that all details have been recorded.
-2. Reassure them IN THE VISITOR'S LANGUAGE that our senior engineering team at Aanvitha Technologies in Dubai (Naif, Deira) will review their requirements and contact them shortly on WhatsApp (${updatedDraft.phone || 'their phone'}) ${updatedDraft.email ? `and email (${updatedDraft.email})` : ''}.
-3. LANGUAGE MANDATE: You MUST reply in the EXACT SAME LANGUAGE (Marathi/Hindi/English/etc.) as the visitor!
-4. STRICT PROHIBITION: DO NOT write "Chat on WhatsApp", "Go to Contact Page", or "Request Callback".`
+      leadInstruction += `- The visitor (${updatedDraft.name || 'Visitor'}) has provided requirements: "${prompt}".
+- Confirm that all details have been recorded and our senior engineering team at Aanvitha Technologies in Dubai will review everything and contact them shortly via WhatsApp/email.`
+    } else if (updatedDraft.stage === 'awaiting_name' && !userDeclinedName) {
+      leadInstruction += `- Answer the visitor's inquiry in depth with 2-3 clear, high-impact bullet points.
+- At the very end of your answer, gently ask for their name in their language:
+  (e.g., in Marathi: "तुमच्या व्यवसायासाठी योग्य प्रस्ताव आणि डेमो देण्यासाठी तुमचे नाव जाणून घेऊ शकतो का?", in Hindi: "क्या मैं आपका नाम जान सकता हूँ?", in English: "May I please know your name?")`
+    } else {
+      leadInstruction += `- Provide a warm, intelligent, and helpful response regarding Aanvitha Technologies' enterprise digital solutions.`
     }
+
+    leadInstruction += `
+
+4. STRICT PROHIBITIONS:
+- DO NOT write "Chat on WhatsApp", "Go to Contact Page", or "Request Callback".
+- DO NOT present button choices or channel options.
+- NEVER address the visitor by words like "kay nahi", "kahi nahi", "kuch nahi", "nothing", "kashi ahes", or "nako".`
 
     // Auto-save & sync to Google Sheet with AI verification
     const hasContact = Boolean(detected?.phone || detected?.email || updatedDraft.phone || updatedDraft.email)

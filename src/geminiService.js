@@ -25,6 +25,10 @@ export function getActiveApiKey() {
 function getOfflineAnswer(query) {
   const q = (query || '').toLowerCase()
 
+  if (q.includes('kay nahi') || q.includes('kahi nahi') || q.includes('kuch nahi') || q.includes('nothing') || q === 'nahi' || q === 'nako') {
+    return `### काही हरकत नाही! 🙏\n\nमी तुम्हाला कशी मदत करू शकते? तुम्ही Aanvitha Technologies च्या **AI Voice Agent, KYC/KYB सिस्टीम, ERP/CRM प्लॅटफॉर्म्स**, किंवा तुमच्या प्रोजेक्टच्या गरजेनुसार सॉफ्टवेअरबद्दल कोणताही प्रश्न विचारू शकता!`
+  }
+
   if (q.includes('marathi') || q.includes('kashi ahes') || q.includes('kasa ahes') || q.includes('kay kartes') || q.includes('kay chalalay') || q.includes('namaskar')) {
     return `### नमस्कार! Aanvitha Technologies मध्ये आपले स्वागत आहे! 🙏\n\nमी **Aanvi**, तुमची AI मार्गदर्शक. मी तुम्हाला कशी मदत करू शकते?\n\nतुम्ही आमच्या **AI सोल्युशन्स, Fintech प्लॅटफॉर्म्स, ERP सिस्टीम्स** किंवा इतर कोणत्याही सेवेबद्दल मराठीतून विचारू शकता!`
   }
@@ -72,12 +76,12 @@ export function cleanBotResponse(text) {
     .trim()
 }
 
-// Fast lightweight models prioritized for ultra-low latency (< 1.5s)
+// Fast lightweight models prioritized for ultra-low latency (< 1.5s) and high quota
 const FAST_MODELS = [
-  'gemini-3.5-flash-lite',
   'gemini-flash-latest',
+  'gemini-flash-lite-latest',
   'gemini-3.5-flash',
-  'gemini-3.6-flash',
+  'gemini-3.7-flash',
 ]
 
 /**
@@ -116,7 +120,7 @@ export async function streamGeminiMessage(conversationHistory, onChunk, leadCont
     generationConfig: {
       temperature: 0.6,
       topP: 0.9,
-      maxOutputTokens: 350,
+      maxOutputTokens: 1500,
     },
   }
 
@@ -210,7 +214,7 @@ export async function sendGeminiMessage(conversationHistory, leadContext = '') {
     generationConfig: {
       temperature: 0.6,
       topP: 0.9,
-      maxOutputTokens: 350,
+      maxOutputTokens: 1500,
     },
   }
 
@@ -272,7 +276,7 @@ Carefully review the entire dialogue transcript between the visitor and the AI a
 Extract the verified lead details into structured JSON:
 
 1. "name": The visitor's verified person name (e.g. "Vinay").
-   - CRITICAL: Carefully recognize informal greetings, language comments, or corrections! For example, "kashi ahes" / "kasa ahes" is a Marathi greeting ("how are you?"), NOT a name. If the visitor corrected a misunderstanding ("kashi ahe s maz name nahi ahe"), do NOT use the mistake as their name. Use the actual confirmed name they gave, or "Website Visitor" if no name was provided.
+   - CRITICAL: Never use colloquial words, negations, or greetings as a name! In Marathi, "kay nahi" / "kahi nahi" means "nothing" / "no name". In Hindi, "kuch nahi" means "nothing". In English, "nothing" / "none" / "no". Greetings like "kashi ahes" / "kasa ahes" or questions like "kashala" / "why" are NEVER names. If the visitor replied with "kay nahi" or did not explicitly provide a real person's name, output "Website Visitor".
 2. "phone": The visitor's phone or WhatsApp number (e.g. "9999999999" or "+971..."), or "" if none provided.
 3. "email": The visitor's email address, or "" if none provided.
 4. "project": A concise, high-value professional summary in English of the project, software, service, or business need the visitor is inquiring about (e.g., "Custom Software Development", "AI Voice Agent for Hotel", "Payment Gateway Integration").
@@ -298,7 +302,7 @@ Output MUST be valid JSON only matching:
     },
   }
 
-  for (const model of ['gemini-3.5-flash-lite', 'gemini-flash-latest', 'gemini-3.5-flash', 'gemini-3.6-flash']) {
+  for (const model of ['gemini-flash-latest', 'gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-3.7-flash']) {
     try {
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`
       const response = await fetch(endpoint, {
@@ -312,8 +316,21 @@ Output MUST be valid JSON only matching:
       const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text
       if (rawText) {
         const parsed = JSON.parse(rawText)
+        const rawName = (parsed.name || '').trim()
+        const lowerName = rawName.toLowerCase()
+        const isInvalid = !rawName ||
+          rawName === 'Website Visitor' ||
+          lowerName.includes('kashi') ||
+          lowerName.includes('kasa') ||
+          lowerName.includes('kay nahi') ||
+          lowerName.includes('kahi nahi') ||
+          lowerName.includes('kuch nahi') ||
+          lowerName.includes('nothing') ||
+          lowerName === 'nahi' ||
+          lowerName === 'nako'
+
         return {
-          name: parsed.name && parsed.name.trim() && !parsed.name.toLowerCase().includes('kashi') ? parsed.name.trim() : 'Website Visitor',
+          name: isInvalid ? 'Website Visitor' : rawName,
           phone: parsed.phone && parsed.phone.trim() ? parsed.phone.trim() : '',
           email: parsed.email && parsed.email.trim() ? parsed.email.trim() : '',
           project: parsed.project && parsed.project.trim() ? parsed.project.trim() : 'General Tech Inquiry',

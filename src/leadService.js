@@ -40,8 +40,20 @@ export function getStoredLeads() {
  */
 export async function saveLead(leadData) {
   let cleanName = (leadData.name || '').trim()
-  if (!cleanName || /^(kashi|kasa|visitor|yes|no|marathi|website visitor)\b/i.test(cleanName)) {
-    cleanName = cleanName && cleanName !== 'kashi ahes' && cleanName !== 'kashi' ? cleanName : 'Website Visitor'
+  const lowerName = cleanName.toLowerCase()
+  const isInvalidName =
+    !cleanName ||
+    lowerName === 'website visitor' ||
+    lowerName.includes('kay nahi') ||
+    lowerName.includes('kahi nahi') ||
+    lowerName.includes('kuch nahi') ||
+    lowerName.includes('nothing') ||
+    lowerName.includes('kashi ahes') ||
+    lowerName.includes('kasa ahes') ||
+    /^(kashi|kasa|visitor|yes|no|nahi|nako|marathi|kashala|why|unknown|none|null|na)\b/i.test(cleanName)
+
+  if (isInvalidName) {
+    cleanName = 'Website Visitor'
   }
 
   const rawPhone = (leadData.phone || '').trim()
