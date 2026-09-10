@@ -528,7 +528,7 @@ export function PrivacyPolicyPage({ onNavigateHome }) {
                 </div>
                 <div className="legal-contact-row">
                   <i className="fas fa-phone-alt" />
-                  <span><strong>Phone:</strong> +971 00000 00000 (Mon - Sat: 9:00 AM - 7:00 PM GST)</span>
+                  <span><strong>Phone:</strong> +971 50 223 9477 (Mon - Sat: 9:00 AM - 7:00 PM GST)</span>
                 </div>
               </div>
 

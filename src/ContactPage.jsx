@@ -6,10 +6,10 @@ const contactMethods = [
   {
     icon: 'fas fa-phone-alt',
     title: 'Call Us Directly',
-    detail: '+971 00000 00000',
+    detail: '+971 50 223 9477',
     sub: 'Mon - Sat: 9:00 AM - 7:00 PM GST',
     actionText: 'Call Now',
-    actionHref: 'tel:+971000000000',
+    actionHref: 'tel:+971502239477',
     color: '#005eb8',
   },
   {
@@ -24,10 +24,10 @@ const contactMethods = [
   {
     icon: 'fab fa-whatsapp',
     title: 'Chat on WhatsApp',
-    detail: '+971 00000 00000',
+    detail: '+971 50 223 9477',
     sub: 'Instant technical & sales assistance',
     actionText: 'Start Chat',
-    actionHref: 'https://wa.me/971000000000',
+    actionHref: 'https://wa.me/971502239477',
     color: '#25d366',
   },
   {

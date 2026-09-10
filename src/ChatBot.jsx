@@ -608,7 +608,7 @@ Review what the visitor wrote: "${prompt}".
           msg.id === botMsgId
             ? {
                 ...msg,
-                content: `I apologize, our AI assistant is experiencing high traffic right now. You can reach our Dubai team directly at **info@aanvitatechnologies.com** or via WhatsApp at **+971 00000 00000**.`,
+                content: `I apologize, our AI assistant is experiencing high traffic right now. You can reach our Dubai team directly at **info@aanvitatechnologies.com** or via WhatsApp at **+971 50 223 9477**.`,
               }
             : msg
         )

@@ -7,9 +7,9 @@ export const COMPANY_PROFILE = {
   headquarters: 'Naif, Deira, Dubai, United Arab Emirates',
   buildingDetails: 'Al Budoor Building • Land DM No. 118-1220',
   email: 'info@aanvitatechnologies.com',
-  phone: '+971 00000 00000',
-  whatsapp: '+971 00000 00000',
-  whatsappLink: 'https://wa.me/971000000000',
+  phone: '+971 50 223 9477',
+  whatsapp: '+971 50 223 9477',
+  whatsappLink: 'https://wa.me/971502239477',
   hours: 'Mon - Sat: 9:00 AM - 7:00 PM GST',
   stats: {
     hours: '12.5K+ Working Hours',
@@ -251,7 +251,7 @@ ABSOLUTE PROHIBITIONS (ZERO BUTTONS & NO CALL-TO-ACTION CHOICES):
 OFFICIAL CONTACT DETAILS (ONLY when explicitly asked for contact info):
 When a user specifically asks how to contact, email, phone, or visit Aanvitha Technologies:
 - Website: www.aanvitha.tech
-- WhatsApp & Phone: +971 00000 00000
+- WhatsApp & Phone: +971 50 223 9477
 - Direct Email: info@aanvitatechnologies.com
 - Dubai Headquarters: Al Budoor Building (Land DM No. 118-1220), Naif, Deira, Dubai, UAE
 

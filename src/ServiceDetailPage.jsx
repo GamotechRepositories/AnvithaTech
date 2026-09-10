@@ -241,7 +241,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
                   <div>
                     <strong>Need Immediate Answers?</strong>
                     <a
-                      href={`https://wa.me/919999999999?text=${whatsappText}`}
+                      href={`https://wa.me/971502239477?text=${whatsappText}`}
                       target="_blank"
                       rel="noreferrer"
                       className="sd-inline-wa-link"
@@ -319,7 +319,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
                       <i className="fas fa-paper-plane" /> Submit Request for {service.title}
                     </button>
                     <a
-                      href={`https://wa.me/919999999999?text=${whatsappText}`}
+                      href={`https://wa.me/971502239477?text=${whatsappText}`}
                       target="_blank"
                       rel="noreferrer"
                       className="sd-clean-wa-btn"
@@ -351,7 +351,7 @@ export function ServiceDetailPage({ service, allServices = [], onNavigateHome, o
                       ← Back to All Services
                     </button>
                     <a
-                      href={`https://wa.me/919999999999?text=${encodeURIComponent(
+                      href={`https://wa.me/971502239477?text=${encodeURIComponent(
                         `Hello AANVITA Technologies, I just submitted a request for ${service.title}.`
                       )}`}
                       target="_blank"

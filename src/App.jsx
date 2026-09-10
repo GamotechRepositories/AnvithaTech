@@ -1028,8 +1028,6 @@ function App() {
                 ['How We Work', 'portfolio'],
                 ['Career', 'career'],
                 ['Contact', 'contact'],
-                ['Privacy Policy', 'privacy-policy'],
-                ['Terms of Service', 'terms-of-service'],
               ].map(([label, target]) => (
                 <li key={label}>
                   <a
@@ -1060,7 +1058,7 @@ function App() {
               </li>
               <li>
                 <i className="fas fa-phone-alt" />
-                <span>+971 00000 00000</span>
+                <a href="tel:+971502239477" style={{ color: 'inherit', textDecoration: 'none' }}>+971 50 223 9477</a>
               </li>
               <li>
                 <i className="fas fa-clock" />
@@ -1097,7 +1095,7 @@ function App() {
         <div className="footer-bottom">
           <div className="footer-bottom-left">
             <p className="footer-copy">
-              © 2026 <span>AANVITA TECHNOLOGIES L.L.C.</span> All rights reserved.
+              © 2026 <span>AANVITA TECHNOLOGIES</span> All rights reserved.
             </p>
             <div className="footer-legal-links">
               <a
