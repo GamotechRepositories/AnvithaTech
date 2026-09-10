@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { CountryCodePicker } from './CountryCodePicker'
+import { CustomSelect } from './CustomSelect'
 
 const contactMethods = [
   {
@@ -61,6 +63,7 @@ export function ContactPage({ onNavigateHome }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    countryCode: '+971',
     phone: '',
     company: '',
     service: servicesOptions[0],
@@ -84,6 +87,7 @@ export function ContactPage({ onNavigateHome }) {
     setFormData({
       name: '',
       email: '',
+      countryCode: '+971',
       phone: '',
       company: '',
       service: servicesOptions[0],
@@ -186,20 +190,30 @@ export function ContactPage({ onNavigateHome }) {
 
                       <div className="cf-field">
                         <label htmlFor="cp-phone">Phone Number *</label>
-                        <div className="cf-input-wrap">
-                          <i className="fas fa-phone" />
-                          <input
-                            id="cp-phone"
-                            type="tel"
-                            placeholder="10-digit number"
-                            pattern="[0-9]{10}"
-                            maxLength="10"
-                            required
-                            value={formData.phone}
-                            onChange={(e) =>
-                              setFormData({ ...formData, phone: e.target.value })
+                        <div className="cf-phone-composite-wrap">
+                          <CountryCodePicker
+                            value={formData.countryCode}
+                            onChange={(code) =>
+                              setFormData({ ...formData, countryCode: code })
                             }
                           />
+                          <div className="cf-phone-divider" />
+                          <div className="cf-phone-input-wrap">
+                            <i className="fas fa-phone" aria-hidden="true" />
+                            <input
+                              id="cp-phone"
+                              type="tel"
+                              placeholder="e.g. 50 123 4567"
+                              required
+                              value={formData.phone}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  phone: e.target.value.replace(/[^0-9\s-]/g, ''),
+                                })
+                              }
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -242,44 +256,30 @@ export function ContactPage({ onNavigateHome }) {
                     <div className="cf-row">
                       <div className="cf-field">
                         <label htmlFor="cp-service">Service Interested In</label>
-                        <div className="cf-input-wrap">
-                          <i className="fas fa-layer-group" />
-                          <select
-                            id="cp-service"
-                            className="cp-select"
-                            value={formData.service}
-                            onChange={(e) =>
-                              setFormData({ ...formData, service: e.target.value })
-                            }
-                          >
-                            {servicesOptions.map((opt) => (
-                              <option key={opt} value={opt}>
-                                {opt}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
+                        <CustomSelect
+                          id="cp-service"
+                          label="Service Interested In"
+                          icon="fas fa-layer-group"
+                          value={formData.service}
+                          options={servicesOptions}
+                          onChange={(val) =>
+                            setFormData({ ...formData, service: val })
+                          }
+                        />
                       </div>
 
                       <div className="cf-field">
                         <label htmlFor="cp-budget">Estimated Budget</label>
-                        <div className="cf-input-wrap">
-                          <i className="fas fa-wallet" />
-                          <select
-                            id="cp-budget"
-                            className="cp-select"
-                            value={formData.budget}
-                            onChange={(e) =>
-                              setFormData({ ...formData, budget: e.target.value })
-                            }
-                          >
-                            {budgetRanges.map((b) => (
-                              <option key={b} value={b}>
-                                {b}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
+                        <CustomSelect
+                          id="cp-budget"
+                          label="Estimated Budget"
+                          icon="fas fa-wallet"
+                          value={formData.budget}
+                          options={budgetRanges}
+                          onChange={(val) =>
+                            setFormData({ ...formData, budget: val })
+                          }
+                        />
                       </div>
                     </div>
 

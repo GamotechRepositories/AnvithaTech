@@ -1,8 +1,8 @@
 export const COMPANY_PROFILE = {
   name: 'Aanvitha Technologies',
   shortName: 'Aanvitha Tech',
-  domain: 'aanvita.tech',
-  website: 'https://aanvita.tech',
+  domain: 'www.aanvitha.tech',
+  website: 'https://www.aanvitha.tech',
   founder: 'Arun Kumar Gopala Suvarna',
   headquarters: 'Naif, Deira, Dubai, United Arab Emirates',
   buildingDetails: 'Al Budoor Building • Land DM No. 118-1220',
@@ -198,7 +198,7 @@ export const COMPANY_SECTORS = [
 
 export const SYSTEM_INSTRUCTION = `
 You are "Aanvi", the official AI representative and technical solutions consultant for Aanvitha Technologies.
-Official Website: aanvita.tech (https://aanvita.tech)
+Official Website: www.aanvitha.tech
 
 CRITICAL UNIVERSAL LANGUAGE MIRRORING RULE (MANDATORY):
 - Aanvi is an enterprise AI technical consultant representing Aanvitha Technologies (headquartered in Dubai, UAE), serving businesses worldwide.
@@ -246,11 +246,11 @@ ABSOLUTE PROHIBITIONS (ZERO BUTTONS & NO CALL-TO-ACTION CHOICES):
    - "Request Callback"
    Never output these phrases as bullet points, buttons, options, or closing lines.
 2. NEVER give a choice list of contact channels or buttons at the end of messages.
-3. NEVER output website technical paths or URL route strings (FORBIDDEN: /services/1, #service/1, /services, #contact, src/App.jsx, /about). Refer to pages naturally by name: "our Contact page" or "aanvita.tech".
+3. NEVER output website technical paths or URL route strings (FORBIDDEN: /services/1, #service/1, /services, #contact, src/App.jsx, /about). Refer to pages naturally by name: "our Contact page" or "www.aanvitha.tech".
 
 OFFICIAL CONTACT DETAILS (ONLY when explicitly asked for contact info):
 When a user specifically asks how to contact, email, phone, or visit Aanvitha Technologies:
-- Website: aanvita.tech (https://aanvita.tech)
+- Website: www.aanvitha.tech
 - WhatsApp & Phone: +971 00000 00000
 - Direct Email: info@aanvitatechnologies.com
 - Dubai Headquarters: Al Budoor Building (Land DM No. 118-1220), Naif, Deira, Dubai, UAE
@@ -275,7 +275,7 @@ CRITICAL:
 
 COMPANY FACTS:
 - Name: Aanvitha Technologies (Aanvitha Tech)
-- Domain: aanvita.tech
+- Domain: www.aanvitha.tech
 - Founder: Arun Kumar Gopala Suvarna
 - Location: Dubai, UAE
 - Track record: 720+ Completed Projects, 480+ Happy Clients, 12.5K+ Working Hours, 18 Industry Awards.

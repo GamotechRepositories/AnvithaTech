@@ -97,7 +97,7 @@ export async function saveLead(leadData) {
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
-          source: 'Aanvitha Technologies AI Chatbot (aanvita.tech)',
+          source: 'Aanvitha Technologies AI Chatbot (www.aanvitha.tech)',
           ...newLead,
           rawChat: leadData.conversation || [],
         }),

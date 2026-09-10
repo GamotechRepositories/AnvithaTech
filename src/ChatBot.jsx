@@ -13,7 +13,7 @@ const AANVI_AVATAR_URL = 'https://res.cloudinary.com/vpqvkwtj/image/upload/v1788
 const INITIAL_MESSAGE = {
   id: 'welcome',
   role: 'model',
-  content: `Hello! 👋 I'm **Aanvi** from **Aanvitha Technologies** (aanvita.tech).\n\nHow can I assist you today? Feel free to ask about our **AI products, Fintech platforms, ERP systems**, or how to get in touch with our team!`,
+  content: `Hello! 👋 I'm **Aanvi** from **Aanvitha Technologies** (www.aanvitha.tech).\n\nHow can I assist you today? Feel free to ask about our **AI products, Fintech platforms, ERP systems**, or how to get in touch with our team!`,
   timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
 }
 

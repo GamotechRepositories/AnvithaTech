@@ -34,6 +34,9 @@ import { ServiceCarousel } from './ServiceCarousel'
 import { AgentStudioSection } from './AgentStudioSection'
 import { EnterpriseControlsSection } from './EnterpriseControlsSection'
 import { ChatBot } from './ChatBot'
+import { PrivacyPolicyPage } from './PrivacyPolicyPage'
+import { TermsOfServicePage } from './TermsOfServicePage'
+import { CookieConsent } from './CookieConsent'
 
 const navItems = ['Home', 'About', 'Services', 'Where We Work', 'Career', 'Contact']
 
@@ -391,6 +394,12 @@ function App() {
       } else if (hash === '#contact' || hash === '#/contact' || hash === '#contact-us') {
         setCurrentView('contact')
         window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (hash === '#privacy-policy' || hash === '#privacy' || hash === '#/privacy-policy' || hash === '#/privacy') {
+        setCurrentView('privacy-policy')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (hash === '#terms-of-service' || hash === '#terms' || hash === '#/terms-of-service' || hash === '#/terms') {
+        setCurrentView('terms-of-service')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       } else {
         setCurrentView('home')
       }
@@ -554,6 +563,14 @@ function App() {
       setCurrentView('contact')
       window.location.hash = '#contact'
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else if (destination === 'privacy-policy' || destination === 'privacy') {
+      setCurrentView('privacy-policy')
+      window.location.hash = '#privacy-policy'
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else if (destination === 'terms-of-service' || destination === 'terms') {
+      setCurrentView('terms-of-service')
+      window.location.hash = '#terms-of-service'
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       setCurrentView('home')
       window.location.hash = `#${destination}`
@@ -676,6 +693,10 @@ function App() {
           <CareerPage onNavigateHome={(target) => navigateTo(target || 'home')} />
         ) : currentView === 'contact' ? (
           <ContactPage onNavigateHome={(target) => navigateTo(target || 'home')} />
+        ) : currentView === 'privacy-policy' ? (
+          <PrivacyPolicyPage onNavigateHome={(target) => navigateTo(target || 'home')} />
+        ) : currentView === 'terms-of-service' ? (
+          <TermsOfServicePage onNavigateHome={(target) => navigateTo(target || 'home')} />
         ) : (
           <>
             <section id="home" className="home">
@@ -1007,6 +1028,8 @@ function App() {
                 ['How We Work', 'portfolio'],
                 ['Career', 'career'],
                 ['Contact', 'contact'],
+                ['Privacy Policy', 'privacy-policy'],
+                ['Terms of Service', 'terms-of-service'],
               ].map(([label, target]) => (
                 <li key={label}>
                   <a
@@ -1072,9 +1095,32 @@ function App() {
         <div className="footer-divider" />
 
         <div className="footer-bottom">
-          <p className="footer-copy">
-            © 2026 <span>AANVITA TECHNOLOGIES L.L.C.</span> All rights reserved.
-          </p>
+          <div className="footer-bottom-left">
+            <p className="footer-copy">
+              © 2026 <span>AANVITA TECHNOLOGIES L.L.C.</span> All rights reserved.
+            </p>
+            <div className="footer-legal-links">
+              <a
+                href="#privacy-policy"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigateTo('privacy-policy')
+                }}
+              >
+                Privacy Policy
+              </a>
+              <span className="footer-legal-sep">•</span>
+              <a
+                href="#terms-of-service"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigateTo('terms-of-service')
+                }}
+              >
+                Terms of Service
+              </a>
+            </div>
+          </div>
           <button
             className="footer-back-top"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -1084,6 +1130,9 @@ function App() {
           </button>
         </div>
       </footer>
+
+      {/* Cookie Consent Banner */}
+      <CookieConsent onNavigate={(page) => navigateTo(page)} />
 
       {/* 24/7 Gemini AI Assistant */}
       <ChatBot

@@ -38,7 +38,7 @@ function getOfflineAnswer(query) {
   }
 
   if (q.includes('contact') || q.includes('phone') || q.includes('email') || q.includes('whatsapp') || q.includes('call') || q.includes('reach')) {
-    return `### Contact Aanvitha Technologies\n\nWe would love to connect with you! Here are our official contact channels:\n\n- **Website:** [aanvita.tech](https://aanvita.tech)\n- **WhatsApp / Phone:** [${COMPANY_PROFILE.phone}](tel:${COMPANY_PROFILE.phone})\n- **Email:** [${COMPANY_PROFILE.email}](mailto:${COMPANY_PROFILE.email})\n- **Headquarters:** ${COMPANY_PROFILE.headquarters} (${COMPANY_PROFILE.buildingDetails})\n- **Hours:** ${COMPANY_PROFILE.hours}\n\nFeel free to share your project requirements with us right here!`
+    return `### Contact Aanvitha Technologies\n\nWe would love to connect with you! Here are our official contact channels:\n\n- **Website:** [www.aanvitha.tech](https://www.aanvitha.tech)\n- **WhatsApp / Phone:** [${COMPANY_PROFILE.phone}](tel:${COMPANY_PROFILE.phone})\n- **Email:** [${COMPANY_PROFILE.email}](mailto:${COMPANY_PROFILE.email})\n- **Headquarters:** ${COMPANY_PROFILE.headquarters} (${COMPANY_PROFILE.buildingDetails})\n- **Hours:** ${COMPANY_PROFILE.hours}\n\nFeel free to share your project requirements with us right here!`
   }
 
   if (q.includes('service') || q.includes('offer') || q.includes('what do you do') || q.includes('products')) {
