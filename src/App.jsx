@@ -662,6 +662,7 @@ function App() {
             </ul>
             <button type="button" className="nav-cta" onClick={() => navigateTo('contact')}>
               Start a project
+              <i className="fas fa-arrow-right" aria-hidden="true" />
             </button>
           </nav>
         </div>
@@ -748,11 +749,6 @@ function App() {
                     AI agents, payment rails, and enterprise platforms — designed as one product,
                     not a pile of disconnected tools.
                   </p>
-                  <div className="hero-signals">
-                    <span>Agents online</span>
-                    <span>Inference ready</span>
-                    <span>Rails live</span>
-                  </div>
                 </div>
 
                 <div className="hero-stage">
