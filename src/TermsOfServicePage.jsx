@@ -353,7 +353,7 @@ export function TermsOfServicePage({ onNavigateHome }) {
                 </div>
                 <div className="legal-contact-row">
                   <i className="fas fa-envelope" />
-                  <span><strong>Legal & Contracts:</strong> info@aanvitatechnologies.com</span>
+                  <span><strong>Email:</strong> contact@aanvitha.tech</span>
                 </div>
                 <div className="legal-contact-row">
                   <i className="fas fa-map-marker-alt" />

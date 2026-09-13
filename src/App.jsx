@@ -1089,7 +1089,7 @@ function App() {
               </li>
               <li>
                 <i className="fas fa-envelope" />
-                <span>info@aanvitatechnologies.com</span>
+                <span>contact@aanvitha.tech</span>
               </li>
               <li>
                 <i className="fas fa-phone-alt" />
