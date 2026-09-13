@@ -479,8 +479,8 @@ export function PrivacyPolicyPage({ onNavigateHome }) {
 
             <p>
               To exercise any of these options, simply contact our privacy desk at{' '}
-              <a href="mailto:contact@aanvitha.tech" className="cookie-policy-link">
-                contact@aanvitha.tech
+              <a href="mailto:contact@aanvita.tech" className="cookie-policy-link">
+                contact@aanvita.tech
               </a>
               . We respond to all verified inquiries promptly.
             </p>
@@ -520,7 +520,7 @@ export function PrivacyPolicyPage({ onNavigateHome }) {
                 </div>
                 <div className="legal-contact-row">
                   <i className="fas fa-envelope" />
-                  <span><strong>Email:</strong> contact@aanvitha.tech</span>
+                  <span><strong>Email:</strong> contact@aanvita.tech</span>
                 </div>
                 <div className="legal-contact-row">
                   <i className="fas fa-phone-alt" />
