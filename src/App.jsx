@@ -347,6 +347,22 @@ function App() {
   }, [menuOpen])
 
   useEffect(() => {
+    const el = document.getElementById('site-loader')
+    if (!el) return
+    const isPageChange = el.classList.contains('is-done')
+    const delay = isPageChange ? 640 : 1200
+    document.body.classList.add('is-loading')
+    el.classList.remove('is-done')
+    el.setAttribute('aria-busy', 'true')
+    const timer = window.setTimeout(() => {
+      el.classList.add('is-done')
+      el.setAttribute('aria-busy', 'false')
+      document.body.classList.remove('is-loading')
+    }, delay)
+    return () => window.clearTimeout(timer)
+  }, [currentView])
+
+  useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase()
       if (hash.startsWith('#service/') || hash.startsWith('#services/')) {

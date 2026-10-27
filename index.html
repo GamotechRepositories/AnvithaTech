@@ -15,8 +15,77 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+      .site-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 200000;
+        display: grid;
+        place-items: center;
+        background: #05060c;
+        transition: opacity 0.45s ease, visibility 0.45s ease;
+      }
+      .site-loader.is-done {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .site-loader-core {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.8rem;
+      }
+      .site-loader-bot {
+        width: 7.2rem;
+        height: 7.2rem;
+        fill: #fff;
+      }
+      .site-loader-copy {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: #fff;
+        font-family: Outfit, sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .site-loader-spin {
+        width: 1.4rem;
+        height: 1.4rem;
+        border: 2px solid rgba(255,255,255,0.22);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: siteLoaderSpin 0.7s linear infinite;
+      }
+      @keyframes siteLoaderSpin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
-  <body>
+  <body class="is-loading">
+    <div id="site-loader" class="site-loader" role="status" aria-live="polite" aria-label="Loading">
+      <div class="site-loader-core">
+        <svg class="site-loader-bot" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="5" r="2.3" />
+          <rect x="30.5" y="7" width="3" height="5.5" rx="1.4" />
+          <rect x="17" y="12" width="30" height="21" rx="8" />
+          <circle cx="26" cy="22.5" r="2.6" fill="#05060c" />
+          <circle cx="38" cy="22.5" r="2.6" fill="#05060c" />
+          <rect x="28.5" y="32" width="7" height="4.2" rx="1.4" />
+          <rect x="19" y="35.5" width="26" height="16.5" rx="5.5" />
+          <rect x="9.5" y="37" width="8.5" height="15.5" rx="4.2" />
+          <rect x="46" y="37" width="8.5" height="15.5" rx="4.2" />
+          <rect x="21.5" y="52" width="8.5" height="11" rx="3.8" />
+          <rect x="34" y="52" width="8.5" height="11" rx="3.8" />
+        </svg>
+        <div class="site-loader-copy">
+          <span class="site-loader-spin" aria-hidden="true"></span>
+          Loading
+        </div>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
