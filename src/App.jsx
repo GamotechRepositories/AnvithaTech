@@ -701,71 +701,47 @@ function App() {
         ) : (
           <>
             <section id="home" className="home">
-              <div className="hero-bg" aria-hidden="true">
-                <div className="hero-grid" />
-                <div className="hero-orb hero-orb-1" />
-                <div className="hero-orb hero-orb-2" />
-                <div className="hero-orb hero-orb-3" />
-                <div className="hero-scan" />
-                <svg className="hero-neural" viewBox="0 0 1200 700" preserveAspectRatio="none">
-                  <g className="hero-neural-links">
-                    <path d="M80 120 L260 210 L420 90 L640 180 L860 70 L1120 160" />
-                    <path d="M40 420 L220 330 L480 410 L710 280 L940 390 L1160 300" />
-                    <path d="M180 620 L360 500 L590 560 L820 470 L1040 590" />
-                    <path d="M260 210 L220 330 L360 500" />
-                    <path d="M640 180 L710 280 L820 470" />
-                    <path d="M860 70 L940 390" />
-                  </g>
-                  <g className="hero-neural-nodes">
-                    <circle cx="80" cy="120" r="3" /><circle cx="260" cy="210" r="4" />
-                    <circle cx="420" cy="90" r="3" /><circle cx="640" cy="180" r="5" />
-                    <circle cx="860" cy="70" r="3" /><circle cx="1120" cy="160" r="4" />
-                    <circle cx="40" cy="420" r="3" /><circle cx="220" cy="330" r="4" />
-                    <circle cx="480" cy="410" r="3" /><circle cx="710" cy="280" r="5" />
-                    <circle cx="940" cy="390" r="3" /><circle cx="1160" cy="300" r="4" />
-                    <circle cx="180" cy="620" r="3" /><circle cx="360" cy="500" r="4" />
-                    <circle cx="590" cy="560" r="3" /><circle cx="820" cy="470" r="4" />
-                    <circle cx="1040" cy="590" r="3" />
-                  </g>
-                </svg>
-                <div className="hero-particles">
-                  {Array.from({ length: 16 }, (_, i) => (
-                    <span key={i} style={{ '--i': i }} />
-                  ))}
-                </div>
-              </div>
+              <div className="hero-bg" aria-hidden="true" />
 
               <div className="hero-inner">
                 <div className="hero-copy">
-                  <p className="hero-eyebrow">
-                    <span className="live-dot" />
-                    AI · SaaS · Fintech · Enterprise
-                  </p>
                   <h1>
                     AANVITA
                     <span className="hero-gradient">builds the stack you run on.</span>
                   </h1>
                   <p className="hero-lead">
                     AI agents, payment rails, and enterprise platforms — designed as one product,
-                    not a pile of disconnected tools.
+                    not a pile of disconnected tools. From first conversation to payout, KYC, and operations.
                   </p>
+                  <ul className="hero-points">
+                    <li>AI agents for chat, voice, sales, and document workflows</li>
+                    <li>Fintech rails for pay-in, payout, KYC, and compliance</li>
+                    <li>ERP, CRM, HRMS, and custom SaaS — built to work together</li>
+                  </ul>
+                  <div className="hero-proof">
+                    <div>
+                      <strong>720+</strong>
+                      <span>Projects delivered</span>
+                    </div>
+                    <div>
+                      <strong>480+</strong>
+                      <span>Clients worldwide</span>
+                    </div>
+                    <div>
+                      <strong>400+</strong>
+                      <span>App integrations</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="hero-stage">
-                  <div className="hero-halo" aria-hidden="true">
-                    <span className="hero-stage-aura" />
-                    <span className="hero-ring hero-ring-a" />
-                    <span className="hero-ring hero-ring-b" />
-                    <span className="hero-ring hero-ring-c" />
-                  </div>
                   <div className="hero-flow">
                     <img
-                      src="https://res.cloudinary.com/vpqvkwtj/image/upload/v1789048990/1246ae3f-32ae-47c7-9f92-4a67b323e523.png"
+                      src="/image/d1f52cce-30a7-435b-b2bb-c6726c629d57-Photoroom.png"
                       alt="AANVITA builds the stack you run on"
                       decoding="async"
                       loading="eager"
                     />
-                    <div className="hero-flow-scan" />
                   </div>
                 </div>
               </div>
